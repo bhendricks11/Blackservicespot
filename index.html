@@ -1,18 +1,508 @@
-HTML for blackservicespot.com
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Black Service Spot - Empowering Black Business Excellence</title>
-    <meta name="description" content="Connect with trusted black-owned businesses in your community. Find quality services while supporting economic empowerment through Black Service Spot." />
-    <script type="module" crossorigin src="/assets/index-BXXkNH54.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Brsam2iz.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
-    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Service Spot - Connect with Black-Owned Businesses</title>
+    <meta name="description" content="Discover and connect with authentic Black-owned businesses in your area. Supporting economic growth in Black communities through business discovery and service requests.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://blackservicespot.com/">
+    <meta property="og:title" content="Black Service Spot - Connect with Black-Owned Businesses">
+    <meta property="og:description" content="Discover and connect with authentic Black-owned businesses in your area. Supporting economic growth in Black communities.">
+    <meta property="og:image" content="https://blackservicespot.com/assets/social-preview.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://blackservicespot.com/">
+    <meta property="twitter:title" content="Black Service Spot - Connect with Black-Owned Businesses">
+    <meta property="twitter:description" content="Discover and connect with authentic Black-owned businesses in your area. Supporting economic growth in Black communities.">
+    <meta property="twitter:image" content="https://blackservicespot.com/assets/social-preview.jpg">
+
+    <style>
+        :root {
+            --primary: hsl(142, 76%, 36%);
+            --primary-foreground: hsl(355, 7%, 97%);
+            --secondary: hsl(210, 40%, 96%);
+            --secondary-foreground: hsl(222, 84%, 5%);
+            --muted: hsl(210, 40%, 96%);
+            --muted-foreground: hsl(215, 16%, 47%);
+            --accent: hsl(210, 40%, 96%);
+            --accent-foreground: hsl(222, 84%, 5%);
+            --destructive: hsl(0, 84%, 60%);
+            --destructive-foreground: hsl(210, 40%, 98%);
+            --border: hsl(214, 32%, 91%);
+            --input: hsl(214, 32%, 91%);
+            --ring: hsl(222, 84%, 5%);
+            --background: hsl(0, 0%, 100%);
+            --foreground: hsl(222, 84%, 5%);
+            --card: hsl(0, 0%, 100%);
+            --card-foreground: hsl(222, 84%, 5%);
+            --popover: hsl(0, 0%, 100%);
+            --popover-foreground: hsl(222, 84%, 5%);
+        }
+
+        .dark {
+            --primary: hsl(142, 76%, 36%);
+            --primary-foreground: hsl(355, 7%, 97%);
+            --secondary: hsl(217, 32%, 17%);
+            --secondary-foreground: hsl(210, 40%, 98%);
+            --muted: hsl(217, 32%, 17%);
+            --muted-foreground: hsl(215, 16%, 57%);
+            --accent: hsl(217, 32%, 17%);
+            --accent-foreground: hsl(210, 40%, 98%);
+            --destructive: hsl(0, 62%, 30%);
+            --destructive-foreground: hsl(210, 40%, 98%);
+            --border: hsl(217, 32%, 17%);
+            --input: hsl(217, 32%, 17%);
+            --ring: hsl(212, 12%, 87%);
+            --background: hsl(222, 84%, 5%);
+            --foreground: hsl(210, 40%, 98%);
+            --card: hsl(222, 84%, 5%);
+            --card-foreground: hsl(210, 40%, 98%);
+            --popover: hsl(222, 84%, 5%);
+            --popover-foreground: hsl(210, 40%, 98%);
+        }
+
+        * {
+            border-color: hsl(var(--border));
+        }
+
+        body {
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(142, 60%, 45%));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: hsl(var(--primary));
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .features {
+            padding: 4rem 0;
+            background: hsl(var(--secondary));
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: hsl(var(--card));
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid hsl(var(--border));
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(142, 60%, 45%));
+            border-radius: 50%;
+            margin: 0 auto 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .pricing {
+            padding: 4rem 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .price-card {
+            background: hsl(var(--card));
+            border: 2px solid hsl(var(--border));
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .price-card.featured {
+            border-color: hsl(var(--primary));
+            transform: scale(1.05);
+        }
+
+        .price-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: hsl(var(--primary));
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price .currency {
+            font-size: 1.2rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .select-plan {
+            background: hsl(var(--primary));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .select-plan:hover {
+            background: hsl(142, 60%, 45%);
+            transform: translateY(-2px);
+        }
+
+        .testimonials {
+            padding: 4rem 0;
+            background: hsl(var(--secondary));
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial {
+            background: hsl(var(--card));
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: hsl(var(--primary));
+        }
+
+        footer {
+            background: hsl(var(--foreground));
+            color: hsl(var(--background));
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: hsl(var(--background));
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .features-grid,
+            .pricing-grid,
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-card.featured {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="45" fill="white" opacity="0.1"/>
+                <text x="50" y="60" text-anchor="middle" fill="white" font-size="24" font-weight="bold">ABN</text>
+            </svg>
+            <h1>Black Service Spot</h1>
+            <p class="subtitle">Connecting communities with authentic Black-owned businesses</p>
+            <a href="#pricing" class="cta-button">Start Your Free Trial Today</a>
+        </div>
+    </header>
+
+    <section class="features">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem; color: hsl(var(--primary));">Why Choose Black Service Spot?</h2>
+            <p style="text-align: center; color: hsl(var(--muted-foreground)); font-size: 1.1rem;">Empowering Black businesses and connecting them with customers who value authentic representation</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏢</div>
+                    <h3>Business Discovery</h3>
+                    <p>Help customers find your business through our location-based search and category filtering system.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>Professional Profiles</h3>
+                    <p>Create comprehensive business profiles with custom images, service listings, and contact information.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Customer Reviews</h3>
+                    <p>Build trust with authentic customer reviews and ratings that showcase your excellent service.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Service Requests</h3>
+                    <p>Receive direct service requests from customers and manage your business communications seamlessly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Featured Placement</h3>
+                    <p>Get premium visibility with featured business placement for higher plan subscribers.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Community Focus</h3>
+                    <p>Join a platform specifically designed to amplify Black business voices and foster community growth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem; color: hsl(var(--primary));">Choose Your Plan</h2>
+            <p style="text-align: center; color: hsl(var(--muted-foreground)); font-size: 1.1rem;">Start with a 7-day free trial, then choose the plan that fits your business needs</p>
+            
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <div class="plan-name">Starter</div>
+                    <div class="plan-price"><span class="currency">$</span>29<span style="font-size: 1rem; color: hsl(var(--muted-foreground));">/month</span></div>
+                    <ul class="plan-features">
+                        <li>✅ Basic business profile</li>
+                        <li>✅ Up to 5 service listings</li>
+                        <li>✅ Customer reviews</li>
+                        <li>✅ Basic support</li>
+                        <li>✅ 7-day free trial</li>
+                    </ul>
+                    <button class="select-plan">Start Free Trial</button>
+                </div>
+                
+                <div class="price-card featured">
+                    <div class="plan-name">Professional</div>
+                    <div class="plan-price"><span class="currency">$</span>59<span style="font-size: 1rem; color: hsl(var(--muted-foreground));">/month</span></div>
+                    <ul class="plan-features">
+                        <li>✅ Enhanced business profile</li>
+                        <li>✅ Unlimited service listings</li>
+                        <li>✅ Featured placement</li>
+                        <li>✅ Priority support</li>
+                        <li>✅ Analytics dashboard</li>
+                        <li>✅ 7-day free trial</li>
+                    </ul>
+                    <button class="select-plan">Start Free Trial</button>
+                </div>
+                
+                <div class="price-card">
+                    <div class="plan-name">Enterprise</div>
+                    <div class="plan-price"><span class="currency">$</span>99<span style="font-size: 1rem; color: hsl(var(--muted-foreground));">/month</span></div>
+                    <ul class="plan-features">
+                        <li>✅ Premium business profile</li>
+                        <li>✅ Unlimited everything</li>
+                        <li>✅ Top featured placement</li>
+                        <li>✅ 24/7 dedicated support</li>
+                        <li>✅ Advanced analytics</li>
+                        <li>✅ Custom integrations</li>
+                        <li>✅ 7-day free trial</li>
+                    </ul>
+                    <button class="select-plan">Start Free Trial</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem; color: hsl(var(--primary));">What Our Community Says</h2>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-text">"Black Service Spot helped me connect with customers who truly value supporting Black businesses. My client base has grown significantly since joining."</div>
+                    <div class="testimonial-author">- Sarah Johnson, Hair Salon Owner</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-text">"The platform makes it easy for customers to find authentic Black-owned services in their area. It's exactly what our community needed."</div>
+                    <div class="testimonial-author">- Marcus Williams, Catering Business</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-text">"Finally, a platform that understands and represents our community properly. The featured placement has brought in so many new customers."</div>
+                    <div class="testimonial-author">- Keisha Davis, Consulting Services</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#support">Support</a>
+            </div>
+            <p>&copy; 2024 Black Service Spot. All rights reserved. | Empowering Black businesses, strengthening communities.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add click handlers for plan selection buttons
+        document.querySelectorAll('.select-plan').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Free trial registration will be available once the full application is deployed!');
+            });
+        });
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.feature-card, .price-card, .testimonial').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('featured')) {
+                    this.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</body>
 </html>
