@@ -20,457 +20,997 @@
     <meta property="twitter:description" content="Discover and connect with authentic Black-owned businesses in your area. Supporting economic growth in Black communities.">
     <meta property="twitter:image" content="https://blackservicespot.com/assets/social-preview.jpg">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
     <style>
-        :root {
-            --primary: hsl(142, 76%, 36%);
-            --primary-foreground: hsl(355, 7%, 97%);
-            --secondary: hsl(210, 40%, 96%);
-            --secondary-foreground: hsl(222, 84%, 5%);
-            --muted: hsl(210, 40%, 96%);
-            --muted-foreground: hsl(215, 16%, 47%);
-            --accent: hsl(210, 40%, 96%);
-            --accent-foreground: hsl(222, 84%, 5%);
-            --destructive: hsl(0, 84%, 60%);
-            --destructive-foreground: hsl(210, 40%, 98%);
-            --border: hsl(214, 32%, 91%);
-            --input: hsl(214, 32%, 91%);
-            --ring: hsl(222, 84%, 5%);
-            --background: hsl(0, 0%, 100%);
-            --foreground: hsl(222, 84%, 5%);
-            --card: hsl(0, 0%, 100%);
-            --card-foreground: hsl(222, 84%, 5%);
-            --popover: hsl(0, 0%, 100%);
-            --popover-foreground: hsl(222, 84%, 5%);
-        }
-
-        .dark {
-            --primary: hsl(142, 76%, 36%);
-            --primary-foreground: hsl(355, 7%, 97%);
-            --secondary: hsl(217, 32%, 17%);
-            --secondary-foreground: hsl(210, 40%, 98%);
-            --muted: hsl(217, 32%, 17%);
-            --muted-foreground: hsl(215, 16%, 57%);
-            --accent: hsl(217, 32%, 17%);
-            --accent-foreground: hsl(210, 40%, 98%);
-            --destructive: hsl(0, 62%, 30%);
-            --destructive-foreground: hsl(210, 40%, 98%);
-            --border: hsl(217, 32%, 17%);
-            --input: hsl(217, 32%, 17%);
-            --ring: hsl(212, 12%, 87%);
-            --background: hsl(222, 84%, 5%);
-            --foreground: hsl(210, 40%, 98%);
-            --card: hsl(222, 84%, 5%);
-            --card-foreground: hsl(210, 40%, 98%);
-            --popover: hsl(222, 84%, 5%);
-            --popover-foreground: hsl(210, 40%, 98%);
-        }
-
         * {
-            border-color: hsl(var(--border));
-        }
-
-        body {
-            background-color: hsl(var(--background));
-            color: hsl(var(--foreground));
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-            line-height: 1.6;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-
-        header {
-            background: linear-gradient(135deg, hsl(var(--primary)), hsl(142, 60%, 45%));
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: white;
-            padding: 2rem 0;
-            text-align: center;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
         .logo {
-            width: 120px;
-            height: auto;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: 3rem;
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
             font-weight: bold;
-            margin: 0 0 1rem 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 8px;
         }
-
-        .cta-button {
-            display: inline-block;
-            background: white;
-            color: hsl(var(--primary));
-            padding: 15px 30px;
-            border-radius: 50px;
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-weight: 500;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
         }
-
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-1px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            background: white;
+            color: #16a34a;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            background: #f8fafc;
         }
-
+        
+        /* Features Section */
         .features {
-            padding: 4rem 0;
-            background: hsl(var(--secondary));
+            padding: 5rem 0;
+            background: white;
         }
-
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 4rem;
+            color: #1f2937;
+            font-weight: 700;
+        }
+        
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
         }
-
+        
         .feature-card {
-            background: hsl(var(--card));
-            padding: 2rem;
-            border-radius: 10px;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 1px solid hsl(var(--border));
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
         }
-
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #22c55e;
+        }
+        
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, hsl(var(--primary)), hsl(142, 60%, 45%));
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             border-radius: 50%;
-            margin: 0 auto 1rem auto;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            font-weight: 600;
+        }
+        
+        .feature-card p {
+            color: #6b7280;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .pricing h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            font-weight: 700;
+        }
+        
+        .pricing-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .billing-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+        
+        .toggle-container {
+            background: #e5e7eb;
+            padding: 6px;
+            border-radius: 12px;
+            display: flex;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .toggle-btn {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+            color: #6b7280;
+        }
+        
+        .toggle-btn.active {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            color: #1f2937;
+        }
+        
+        .save-badge {
+            background: #10b981;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            border: 2px solid #e5e7eb;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: #22c55e;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .pricing-card.popular {
+            border-color: #22c55e;
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.2);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #1f2937;
+        }
+        
+        .price {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #22c55e;
+            line-height: 1;
+        }
+        
+        .price-period {
+            color: #6b7280;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .price-note {
+            font-size: 0.9rem;
+            color: #10b981;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .trial-note {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        
+        .features-list {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+        
+        .features-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+        
+        .features-list li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            background: #dcfce7;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .plan-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+        
+        .plan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+        }
+        
+        .plan-button.outline {
+            background: transparent;
+            color: #22c55e;
+            border: 2px solid #22c55e;
+            box-shadow: none;
+        }
+        
+        .plan-button.outline:hover {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 0;
+            background: white;
+        }
+        
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 4rem;
+            color: #1f2937;
+            font-weight: 700;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            border-left: 6px solid #22c55e;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .testimonial-author {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+        
+        .testimonial-business {
+            color: #22c55e;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            color: #22c55e;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-section ul li a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #22c55e;
+            transform: translateX(5px);
+        }
+        
+        .footer-section p {
+            color: #9ca3af;
+            line-height: 1.7;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+        
+        /* Business Showcase */
+        .business-showcase {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .business-showcase h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 4rem;
+            color: #1f2937;
+            font-weight: 700;
+        }
+        
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .business-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .business-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .business-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
         }
-
-        .pricing {
-            padding: 4rem 0;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .price-card {
-            background: hsl(var(--card));
-            border: 2px solid hsl(var(--border));
-            border-radius: 15px;
+        
+        .business-content {
             padding: 2rem;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s ease;
         }
-
-        .price-card.featured {
-            border-color: hsl(var(--primary));
-            transform: scale(1.05);
-        }
-
-        .price-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .plan-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: hsl(var(--primary));
-        }
-
-        .plan-price {
-            font-size: 2.5rem;
-            font-weight: bold;
+        
+        .business-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1f2937;
             margin-bottom: 0.5rem;
         }
-
-        .plan-price .currency {
+        
+        .business-category {
+            color: #22c55e;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .business-description {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .business-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stars {
+            color: #fbbf24;
             font-size: 1.2rem;
-            color: hsl(var(--muted-foreground));
         }
-
-        .plan-features {
-            list-style: none;
-            padding: 0;
-            margin: 2rem 0;
-        }
-
-        .plan-features li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid hsl(var(--border));
-        }
-
-        .plan-features li:last-child {
-            border-bottom: none;
-        }
-
-        .select-plan {
-            background: hsl(var(--primary));
+        
+        .contact-btn {
+            background: #22c55e;
             color: white;
+            padding: 0.75rem 1.5rem;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
             transition: all 0.3s ease;
+            width: 100%;
         }
-
-        .select-plan:hover {
-            background: hsl(142, 60%, 45%);
+        
+        .contact-btn:hover {
+            background: #16a34a;
             transform: translateY(-2px);
         }
-
-        .testimonials {
-            padding: 4rem 0;
-            background: hsl(var(--secondary));
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .testimonial {
-            background: hsl(var(--card));
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1rem;
-            color: hsl(var(--muted-foreground));
-        }
-
-        .testimonial-author {
-            font-weight: bold;
-            color: hsl(var(--primary));
-        }
-
-        footer {
-            background: hsl(var(--foreground));
-            color: hsl(var(--background));
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: hsl(var(--background));
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            opacity: 0.7;
-        }
-
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
+            .hero h1 {
+                font-size: 2.5rem;
             }
             
-            .subtitle {
-                font-size: 1rem;
+            .nav-links {
+                display: none;
+            }
+            
+            .pricing-card.popular {
+                transform: none;
+            }
+            
+            .features h2, .pricing h2, .testimonials h2, .business-showcase h2 {
+                font-size: 2.2rem;
             }
             
             .container {
                 padding: 0 15px;
             }
-            
-            .features-grid,
-            .pricing-grid,
-            .testimonial-grid {
-                grid-template-columns: 1fr;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            
-            .price-card.featured {
-                transform: none;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
+        
+        .feature-card, .pricing-card, .testimonial-card, .business-card {
+            animation: fadeInUp 0.6s ease-out;
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- Header -->
+    <header class="header">
         <div class="container">
-            <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="45" fill="white" opacity="0.1"/>
-                <text x="50" y="60" text-anchor="middle" fill="white" font-size="24" font-weight="bold">ABN</text>
-            </svg>
-            <h1>Black Service Spot</h1>
-            <p class="subtitle">Connecting communities with authentic Black-owned businesses</p>
-            <a href="#pricing" class="cta-button">Start Your Free Trial Today</a>
+            <nav class="nav">
+                <div class="logo">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23fff' rx='10'/%3E%3Ctext x='50' y='55' text-anchor='middle' font-size='40' font-weight='bold' fill='%2316a34a'%3EABN%3C/text%3E%3C/svg%3E" alt="ABN Logo">
+                    Black Service Spot
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#businesses">Businesses</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <section class="features">
+    <!-- Hero Section -->
+    <section id="home" class="hero">
         <div class="container">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem; color: hsl(var(--primary));">Why Choose Black Service Spot?</h2>
-            <p style="text-align: center; color: hsl(var(--muted-foreground)); font-size: 1.1rem;">Empowering Black businesses and connecting them with customers who value authentic representation</p>
-            
+            <div class="hero-content">
+                <h1>Connect with Black-Owned Businesses</h1>
+                <p>Discover authentic Black-owned businesses in your area and support economic growth in Black communities through our comprehensive marketplace platform</p>
+                <a href="#pricing" class="cta-button">Start Your 7-Day Free Trial</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Empower Your Business</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🏢</div>
-                    <h3>Business Discovery</h3>
-                    <p>Help customers find your business through our location-based search and category filtering system.</p>
+                    <div class="feature-icon">🏪</div>
+                    <h3>Professional Listings</h3>
+                    <p>Create comprehensive business profiles with detailed service offerings, authentic imagery, and complete contact information that represents your Black-owned business professionally.</p>
                 </div>
-                
                 <div class="feature-card">
-                    <div class="feature-icon">💼</div>
-                    <h3>Professional Profiles</h3>
-                    <p>Create comprehensive business profiles with custom images, service listings, and contact information.</p>
+                    <div class="feature-icon">🔍</div>
+                    <h3>Smart Discovery</h3>
+                    <p>Advanced search functionality helps customers find your business by location, service type, and category with authentic representation and community-focused results.</p>
                 </div>
-                
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Direct Connection</h3>
+                    <p>Enable seamless communication between customers and business owners through integrated messaging systems, service request forms, and direct contact tools.</p>
+                </div>
                 <div class="feature-card">
                     <div class="feature-icon">⭐</div>
                     <h3>Customer Reviews</h3>
-                    <p>Build trust with authentic customer reviews and ratings that showcase your excellent service.</p>
+                    <p>Build trust and credibility with authentic customer reviews and ratings that showcase your business quality, service excellence, and community impact.</p>
                 </div>
-                
                 <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Service Requests</h3>
-                    <p>Receive direct service requests from customers and manage your business communications seamlessly.</p>
+                    <div class="feature-icon">📊</div>
+                    <h3>Business Analytics</h3>
+                    <p>Track your business performance with detailed analytics, customer engagement metrics, and insights to grow your business and understand your market.</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
                     <h3>Featured Placement</h3>
-                    <p>Get premium visibility with featured business placement for higher plan subscribers.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
-                    <h3>Community Focus</h3>
-                    <p>Join a platform specifically designed to amplify Black business voices and foster community growth.</p>
+                    <p>Get premium visibility with featured business placement, enhanced listings, and priority positioning to attract more customers to your services.</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Business Showcase -->
+    <section id="businesses" class="business-showcase">
+        <div class="container">
+            <h2>Featured Black-Owned Businesses</h2>
+            <div class="business-grid">
+                <div class="business-card">
+                    <div class="business-image">💇‍♀️</div>
+                    <div class="business-content">
+                        <h3 class="business-title">Elegant Touch Hair Salon</h3>
+                        <p class="business-category">Hair & Beauty</p>
+                        <p class="business-description">Professional hair styling, cuts, and treatments for all hair types. Specializing in natural hair care and protective styles.</p>
+                        <div class="business-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>4.9 (127 reviews)</span>
+                        </div>
+                        <button class="contact-btn">Contact Business</button>
+                    </div>
+                </div>
+                <div class="business-card">
+                    <div class="business-image">🍽️</div>
+                    <div class="business-content">
+                        <h3 class="business-title">Soul Food Catering Co.</h3>
+                        <p class="business-category">Food & Catering</p>
+                        <p class="business-description">Authentic soul food catering for events, parties, and corporate functions. Traditional recipes with modern presentation.</p>
+                        <div class="business-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>4.8 (89 reviews)</span>
+                        </div>
+                        <button class="contact-btn">Contact Business</button>
+                    </div>
+                </div>
+                <div class="business-card">
+                    <div class="business-image">💼</div>
+                    <div class="business-content">
+                        <h3 class="business-title">Thompson Consulting</h3>
+                        <p class="business-category">Business Services</p>
+                        <p class="business-description">Strategic business consulting, financial planning, and growth strategies for small businesses and entrepreneurs.</p>
+                        <div class="business-rating">
+                            <span class="stars">★★★★★</span>
+                            <span>5.0 (45 reviews)</span>
+                        </div>
+                        <button class="contact-btn">Contact Business</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
     <section id="pricing" class="pricing">
         <div class="container">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem; color: hsl(var(--primary));">Choose Your Plan</h2>
-            <p style="text-align: center; color: hsl(var(--muted-foreground)); font-size: 1.1rem;">Start with a 7-day free trial, then choose the plan that fits your business needs</p>
+            <h2>Choose Your Business Plan</h2>
+            <p class="pricing-subtitle">Select the perfect plan to showcase your business and connect with customers. All plans include a 7-day free trial with payment information required upfront for seamless billing.</p>
+            
+            <!-- Billing Toggle -->
+            <div class="billing-toggle">
+                <div class="toggle-container">
+                    <button class="toggle-btn active" onclick="setBilling('monthly')">Monthly</button>
+                    <button class="toggle-btn" onclick="setBilling('yearly')">Yearly <span class="save-badge">Save 20%</span></button>
+                </div>
+            </div>
             
             <div class="pricing-grid">
-                <div class="price-card">
-                    <div class="plan-name">Starter</div>
-                    <div class="plan-price"><span class="currency">$</span>29<span style="font-size: 1rem; color: hsl(var(--muted-foreground));">/month</span></div>
-                    <ul class="plan-features">
-                        <li>✅ Basic business profile</li>
-                        <li>✅ Up to 5 service listings</li>
-                        <li>✅ Customer reviews</li>
-                        <li>✅ Basic support</li>
-                        <li>✅ 7-day free trial</li>
+                <!-- Starter Plan -->
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">
+                        <span class="price-amount" id="starter-price">$29</span>
+                        <span class="price-period">/month</span>
+                        <div class="price-note hidden" id="starter-yearly">$278 billed yearly (Save 20%)</div>
+                        <div class="trial-note">7-day free trial, then billing begins</div>
+                    </div>
+                    <ul class="features-list">
+                        <li>7-day free trial</li>
+                        <li>Basic business listing</li>
+                        <li>Up to 5 services</li>
+                        <li>Customer contact form</li>
+                        <li>Basic analytics dashboard</li>
+                        <li>Email support</li>
+                        <li>Mobile-responsive listing</li>
                     </ul>
-                    <button class="select-plan">Start Free Trial</button>
+                    <button class="plan-button outline" onclick="startTrial('starter')">Start 7-Day Trial</button>
                 </div>
-                
-                <div class="price-card featured">
-                    <div class="plan-name">Professional</div>
-                    <div class="plan-price"><span class="currency">$</span>59<span style="font-size: 1rem; color: hsl(var(--muted-foreground));">/month</span></div>
-                    <ul class="plan-features">
-                        <li>✅ Enhanced business profile</li>
-                        <li>✅ Unlimited service listings</li>
-                        <li>✅ Featured placement</li>
-                        <li>✅ Priority support</li>
-                        <li>✅ Analytics dashboard</li>
-                        <li>✅ 7-day free trial</li>
+
+                <!-- Professional Plan -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3>Professional</h3>
+                    <div class="price">
+                        <span class="price-amount" id="professional-price">$59</span>
+                        <span class="price-period">/month</span>
+                        <div class="price-note hidden" id="professional-yearly">$566 billed yearly (Save 20%)</div>
+                        <div class="trial-note">7-day free trial, then billing begins</div>
+                    </div>
+                    <ul class="features-list">
+                        <li>Everything in Starter</li>
+                        <li>Featured business listing</li>
+                        <li>Unlimited services</li>
+                        <li>Advanced customer messaging</li>
+                        <li>Detailed analytics & insights</li>
+                        <li>Priority email support</li>
+                        <li>Social media integration</li>
+                        <li>Customer review management</li>
+                        <li>Photo gallery</li>
                     </ul>
-                    <button class="select-plan">Start Free Trial</button>
+                    <button class="plan-button" onclick="startTrial('professional')">Start 7-Day Trial</button>
                 </div>
-                
-                <div class="price-card">
-                    <div class="plan-name">Enterprise</div>
-                    <div class="plan-price"><span class="currency">$</span>99<span style="font-size: 1rem; color: hsl(var(--muted-foreground));">/month</span></div>
-                    <ul class="plan-features">
-                        <li>✅ Premium business profile</li>
-                        <li>✅ Unlimited everything</li>
-                        <li>✅ Top featured placement</li>
-                        <li>✅ 24/7 dedicated support</li>
-                        <li>✅ Advanced analytics</li>
-                        <li>✅ Custom integrations</li>
-                        <li>✅ 7-day free trial</li>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">
+                        <span class="price-amount" id="enterprise-price">$99</span>
+                        <span class="price-period">/month</span>
+                        <div class="price-note hidden" id="enterprise-yearly">$950 billed yearly (Save 20%)</div>
+                        <div class="trial-note">7-day free trial, then billing begins</div>
+                    </div>
+                    <ul class="features-list">
+                        <li>Everything in Professional</li>
+                        <li>Premium featured placement</li>
+                        <li>Unlimited services & locations</li>
+                        <li>Advanced CRM integration</li>
+                        <li>Custom branding options</li>
+                        <li>Phone & email support</li>
+                        <li>API access</li>
+                        <li>Dedicated account manager</li>
+                        <li>Advanced reporting dashboard</li>
+                        <li>White-label options</li>
                     </ul>
-                    <button class="select-plan">Start Free Trial</button>
+                    <button class="plan-button outline" onclick="startTrial('enterprise')">Start 7-Day Trial</button>
                 </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <p style="color: #6b7280; margin-bottom: 1rem;">All plans include secure payment processing and can be cancelled anytime during your trial.</p>
+                <p style="color: #374151; font-size: 0.9rem;">Need a custom solution? <a href="#contact" style="color: #22c55e; font-weight: 600;">Contact our sales team</a></p>
             </div>
         </div>
     </section>
 
+    <!-- Testimonials -->
     <section class="testimonials">
         <div class="container">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem; color: hsl(var(--primary));">What Our Community Says</h2>
-            
-            <div class="testimonial-grid">
-                <div class="testimonial">
-                    <div class="testimonial-text">"Black Service Spot helped me connect with customers who truly value supporting Black businesses. My client base has grown significantly since joining."</div>
-                    <div class="testimonial-author">- Sarah Johnson, Hair Salon Owner</div>
+            <h2>What Business Owners Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Black Service Spot helped me connect with so many new customers in my community. The platform made it easy to showcase my hair salon and the results have been incredible for my business growth."</p>
+                    <p class="testimonial-author">Keisha Williams</p>
+                    <p class="testimonial-business">Elegant Touch Hair Salon</p>
                 </div>
-                
-                <div class="testimonial">
-                    <div class="testimonial-text">"The platform makes it easy for customers to find authentic Black-owned services in their area. It's exactly what our community needed."</div>
-                    <div class="testimonial-author">- Marcus Williams, Catering Business</div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As a Black business owner, finding the right platform to reach customers was challenging. Black Service Spot changed everything for my catering business. I've tripled my client base in just 6 months."</p>
+                    <p class="testimonial-author">Marcus Johnson</p>
+                    <p class="testimonial-business">Soul Food Catering Co.</p>
                 </div>
-                
-                <div class="testimonial">
-                    <div class="testimonial-text">"Finally, a platform that understands and represents our community properly. The featured placement has brought in so many new customers."</div>
-                    <div class="testimonial-author">- Keisha Davis, Consulting Services</div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The analytics and customer insights helped me understand my market better. I've grown my consulting business by 300% since joining the platform. The support team is amazing too."</p>
+                    <p class="testimonial-author">Dr. Aisha Thompson</p>
+                    <p class="testimonial-business">Thompson Business Consulting</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
+    <!-- Footer -->
+    <footer id="contact" class="footer">
         <div class="container">
-            <div class="footer-links">
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#support">Support</a>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Black Service Spot</h3>
+                    <p>Empowering Black-owned businesses through authentic connections, community support, and innovative marketplace solutions that drive economic growth.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>For Businesses</h3>
+                    <ul>
+                        <li><a href="#pricing">Business Plans</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Business Resources</a></li>
+                        <li><a href="#">Marketing Tools</a></li>
+                        <li><a href="#">Analytics Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>For Customers</h3>
+                    <ul>
+                        <li><a href="#businesses">Find Businesses</a></li>
+                        <li><a href="#">Business Directory</a></li>
+                        <li><a href="#">Community Events</a></li>
+                        <li><a href="#">Customer Support</a></li>
+                        <li><a href="#">Mobile App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support & Legal</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Community Guidelines</a></li>
+                    </ul>
+                </div>
             </div>
-            <p>&copy; 2024 Black Service Spot. All rights reserved. | Empowering Black businesses, strengthening communities.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Black Service Spot. All rights reserved. Empowering Black communities through business excellence.</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling for anchor links
+        function setBilling(type) {
+            const monthlyBtn = document.querySelector('.toggle-btn:first-child');
+            const yearlyBtn = document.querySelector('.toggle-btn:last-child');
+            
+            if (type === 'monthly') {
+                monthlyBtn.classList.add('active');
+                yearlyBtn.classList.remove('active');
+                
+                // Update prices to monthly
+                document.getElementById('starter-price').textContent = '$29';
+                document.getElementById('professional-price').textContent = '$59';
+                document.getElementById('enterprise-price').textContent = '$99';
+                
+                // Hide yearly notes
+                document.getElementById('starter-yearly').classList.add('hidden');
+                document.getElementById('professional-yearly').classList.add('hidden');
+                document.getElementById('enterprise-yearly').classList.add('hidden');
+            } else {
+                yearlyBtn.classList.add('active');
+                monthlyBtn.classList.remove('active');
+                
+                // Update prices to yearly equivalent monthly
+                document.getElementById('starter-price').textContent = '$23';
+                document.getElementById('professional-price').textContent = '$47';
+                document.getElementById('enterprise-price').textContent = '$79';
+                
+                // Show yearly notes
+                document.getElementById('starter-yearly').classList.remove('hidden');
+                document.getElementById('professional-yearly').classList.remove('hidden');
+                document.getElementById('enterprise-yearly').classList.remove('hidden');
+            }
+        }
+        
+        function startTrial(plan) {
+            const planNames = {
+                'starter': 'Starter',
+                'professional': 'Professional', 
+                'enterprise': 'Enterprise'
+            };
+            
+            const currentBilling = document.querySelector('.toggle-btn.active').textContent.includes('Monthly') ? 'monthly' : 'yearly';
+            const prices = {
+                'starter': { monthly: '$29', yearly: '$278' },
+                'professional': { monthly: '$59', yearly: '$566' },
+                'enterprise': { monthly: '$99', yearly: '$950' }
+            };
+            
+            const planPrice = prices[plan][currentBilling];
+            const billingText = currentBilling === 'yearly' ? 'per year' : 'per month';
+            
+            alert(`🎉 Starting your 7-day FREE trial for ${planNames[plan]} plan!\n\n✅ Plan: ${planNames[plan]} (${planPrice} ${billingText})\n✅ Trial Period: 7 days completely free\n✅ Payment: Secured but not charged until trial ends\n✅ Cancel anytime during trial with no charges\n\nRedirecting to secure payment setup...\n\nYour trial starts immediately upon payment method verification!`);
+        }
+        
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -484,25 +1024,36 @@
             });
         });
 
-        // Add click handlers for plan selection buttons
-        document.querySelectorAll('.select-plan').forEach(button => {
+        // Add click handlers to contact buttons
+        document.querySelectorAll('.contact-btn').forEach(button => {
             button.addEventListener('click', function() {
-                alert('Free trial registration will be available once the full application is deployed!');
+                alert('🔗 This would connect you directly with the business owner!\n\n📧 Send message\n📞 Request callback\n📅 Book appointment\n\nSign up for your business account to enable customer connections!');
             });
         });
 
-        // Add some interactive hover effects
-        document.querySelectorAll('.feature-card, .price-card, .testimonial').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                if (!this.classList.contains('featured')) {
-                    this.style.transform = 'translateY(0)';
+        // Add some interactive animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
+        }, observerOptions);
+
+        // Observe all cards for animations
+        document.querySelectorAll('.feature-card, .pricing-card, .testimonial-card, .business-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
         });
     </script>
 </body>
 </html>
+            
