@@ -114,6 +114,24 @@
     "postcss": "^8.5.11"
   }
 }
+```toml
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[functions]
+  directory = "dist"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/index/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
 <html lang="en">
 <head>
     <meta charset="UTF-8">
