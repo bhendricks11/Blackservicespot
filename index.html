@@ -3,121 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Your Complete Black Service Spot Application</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .download-btn { background: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 10px 0; font-size: 16px; }
-        .download-btn:hover { background: #218838; }
-        .step { background: #f8f9fa; padding: 15px; margin: 15px 0; border-left: 4px solid #007acc; }
-        .warning { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
-        .success { background: #d4edda; padding: 15px; border-left: 4px solid #28a745; margin: 15px 0; }
-        h1 { color: #333; text-align: center; }
-        h2 { color: #007acc; }
-        .file-list { background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Download Your Complete Black Service Spot Application</h1>
-        
-        <div class="success">
-            <strong>Your complete business directory platform is ready for download!</strong><br>
-            This includes all features: annual billing, search functionality, customer testimonials, PayPal processing, and more.
-        </div>
-
-        <div class="step">
-            <h2>Step 1: Download Your Application</h2>
-            <a href="blackservicespot-complete-app.tar.gz" class="download-btn" download>Download Complete Application (.tar.gz)</a>
-            <p>This file contains your entire React application with all the code needed for deployment.</p>
-        </div>
-
-        <div class="step">
-            <h2>Step 2: Extract the Files</h2>
-            <p>On your computer:</p>
-            <ul>
-                <li><strong>Windows:</strong> Right-click the .tar.gz file → Extract with WinRAR/7-Zip</li>
-                <li><strong>Mac:</strong> Double-click the .tar.gz file to extract</li>
-                <li><strong>Mobile:</strong> Use a file manager app that supports .tar.gz files</li>
-            </ul>
-        </div>
-
-        <div class="step">
-            <h2>Step 3: Upload to Your GitHub Repository</h2>
-            <p>Go to your GitHub repository: <strong>bhendricks11/Blackservicespot</strong></p>
-            <p>Upload ALL these extracted files/folders:</p>
-            <div class="file-list">
-client/ (entire folder)<br>
-server/ (entire folder)<br>
-shared/ (entire folder)<br>
-package.json<br>
-package-lock.json<br>
-netlify.toml<br>
-tsconfig.json<br>
-vite.config.ts<br>
-tailwind.config.ts<br>
-postcss.config.js<br>
-drizzle.config.ts<br>
-components.json
-            </div>
-        </div>
-
-        <div class="step">
-            <h2>Step 4: Deploy on Netlify</h2>
-            <ol>
-                <li>Go to <strong>netlify.com</strong> → Sign in with GitHub</li>
-                <li>Click <strong>"Add new site"</strong> → <strong>"Import existing project"</strong></li>
-                <li>Select your GitHub repository</li>
-                <li>Build command: <code>npm run build</code></li>
-                <li>Publish directory: <code>dist</code></li>
-                <li>Click <strong>"Deploy site"</strong></li>
-            </ol>
-        </div>
-
-        <div class="step">
-            <h2>Step 5: Connect Your Domain</h2>
-            <p>After successful deployment:</p>
-            <ol>
-                <li>In Netlify dashboard → <strong>Domain settings</strong></li>
-                <li>Click <strong>"Add custom domain"</strong></li>
-                <li>Enter: <code>blackservicespot.com</code></li>
-                <li>Update your GoDaddy DNS as instructed by Netlify</li>
-            </ol>
-        </div>
-
-        <div class="warning">
-            <strong>Important:</strong> Make sure to upload the complete application code to GitHub first. The previous deployment failed because only HTML files were in the repository, but Netlify needs the full React application code to build properly.
-        </div>
-
-        <div class="success">
-            <h2>Your Complete Application Features</h2>
-            <ul>
-                <li>Annual billing with 20% discount toggle</li>
-                <li>Advanced search with service, city, and state filters</li>
-                <li>Customer testimonials with authentic photos</li>
-                <li>Featured business cards with images</li>
-                <li>Business registration system with subscription plans</li>
-                <li>PayPal payment processing integration</li>
-                <li>Professional design with ABN logo and green branding</li>
-                <li>Responsive mobile design</li>
-                <li>User authentication and secure login</li>
-                <li>Database integration with PostgreSQL</li>
-            </ul>
-        </div>
-
-        <div class="step">
-            <h2>Need Help?</h2>
-            <p>If you encounter any issues during deployment, the problem is likely that:</p>
-            <ul>
-                <li>Not all files were uploaded to GitHub</li>
-                <li>The <code>package.json</code> file is missing from the repository root</li>
-                <li>Build settings in Netlify are incorrect</li>
-            </ul>
-            <p>Double-check that all files from the download are in your GitHub repository at the root level.</p>
-        </div>
-    </div>
-</body>
-</html>
+    <title>Black Service Spot - Connect with Black-Owned Businesses</title>
+    <meta name="description" content="Discover and connect with authentic Black-owned businesses in your area. Supporting economic growth in Black communities through business discovery and service requests.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://blackservicespot.com/">
+    <meta property="og:title" content="Black Service Spot - Connect with Black-Owned Businesses">
+    <meta property="og:description" content="Discover and connect with authentic Black-owned businesses in your area. Supporting economic growth in Black communities.">
+    <meta property="og:image" content="https://blackservicespot.com/assets/social-preview.jpg">
+     <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://blackservicespot.com/">
+    <meta property="twitter:title" content="Black Service Spot - Connect with Black-Owned Businesses">
+    <meta property="twitter:description" content="Discover and connect with authentic Black-owned businesses in your area. Supporting economic growth in Black communities.">
+    <meta property="twitter:image" content="https://blackservicespot.com/assets/social-preview.jpg">
+    
    
         
      
