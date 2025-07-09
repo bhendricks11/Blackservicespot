@@ -1,18 +1,11 @@
-```toml
 [build]
-  publish = "build"
   command = "npm run build"
-
-[functions]
-  directory = "build"
-
+  publish = "dist"
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/index/:splat"
   status = 200
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-```
