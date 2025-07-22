@@ -1,1 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Black Service Spot - Empowering Black Business Excellence</title>
+  <meta content="Connect with trusted black-owned businesses in your community. Find quality services while supporting economic empowerment through Black Service Spot." name="description"/>
 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: #111827;
+    }
+
+    /* Gradient Styles */
+    .gradient-green {
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    }
+
+    .gradient-green-light {
+      background: linear-gradient(135deg, #6ee7b7 0%, #34d399 50%, #10b981 100%);
+    }
+
+    .text-gradient-green {
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      padding: 1rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #059669;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #374151;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #059669;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #059669;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #10b981;
+      border: 2px solid #10b981;
+    }
+
+    .btn-secondary:hover {
+      background: #10b981;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+    <header class="header">
+    <div class="nav-container">
+      <div class="logo">Black Service Spot</div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#businessListings">Businesses</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#ownerPortal">Owner Portal</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        <a href="#login" class="btn btn-secondary">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero gradient-green">
+    <div class="hero-container" style="max-width: 1200px; margin: auto; padding: 4rem 1rem; text-align:center;">
+      <h1 style="font-size: 3rem; font-weight: bold; color: white;">Empowering Black Business Excellence</h1>
+      <p style="font-size: 1.25rem; color: #d1fae5; margin-top: 1rem;">
+        If you prosper… we prosper. Let's thrive together by uplifting local Black-owned businesses.
+      </p>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer-banner" style="background: #fefce8; padding: 1rem; border-left: 6px solid #facc15; margin: 2rem auto; max-width: 800px; border-radius: 5px;">
+    <p><strong>Important Disclaimer:</strong> Black Service Spot is a platform connecting customers with business owners. We are not responsible for the quality of services, insurance coverage, or any damages that may occur. Business owners are responsible for their own insurance and credentials. Customers should verify all insurance and credentials before engaging services. By using this platform, all parties agree to hold Black Service Spot harmless from any liability.</p>
+  </div>
+    <!-- PayPal Plan Buttons -->
+  <section id="plans" style="padding: 2rem; text-align: center;">
+    <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: #059669;">Choose Your Subscription Plan</h2>
+    <a href="signup.html?plan=monthly" class="btn btn-primary">Sign Up Monthly ($29.95 + $4.95 Setup Fee)</a>
+    <a href="signup.html?plan=annual" class="btn btn-secondary" style="margin-left: 1rem;">Sign Up Annually ($287.52 + $4.95 Setup Fee)</a>
+  </section>
+
+  <!-- Search Form -->
+  <div class="search-form" style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 800px; margin: 2rem auto 0; display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem;">
+    <div class="form-group">
+      <label for="location">City, State</label>
+      <input type="text" id="location" placeholder="e.g., Atlanta, GA" />
+    </div>
+    <div class="form-group">
+      <label for="service">Service Type</label>
+      <select id="service">
+        <option value="">Select</option>
+        <option value="hair">Hair Styling</option>
+        <option value="finance">Accounting</option>
+        <option value="auto">Auto Detailing</option>
+      </select>
+    </div>
+    <button style="align-self: end;" onclick="filterBusinesses()">Search</button>
+  </div>
+
+  <!-- Business Listings -->
+  <section id="businessListings" style="max-width: 1200px; margin: 3rem auto;">
+    <h2 style="text-align: center; margin-bottom: 2rem; color: #059669;">Explore Black-Owned Businesses</h2>
+    <div id="businessGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 1rem;">
+            <div class="business-card" style="border: 1px solid #ccc; border-radius: 8px; padding: 1rem; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center;">
+        <img src="https://images.unsplash.com/photo-1619451428903-c3f910c75f67?crop=faces&fit=crop&w=300&h=300" alt="Nia's Logo" width="120" />
+        <h3>Nia's Natural Hair Studio</h3>
+        <p>Location: Atlanta, GA</p>
+        <p>Services: Hair Styling, Braiding</p>
+      </div>
+
+      <div class="business-card" style="border: 1px solid #ccc; border-radius: 8px; padding: 1rem; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center;">
+        <img src="https://images.unsplash.com/photo-1620056355045-df08df68c07e?crop=faces&fit=crop&w=300&h=300" alt="Legacy Logo" width="120" />
+        <h3>Legacy Tax Pros</h3>
+        <p>Location: Houston, TX</p>
+        <p>Services: Tax Prep, Bookkeeping</p>
+      </div>
+
+      <div class="business-card" style="border: 1px solid #ccc; border-radius: 8px; padding: 1rem; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center;">
+        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=faces&fit=crop&w=300&h=300" alt="Fresh Auto Logo" width="120" />
+        <h3>Fresh Auto Detailing</h3>
+        <p>Location: Chicago, IL</p>
+        <p>Services: Mobile Car Wash, Interior Detailing</p>
+      </div>
+    </div>
+  </section>
+    <!-- Testimonials -->
+  <section class="testimonials" id="testimonials" style="background: #f9fafb; padding: 3rem 1rem;">
+    <div class="section-container" style="max-width: 1200px; margin: auto;">
+      <div class="section-title" style="text-align:center; margin-bottom: 2rem;">
+        <h2 style="color: #059669;">What Our Customers Say</h2>
+        <p>Real stories from customers who found amazing Black-owned businesses through our platform</p>
+      </div>
+      <div class="testimonial-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+        <div class="testimonial-card" style="border: 1px solid #ccc; border-radius: 0.75rem; padding: 1rem; background-color: #fff; text-align: center;">
+          <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?crop=faces&fit=crop&w=100&h=100" alt="Shanice W." width="100" height="100" style="border-radius:50%;" />
+          <p>"I found the best natural hair stylist thanks to this platform!" — Shanice W.</p>
+        </div>
+
+        <div class="testimonial-card" style="border: 1px solid #ccc; border-radius: 0.75rem; padding: 1rem; background-color: #fff; text-align: center;">
+          <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?crop=faces&fit=crop&w=100&h=100" alt="Carlos R." width="100" height="100" style="border-radius:50%;" />
+          <p>"Booking a Black-owned accountant helped my business and community." — Carlos R.</p>
+        </div>
+
+        <div class="testimonial-card" style="border: 1px solid #ccc; border-radius: 0.75rem; padding: 1rem; background-color: #fff; text-align: center;">
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?crop=faces&fit=crop&w=100&h=100" alt="Mei L." width="100" height="100" style="border-radius:50%;" />
+          <p>"I loved the mobile detailing service. Quick and professional." — Mei L.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+    <!-- Business Owner Portal -->
+  <section id="ownerPortal" style="max-width: 900px; margin: 3rem auto;">
+    <h2 style="text-align:center; color:#059669;">Business Owner Portal</h2>
+    <div id="ownerConfig" style="border: 2px dashed #10b981; padding: 1.5rem; border-radius: 10px; background: #f9f9f9;">
+
+      <h3>Welcome, [Business Owner Name]</h3>
+      <p>Your portal space is personalized. Upload your logo and define your service offerings.</p>
+
+      <label for="ownerLogo">Upload Your Logo:</label><br />
+      <input type="file" id="ownerLogo" accept="image/*" /><br /><br />
+      <img id="logoPreview" src="https://via.placeholder.com/150?text=Your+Logo" alt="Your Logo Preview" width="150" /><br /><br />
+
+      <h4>Your Clients</h4>
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #d1fae5;">
+            <th style="padding: 0.75rem; border: 1px solid #ccc;">Client Name</th>
+            <th style="padding: 0.75rem; border: 1px solid #ccc;">Date</th>
+            <th style="padding: 0.75rem; border: 1px solid #ccc;">Time</th>
+            <th style="padding: 0.75rem; border: 1px solid #ccc;">Private Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 0.75rem; border: 1px solid #ccc;">Tanisha Green</td>
+            <td style="padding: 0.75rem; border: 1px solid #ccc;">2025-08-02</td>
+            <td style="padding: 0.75rem; border: 1px solid #ccc;">1:00 PM</td>
+            <td style="padding: 0.75rem; border: 1px solid #ccc;">Wants monthly service follow-up.</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.75rem; border: 1px solid #ccc;">Isaac Miles</td>
+            <td style="padding: 0.75rem; border: 1px solid #ccc;">2025-08-05</td>
+            <td style="padding: 0.75rem; border: 1px solid #ccc;">9:30 AM</td>
+            <td style="padding: 0.75rem; border: 1px solid #ccc;">First-time customer. Asked about bundles.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+       <script>
+      document.getElementById('ownerLogo').addEventListener('change', function (e) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          document.getElementById('logoPreview').src = reader.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      });
+    </script>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#059669; color:white; padding:2rem; text-align:center; margin-top:3rem;">
+    <p>&copy; 2025 Black Service Spot. All rights reserved.</p>
+    <p>Connect. Support. Grow.</p>
+  </footer>
+    <!-- JavaScript: Search Filtering -->
+  <script>
+    function filterBusinesses() {
+      const location = document.getElementById('location').value.toLowerCase();
+      const service = document.getElementById('service').value.toLowerCase();
+      const cards = document.querySelectorAll('.business-card');
+
+      cards.forEach(card => {
+        const cardText = card.innerText.toLowerCase();
+        if (cardText.includes(location) && cardText.includes(service)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+  </script>
+    <!-- Responsive Design -->
+  <style>
+    @media (max-width: 768px) {
+      .search-form {
+        grid-template-columns: 1fr;
+      }
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .auth-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+      .auth-buttons a {
+        width: 100%;
+        text-align: center;
+      }
+      .testimonial-grid,
+      #businessGrid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .testimonial-card img,
+    .business-card img {
+      margin-bottom: 1rem;
+      max-width: 100px;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    .business-card h3 {
+      margin: 0.5rem 0 0.25rem 0;
+    }
+
+    .business-card p {
+      font-size: 0.9rem;
+      margin: 0.25rem 0;
+    }
+
+    .testimonial-card p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+  </style>
+    <!-- Accessibility and Typography Enhancements -->
+  <style>
+    h2, h3, h4 {
+      color: #059669;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    select {
+      font-family: inherit;
+    }
+
+    button:focus,
+    input:focus,
+    select:focus {
+      outline: 2px solid #10b981;
+      outline-offset: 2px;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    #ownerConfig textarea {
+      width: 100%;
+      resize: vertical;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+    }
+  </style>
+
+  <!-- Fallback Notice -->
+  <noscript>
+    <div style="background: #fef3c7; padding: 1rem; color: #92400e; text-align: center;">
+      JavaScript is required to use full functionality of Black Service Spot. Please enable it in your browser settings.
+    </div>
+  </noscript>
+    <!-- SEO Meta Tags -->
+  <meta name="author" content="Black Service Spot Team" />
+  <meta name="keywords" content="black-owned, business directory, services, Black entrepreneurs, support Black business" />
+  <meta property="og:title" content="Black Service Spot" />
+  <meta property="og:description" content="Discover and support Black-owned businesses across the country." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1619451428903-c3f910c75f67?crop=faces&fit=crop&w=600&h=400" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#10b981" />
+    <!-- Future PayPal Integration Placeholder -->
+  <!-- Replace this with your live client ID and plan IDs when ready -->
+  <!--
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_LIVE_CLIENT_ID&vault=true&intent=subscription"></script>
+  <div id="paypal-button-container-P-PLANID"></div>
+  <script>
+    paypal.Buttons({
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          'plan_id': 'P-PLANID' // Replace with your actual plan ID
+        });
+      },
+      onApprove: function(data, actions) {
+        alert('Subscription completed!');
+      }
+    }).render('#paypal-button-container-P-PLANID');
+  </script>
+  -->
+    <!-- Closing tags -->
+</body>
+</html>
