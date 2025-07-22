@@ -2040,5 +2040,53 @@
             });
         });
   </script>
- </body>
+ 
+<!-- PayPal Subscription Section -->
+<section style="text-align:center; padding: 3rem 1rem; background: #f0fdf4;">
+  <h2 style="color:#047857;">Choose Your Subscription</h2>
+  <p style="max-width:600px; margin:1rem auto; color:#374151;">
+    Support your listing with a monthly or annual plan. All subscriptions include a one-time setup fee of $4.95.
+  </p>
+
+  <!-- PayPal JS SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&vault=true&intent=subscription"></script>
+
+  <!-- Monthly Plan -->
+  <div style="margin-bottom:2rem;">
+    <h3>Monthly Subscription - $29.95</h3>
+    <div id="paypal-button-container-monthly"></div>
+  </div>
+
+  <!-- Annual Plan -->
+  <div style="margin-bottom:2rem;">
+    <h3>Annual Subscription - $287.52 (20% off)</h3>
+    <div id="paypal-button-container-annual"></div>
+  </div>
+
+  <script>
+    paypal.Buttons({
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          'plan_id': '37739232P6875371KNB7M33A'
+        });
+      },
+      onApprove: function(data, actions) {
+        window.location.href = 'signup.html';
+      }
+    }).render('#paypal-button-container-monthly');
+
+    paypal.Buttons({
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          'plan_id': 'P-6VE96793E07454030NB7M7IA'
+        });
+      },
+      onApprove: function(data, actions) {
+        window.location.href = 'signup.html';
+      }
+    }).render('#paypal-button-container-annual');
+  </script>
+</section>
+
+</body>
 </html>
