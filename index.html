@@ -1117,7 +1117,7 @@
     <div class="business-grid" id="businessGrid">
      <div class="business-card">
       <div class="business-header">
-       <img alt="Elegant Hair Studio" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2310b981'/%3E%3Ctext x='50' y='55' text-anchor='middle' font-size='24' fill='white' font-family='Arial'%3EKJ%3C/text%3E%3C/svg%3E" style="width: 60px; height: 60px; border-radius: 50%;"/>
+       <img alt="Nia's Natural Hair Studio" src="IMG_5601.jpeg" style="width: 60px; height: 60px; border-radius: 50%;"/>
        <div class="business-info">
         <h3>
          Elegant Hair Studio
@@ -1146,7 +1146,7 @@
      </div>
      <div class="business-card">
       <div class="business-header">
-       <img alt="Soul Food Kitchen" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23059669'/%3E%3Ctext x='50' y='55' text-anchor='middle' font-size='24' fill='white' font-family='Arial'%3EMW%3C/text%3E%3C/svg%3E" style="width: 60px; height: 60px; border-radius: 50%;"/>
+       <img alt="Legacy Tax Pros" src="IMG_5602.jpeg" style="width: 60px; height: 60px; border-radius: 50%;"/>
        <div class="business-info">
         <h3>
          Soul Food Kitchen
@@ -1175,7 +1175,7 @@
      </div>
      <div class="business-card">
       <div class="business-header">
-       <img alt="Digital Growth Marketing" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23047857'/%3E%3Ctext x='50' y='55' text-anchor='middle' font-size='24' fill='white' font-family='Arial'%3ETD%3C/text%3E%3C/svg%3E" style="width: 60px; height: 60px; border-radius: 50%;"/>
+       <img alt="Fresh Auto Detailing" src="IMG_5603.jpeg" style="width: 60px; height: 60px; border-radius: 50%;"/>
        <div class="business-info">
         <h3>
          Digital Growth Marketing
@@ -1230,6 +1230,18 @@
         Los Angeles, CA
        </span>
       </div>
+     </div>
+     <div class="business-card">
+      <img alt="Fit Queens Studio" src="9ADA6023-C583-4FFB-AA1F-F343936FD033.jpeg" width="120"/>
+      <h3>
+       Fit Queens Studio
+      </h3>
+      <p>
+       Location: Dallas, TX
+      </p>
+      <p>
+       Services: Group Fitness, Personal Training
+      </p>
      </div>
     </div>
    </div>
@@ -2040,30 +2052,34 @@
             });
         });
   </script>
- 
-<!-- PayPal Subscription Section -->
-<section style="text-align:center; padding: 3rem 1rem; background: #f0fdf4;">
-  <h2 style="color:#047857;">Choose Your Subscription</h2>
-  <p style="max-width:600px; margin:1rem auto; color:#374151;">
+  <!-- PayPal Subscription Section -->
+  <section style="text-align:center; padding: 3rem 1rem; background: #f0fdf4;">
+   <h2 style="color:#047857;">
+    Choose Your Subscription
+   </h2>
+   <p style="max-width:600px; margin:1rem auto; color:#374151;">
     Support your listing with a monthly or annual plan. All subscriptions include a one-time setup fee of $4.95.
-  </p>
-
-  <!-- PayPal JS SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&vault=true&intent=subscription"></script>
-
-  <!-- Monthly Plan -->
-  <div style="margin-bottom:2rem;">
-    <h3>Monthly Subscription - $29.95</h3>
-    <div id="paypal-button-container-monthly"></div>
-  </div>
-
-  <!-- Annual Plan -->
-  <div style="margin-bottom:2rem;">
-    <h3>Annual Subscription - $287.52 (20% off)</h3>
-    <div id="paypal-button-container-annual"></div>
-  </div>
-
-  <script>
+   </p>
+   <!-- PayPal JS SDK -->
+   <script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&amp;vault=true&amp;intent=subscription">
+   </script>
+   <!-- Monthly Plan -->
+   <div style="margin-bottom:2rem;">
+    <h3>
+     Monthly Subscription - $29.95
+    </h3>
+    <div id="paypal-button-container-monthly">
+    </div>
+   </div>
+   <!-- Annual Plan -->
+   <div style="margin-bottom:2rem;">
+    <h3>
+     Annual Subscription - $287.52 (20% off)
+    </h3>
+    <div id="paypal-button-container-annual">
+    </div>
+   </div>
+   <script>
     paypal.Buttons({
       createSubscription: function(data, actions) {
         return actions.subscription.create({
@@ -2085,8 +2101,7 @@
         window.location.href = 'signup.html';
       }
     }).render('#paypal-button-container-annual');
-  </script>
-</section>
-
-</body>
+   </script>
+  </section>
+ </body>
 </html>
