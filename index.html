@@ -3,124 +3,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Black Service Spot - Empowering Black Business Excellence</title>
+  <meta name="description" content="Find and support trusted Black-owned businesses in your city. Empower your community with every service." />
   <script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&vault=true&intent=subscription"></script>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 0; margin: 0; background: #f9f9f9; color: #333; }
-    header { background: #000; color: #fff; padding: 1rem; text-align: center; }
-    nav a { margin: 0 1rem; color: #fff; text-decoration: none; }
-    .hero { background: #059669; color: white; padding: 2rem; text-align: center; }
-    .hero h1 { font-size: 2rem; margin-bottom: 1rem; }
-    .hero p { font-size: 1.2rem; }
-
-    .paypal-section { text-align: center; padding: 2rem; }
-    .paypal-buttons { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
-    .paypal-buttons > div { min-width: 300px; }
-
-    .business-section, .testimonial-section { padding: 2rem; }
-    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-
-    .card { background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
-    .card img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 6px; }
-
-    footer { background: #000; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
-  </style>
 </head>
 <body>
-
   <header>
-    <h1>Black Service Spot</h1>
-    <nav>
-      <a href="#subscribe">Subscribe</a>
-      <a href="#businesses">Businesses</a>
-      <a href="#testimonials">Testimonials</a>
-    </nav>
+    <h1>Empowering Black Business Excellence</h1>
+    <p>2500+ Black-owned businesses · 150+ cities covered</p>
   </header>
 
-  <div class="hero">
-    <h1>Empowering Black Business Excellence</h1>
-    <p>Support, showcase, and discover Black-owned businesses across the nation.</p>
-  </div>
+  <section id="subscriptions">
+    <h2>Select a Plan to Get Started</h2>
+    <div id="paypal-button-container-monthly"></div>
+    <div id="paypal-button-container-annual"></div>
+    <script>
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'subscribe' },
+        createSubscription: function(data, actions) {
+          return actions.subscription.create({ plan_id: '37739232P6875371KNB7M33A' });
+        },
+        onApprove: function(data, actions) {
+          window.location.href = 'signup.html?plan=monthly';
+        }
+      }).render('#paypal-button-container-monthly');
 
-  <section class="paypal-section" id="subscribe">
-    <h2>Choose Your Plan</h2>
-    <div class="paypal-buttons">
-      <div id="paypal-button-container-monthly"></div>
-      <div id="paypal-button-container-annual"></div>
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'subscribe' },
+        createSubscription: function(data, actions) {
+          return actions.subscription.create({ plan_id: 'P-6VE96793E07454030NB7M7IA' });
+        },
+        onApprove: function(data, actions) {
+          window.location.href = 'signup.html?plan=annual';
+        }
+      }).render('#paypal-button-container-annual');
+    </script>
+  </section>
+
+  <section id="featured">
+    <h2>Featured Black-Owned Businesses</h2>
+    <div>
+      <img src="IMG_5601.jpeg" alt="Business 1" width="200" />
+      <img src="IMG_5602.jpeg" alt="Business 2" width="200" />
+      <img src="IMG_5603.jpeg" alt="Business 3" width="200" />
     </div>
   </section>
 
-  <section class="business-section" id="businesses">
-    <h2 style="text-align:center;">Featured Black-Owned Businesses</h2>
-    <div class="card-grid">
-      <div class="card">
-        <img src="IMG_5601.jpeg" alt="Business Owner 1">
-        <h3>Fresh Start Fitness</h3>
-        <p>Location: Detroit, MI</p>
-        <p>Services: Personal Training, Nutrition</p>
-      </div>
-      <div class="card">
-        <img src="IMG_5602.jpeg" alt="Business Owner 2">
-        <h3>Legacy Tax Pros</h3>
-        <p>Location: Houston, TX</p>
-        <p>Services: Tax Prep, Financial Advising</p>
-      </div>
-      <div class="card">
-        <img src="IMG_5603.jpeg" alt="Business Owner 3">
-        <h3>Nia's Natural Hair Studio</h3>
-        <p>Location: Atlanta, GA</p>
-        <p>Services: Braiding, Natural Haircare</p>
-      </div>
-    </div>
+  <section id="testimonials">
+    <h2>Customer Testimonials</h2>
+    <img src="7DA94902-A68C-4A7D-A140-465FBE372740.jpeg" alt="Testimonial 1" width="150" />
+    <img src="C46DEB89-7842-4637-BE87-53AC6399158C.jpeg" alt="Testimonial 2" width="150" />
+    <img src="D2AD5303-38AA-4954-A27E-8C3630F1732F.jpeg" alt="Testimonial 3" width="150" />
+    <img src="9ADA6023-C583-4FFB-AA1F-F343936FD033.jpeg" alt="Testimonial 4" width="150" />
   </section>
-
-  <section class="testimonial-section" id="testimonials">
-    <h2 style="text-align:center;">What Customers Are Saying</h2>
-    <div class="card-grid">
-      <div class="card">
-        <img src="7DA94902-A68C-4A7D-A140-465FBE372740.jpeg" alt="Client 1">
-        <p>"Excellent service! I’ll be back again." – Jada K.</p>
-      </div>
-      <div class="card">
-        <img src="C46DEB89-7842-4637-BE87-53AC6399158C.jpeg" alt="Client 2">
-        <p>"Fast, professional, and Black-owned!" – Marcus T.</p>
-      </div>
-      <div class="card">
-        <img src="D2AD5303-38AA-4954-A27E-8C3630F1732F.jpeg" alt="Client 3">
-        <p>"Loved the experience and the results." – Briana S.</p>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Black Service Spot. All rights reserved.</p>
-    <p>Connect. Support. Grow.</p>
-  </footer>
-
-  <script>
-    paypal.Buttons({
-      createSubscription: function(data, actions) {
-        return actions.subscription.create({
-          'plan_id': '37739232P6875371KNB7M33A' // Monthly plan ID
-        });
-      },
-      onApprove: function(data, actions) {
-        window.location.href = "signup.html";
-      }
-    }).render('#paypal-button-container-monthly');
-
-    paypal.Buttons({
-      createSubscription: function(data, actions) {
-        return actions.subscription.create({
-          'plan_id': 'P-6VE96793E07454030NB7M7IA' // Annual plan ID
-        });
-      },
-      onApprove: function(data, actions) {
-        window.location.href = "signup.html";
-      }
-    }).render('#paypal-button-container-annual');
-  </script>
-
 </body>
 </html>
