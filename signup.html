@@ -1,38 +1,13 @@
-
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Business Owner Sign-Up</title>
-<style>
-    body { font-family: sans-serif; background: #f0fdf4; padding: 2rem; }
-    form { background: white; padding: 2rem; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-    h1 { text-align: center; color: #059669; }
-    label { font-weight: bold; display: block; margin-top: 1rem; }
-    input, select, textarea { width: 100%; padding: 0.75rem; margin-top: 0.5rem; border: 1px solid #ccc; border-radius: 5px; }
-    button { background: #059669; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; }
-    button:hover { background: #047857; }
-  </style>
-</head>
+<head><meta charset="UTF-8"><title>Sign Up</title></head>
 <body>
-<h1>Sign Up Your Business</h1>
-<form action="dashboard.html" method="get">
-<label for="bizname">Business Name</label>
-<input id="bizname" name="bizname" required="" type="text"/>
-<label for="logo">Upload Logo</label>
-<input accept="image/*" id="logo" name="logo" type="file"/>
-<label for="type">Business Type</label>
-<select id="type" name="type">
-<option value="Hair">Hair</option>
-<option value="Finance">Finance</option>
-<option value="Auto">Auto Detailing</option>
-<option value="Other">Other</option>
-</select>
-<label for="services">Services You Offer</label>
-<textarea id="services" name="services" placeholder="e.g., Braiding, Coloring, Tax Prep, etc." rows="4"></textarea>
-<button type="submit">Enter Portal</button>
-</form>
+  <h1>Business Owner Sign-Up</h1>
+  <form action="dashboard.html">
+    <label>Business Name: <input type="text" name="bizname" required></label><br>
+    <label>Logo: <input type="file" name="logo" accept="image/*"></label><br>
+    <label>Type of Services: <input type="text" name="services" required></label><br>
+    <button type="submit">Continue to Dashboard</button>
+  </form>
 </body>
 </html>
