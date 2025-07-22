@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Business Owner Sign-Up</title>
+  <style>
+    body { font-family: sans-serif; background: #f0fdf4; padding: 2rem; }
+    form { background: white; padding: 2rem; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+    h1 { text-align: center; color: #059669; }
+    label { font-weight: bold; display: block; margin-top: 1rem; }
+    input, select, textarea { width: 100%; padding: 0.75rem; margin-top: 0.5rem; border: 1px solid #ccc; border-radius: 5px; }
+    button { background: #059669; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; }
+    button:hover { background: #047857; }
+  </style>
+</head>
+<body>
+  <h1>Sign Up Your Business</h1>
+  <form action="dashboard.html" method="get">
+    <label for="bizname">Business Name</label>
+    <input type="text" id="bizname" name="bizname" required>
+
+    <label for="logo">Upload Logo</label>
+    <input type="file" id="logo" name="logo" accept="image/*">
+
+    <label for="type">Business Type</label>
+    <select id="type" name="type">
+      <option value="Hair">Hair</option>
+      <option value="Finance">Finance</option>
+      <option value="Auto">Auto Detailing</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="services">Services You Offer</label>
+    <textarea id="services" name="services" rows="4" placeholder="e.g., Braiding, Coloring, Tax Prep, etc."></textarea>
+
+    <button type="submit">Enter Portal</button>
+  </form>
+</body>
+</html>
