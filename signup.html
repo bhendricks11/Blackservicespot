@@ -1,13 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>Sign Up</title></head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up – Black Service Spot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+    }
+    header {
+      background: #000;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    form {
+      background: #fff;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    form h2 {
+      margin-top: 0;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background: #000;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background: #333;
+    }
+    #paypal-container {
+      margin-top: 40px;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
 <body>
-  <h1>Business Owner Sign-Up</h1>
-  <form action="dashboard.html">
-    <label>Business Name: <input type="text" name="bizname" required></label><br>
-    <label>Logo: <input type="file" name="logo" accept="image/*"></label><br>
-    <label>Type of Services: <input type="text" name="services" required></label><br>
-    <button type="submit">Continue to Dashboard</button>
-  </form>
+
+<header>
+  <h1>Business Owner Registration</h1>
+  <p>List your Black-owned business today</p>
+</header>
+
+<form id="signupForm" onsubmit="return handleSubmit(event)">
+  <h2>Business Information</h2>
+
+  <label for="businessName">Business Name:</label>
+  <input type="text" id="businessName" name="businessName" required>
+
+  <label for="businessType">Business Type:</label>
+  <select id="businessType" name="businessType" required>
+    <option value="">Select</option>
+    <option value="Salon">Salon</option>
+    <option value="Legal Services">Legal Services</option>
+    <option value="Restaurant">Restaurant</option>
+    <option value="Consulting">Consulting</option>
+    <option value="Health & Wellness">Health & Wellness</option>
+    <option value="Retail">Retail</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <label for="services">Services Offered:</label>
+  <input type="text" id="services" name="services" required placeholder="e.g. Haircuts, legal consultation, etc.">
+
+  <label for="logo">Upload Logo:</label>
+  <input type="file" id="logo" name="logo" accept="image/*" required>
+
+  <label for="notes">Private Notes (optional):</label>
+  <textarea id="notes" name="notes" rows="4" placeholder="Internal notes or reminders..."></textarea>
+
+  <input type="hidden" id="selectedPlan" name="selectedPlan">
+
+  <button type="submit">Continue to Payment</button>
+</form>
+
+<div id="paypal-container">
+  <h2>Complete Your Payment</h2>
+  <div id="paypal-button-container"></div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&vault=true&intent=subscription"></script>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedPlan = urlParams.get('plan') || 'monthly';
+  document.getElementById('selectedPlan').value = selectedPlan;
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(document.getElementById('signupForm'));
+    localStorage.setItem("businessName", formData.get("businessName"));
+    localStorage.setItem("businessType", formData.get("businessType"));
+    localStorage.setItem("services", formData.get("services"));
+    localStorage.setItem("notes", formData.get("notes"));
+
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("paypal-container").style.display = "block";
+
+    paypal.Buttons({
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          plan_id: selectedPlan === 'annual'
+            ? 'P-6VE96793E07454030NB7M7IA'
+            : '37739232P6875371KNB7M33A'
+        });
+      },
+      onApprove: function(data, actions) {
+        window.location.href = "dashboard.html";
+      }
+    }).render('#paypal-button-container');
+
+    return false;
+  }
+</script>
+
 </body>
 </html>
