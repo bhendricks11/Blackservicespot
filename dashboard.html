@@ -1,9 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>Dashboard</title></head>
+<head>
+  <meta charset="UTF-8">
+  <title>Business Owner Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      margin: 0;
+    }
+    header {
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .section h2 {
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 8px;
+    }
+    .card {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    #logoPreview {
+      max-width: 150px;
+      max-height: 150px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
 <body>
-  <h1>Your Business Dashboard</h1>
-  <img src="business1.jpeg" alt="Your Logo" width="150"/>
-  <p>Here you can manage your clients and services.</p>
+
+<header>
+  <h1>Welcome to Your Business Dashboard</h1>
+  <p>Manage your services, clients, and personal notes</p>
+</header>
+
+<div class="container">
+  <div class="section">
+    <h2>Your Logo</h2>
+    <div class="card">
+      <img id="logoPreview" src="" alt="Business Logo" />
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Business Information</h2>
+    <div class="card">
+      <p><strong>Name:</strong> <span id="bizName">Loading...</span></p>
+      <p><strong>Type:</strong> <span id="bizType">Loading...</span></p>
+      <p><strong>Services:</strong> <span id="bizServices">Loading...</span></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Private Notes</h2>
+    <div class="card">
+      <p id="bizNotes">None</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("bizName").innerText = localStorage.getItem("businessName") || "Not set";
+  document.getElementById("bizType").innerText = localStorage.getItem("businessType") || "Not set";
+  document.getElementById("bizServices").innerText = localStorage.getItem("services") || "Not set";
+  document.getElementById("bizNotes").innerText = localStorage.getItem("notes") || "None";
+
+  // Display uploaded logo if available
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.style.display = 'none';
+
+  // Emulate loading previously uploaded logo
+  const logoFile = localStorage.getItem("logoDataURL");
+  if (logoFile) {
+    document.getElementById("logoPreview").src = logoFile;
+  }
+</script>
+
 </body>
 </html>
