@@ -1,1 +1,52 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Business Owner Sign-Up</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background-color: #f8f8f8; }
+    h1 { text-align: center; }
+    form { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    label { display: block; margin: 15px 0 5px; }
+    input[type="text"], input[type="file"] { width: 100%; padding: 10px; margin-bottom: 10px; }
+    button { background-color: #28a745; color: white; padding: 12px 25px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<h1>Business Owner Sign-Up</h1>
+
+<form id="signupForm">
+  <label>Business Name:</label>
+  <input type="text" id="bizName" required>
+
+  <label>Logo:</label>
+  <input type="file" id="bizLogo" accept="image/*" required>
+
+  <label>Type of Services:</label>
+  <input type="text" id="bizServices" required>
+
+  <input type="hidden" id="planType" value="">
+
+  <button type="submit">Continue to Payment</button>
+</form>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const plan = urlParams.get('plan') || 'monthly';
+  document.getElementById('planType').value = plan;
+
+  document.getElementById("signupForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const planType = document.getElementById("planType").value;
+    let paypalLink = planType === "annual"
+      ? "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6VE96793E07454030NB7M7IA"
+      : "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
+    window.location.href = paypalLink;
+  });
+</script>
+
+</body>
+</html>
+
