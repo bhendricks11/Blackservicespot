@@ -6,12 +6,12 @@
   <title>Business Owner Sign-Up</title>
   <script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&vault=true&intent=subscription"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background-color: #f8f8f8; }
-    h1 { text-align: center; }
-    form, #paypal-button-container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-    label { display: block; margin: 15px 0 5px; }
-    input[type="text"], input[type="file"], select { width: 100%; padding: 10px; margin-bottom: 10px; }
-    button { background-color: #28a745; color: white; padding: 12px 25px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
+    body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 40px; }
+    h1 { text-align: center; color: #333; }
+    form, #paypal-button-container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; }
+    button { width: 100%; background: #0070ba; color: white; padding: 12px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -19,26 +19,26 @@
 <h1>Business Owner Sign-Up</h1>
 
 <form id="signupForm">
-  <label>Business Name:</label>
-  <input type="text" id="bizName" required>
+  <label for="bizName">Business Name</label>
+  <input type="text" id="bizName" name="bizName" required>
 
-  <label>Logo:</label>
-  <input type="file" id="bizLogo" accept="image/*" required>
+  <label for="bizLogo">Upload Logo</label>
+  <input type="file" id="bizLogo" name="bizLogo" accept="image/*" required>
 
-  <label>Type of Services:</label>
-  <input type="text" id="bizServices" required>
+  <label for="bizServices">Type of Services</label>
+  <input type="text" id="bizServices" name="bizServices" required>
 
-  <label>Choose Your Plan:</label>
-  <select id="planSelect" required>
-    <option value="">-- Select Plan --</option>
+  <label for="planSelect">Select a Plan</label>
+  <select id="planSelect" name="planSelect" required>
+    <option value="">-- Choose --</option>
     <option value="monthly">Monthly - $29.95</option>
-    <option value="annual">Annual - $287.52 (20% off)</option>
+    <option value="annual">Annual - $287.52</option>
   </select>
 
   <button type="submit">Continue to PayPal</button>
 </form>
 
-<div id="paypal-button-container" style="display:none;"></div>
+<div id="paypal-button-container" style="margin-top: 30px; display: none;"></div>
 
 <script>
   let selectedPlan = "";
@@ -47,7 +47,7 @@
     e.preventDefault();
     selectedPlan = document.getElementById("planSelect").value;
     if (!selectedPlan) {
-      alert("Please select a subscription plan.");
+      alert("Please select a plan.");
       return;
     }
 
@@ -57,9 +57,9 @@
     paypal.Buttons({
       createSubscription: function(data, actions) {
         return actions.subscription.create({
-          plan_id: selectedPlan === "annual"
-            ? "P-6VE96793E07454030NB7M7IA"
-            : "P-37739232P6875371KNB7M33A"
+          plan_id: selectedPlan === "monthly"
+            ? "P-37739232P6875371KNB7M33A"
+            : "P-6VE96793E07454030NB7M7IA"
         });
       },
       onApprove: function(data, actions) {
