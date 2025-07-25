@@ -1,36 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Business Owner Sign-Up</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
-  <script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&vault=true&intent=subscription"></script>
   <style>
-    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
-    .form-container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
-    input { display: block; width: 100%; padding: 10px; margin-bottom: 10px; }
-    button { padding: 10px 15px; background-color: #0070ba; color: white; border: none; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    form {
+      max-width: 500px;
+      margin: auto;
+    }
+    input {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      background-color: #004080;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Business Owner Sign-Up</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <input type="text" id="ownerName" placeholder="Owner Name" />
-    <input type="text" id="businessName" placeholder="Business Name" />
+  <h2>Business Owner Sign-Up</h2>
+  <form id="signup-form">
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <input type="text" id="owner-name" placeholder="Owner Name" required />
+    <input type="text" id="business-name" placeholder="Business Name" required />
     <input type="text" id="address" placeholder="Address (optional)" />
-    <input type="text" id="phone" placeholder="Phone Number" />
+    <input type="text" id="phone" placeholder="Phone Number" required />
     <input type="text" id="logo" placeholder="Logo URL" />
-    <input type="text" id="city" placeholder="City" />
-    <input type="text" id="state" placeholder="State" />
-    <input type="text" id="services" placeholder="List of Services (comma-separated)" />
+    <input type="text" id="city" placeholder="City" required />
+    <input type="text" id="state" placeholder="State" required />
+    <input type="text" id="services" placeholder="List of Services (comma-separated)" required />
     <input type="text" id="hours" placeholder="Hours of Operation (optional)" />
-    <button onclick="register()">Register and Continue</button>
-    <div id="paypal-button-container" style="margin-top: 20px;"></div>
-  </div>
+    <button type="submit">Register and Continue</button>
+  </form>
+
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
   <script>
     const firebaseConfig = {
@@ -43,61 +61,57 @@
       measurementId: "G-HDD97PF8K7"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    let newUID = null;
+    document.getElementById('signup-form').addEventListener('submit', function (e) {
+      e.preventDefault();
 
-    function register() {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      const data = {
-        ownerName: document.getElementById('ownerName').value,
-        businessName: document.getElementById('businessName').value,
-        address: document.getElementById('address').value,
-        phone: document.getElementById('phone').value,
-        logo: document.getElementById('logo').value,
-        city: document.getElementById('city').value,
-        state: document.getElementById('state').value,
-        services: document.getElementById('services').value.split(',').map(x => x.trim()),
-        email,
-        hours: document.getElementById('hours').value
-      };
+      const ownerName = document.getElementById('owner-name').value;
+      const businessName = document.getElementById('business-name').value;
+      const address = document.getElementById('address').value;
+      const phone = document.getElementById('phone').value;
+      const logo = document.getElementById('logo').value;
+      const city = document.getElementById('city').value;
+      const state = document.getElementById('state').value;
+      const services = document.getElementById('services').value;
+      const hours = document.getElementById('hours').value;
 
-      auth.createUserWithEmailAndPassword(email, password).then(userCred => {
-        newUID = userCred.user.uid;
-        return db.collection('Business_owners').doc(newUID).set(data);
-      }).then(() => {
-        launchPayPal(newUID);
-      }).catch(error => {
-        alert("Error: " + error.message);
-      });
-    }
-
-    function launchPayPal(uid) {
-      const params = new URLSearchParams(window.location.search);
-      const plan = params.get("plan");
-
-      let planId = "";
-      if (plan === "monthly") {
-        planId = "P-37739232P6875371KNB7M33A";
-      } else if (plan === "annual") {
-        planId = "P-6VE96793E07454030NB7M7IA";
-      } else {
-        alert("Missing or invalid plan parameter in URL.");
-        return;
-      }
-
-      paypal.Buttons({
-        createSubscription: function(data, actions) {
-          return actions.subscription.create({ plan_id: planId });
-        },
-        onApprove: function(data, actions) {
-          window.location.href = `dashboard.html?uid=${uid}`;
-        }
-      }).render('#paypal-button-container');
-    }
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const uid = userCredential.user.uid;
+          return db.collection("Business_owners").doc(uid).set({
+            email,
+            ownerName,
+            businessName,
+            address,
+            phone,
+            logo,
+            city,
+            state,
+            services,
+            hours
+          });
+        })
+        .then(() => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const plan = urlParams.get('plan');
+          if (plan === 'monthly') {
+            window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
+          } else if (plan === 'annual') {
+            window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6VE96793E07454030NB7M7IA";
+          } else {
+            alert("No plan was selected.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Signup failed: " + error.message);
+        });
+    });
   </script>
 </body>
 </html>
