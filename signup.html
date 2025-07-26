@@ -81,6 +81,63 @@
 
     <button type="submit">Continue to Payment</button>
 </form>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+    authDomain: "black-service-spot.firebaseapp.com",
+    projectId: "black-service-spot",
+    storageBucket: "black-service-spot.firebasestorage.app",
+    messagingSenderId: "707361777966",
+    appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+    measurementId: "G-HDD97PF8K7"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  document.getElementById("registrationForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    console.log("Submitting form...");
+
+    const businessName = document.getElementById("businessName").value;
+    const businessType = document.getElementById("businessType").value;
+    const services = document.getElementById("services").value;
+    const logo = document.getElementById("logo")?.value || "";
+    const notes = document.getElementById("notes")?.value || "";
+
+    const email = businessName.replace(/\s+/g, '').toLowerCase() + "@bss.com";
+    const password = "DefaultPass123!";
+
+    try {
+      console.log("Creating user...");
+      const userCred = await auth.createUserWithEmailAndPassword(email, password);
+      const uid = userCred.user.uid;
+      console.log("User created:", uid);
+
+      await db.collection("Business_owners").doc("Client_list").collection("entries").doc(uid).set({
+        businessName, businessType, services, logo, notes, uid, email
+      });
+
+      console.log("Saved to Firestore.");
+      const selectedPlan = confirm("Click OK for Monthly ($29.95) or Cancel for Annual ($287.52)");
+      if (selectedPlan) {
+        console.log("Redirecting to Monthly PayPal...");
+        window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
+      } else {
+        console.log("Redirecting to Annual PayPal...");
+        window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6VE96793E07454030NB7M7IA";
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      alert("Signup failed: " + err.message);
+    }
+  });
+</script>
 </body>
 </html>
