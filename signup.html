@@ -4,28 +4,15 @@
   <meta charset="UTF-8">
   <title>Business Owner Sign-Up</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-    }
-    form {
-      max-width: 500px;
-      margin: auto;
-    }
-    input {
+    body { font-family: Arial; padding: 40px; background-color: #f7f7f7; }
+    form { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 10px; }
+    input, select, button {
       display: block;
       width: 100%;
+      padding: 10px;
       margin-bottom: 15px;
-      padding: 10px;
     }
-    button {
-      padding: 10px;
-      width: 100%;
-      background-color: #004080;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+    button { background-color: #004080; color: white; border: none; }
   </style>
 </head>
 <body>
@@ -42,10 +29,15 @@
     <input type="text" id="state" placeholder="State" required />
     <input type="text" id="services" placeholder="List of Services (comma-separated)" required />
     <input type="text" id="hours" placeholder="Hours of Operation (optional)" />
+    <select id="plan" required>
+      <option value="">-- Select Subscription Plan --</option>
+      <option value="monthly">Monthly - $29.95</option>
+      <option value="annual">Annual - $287.52 (20% off)</option>
+    </select>
     <button type="submit">Register and Continue</button>
   </form>
 
-  <!-- Firebase App (the core Firebase SDK) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
@@ -61,11 +53,11 @@
       measurementId: "G-HDD97PF8K7"
     };
 
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    document.getElementById('signup-form').addEventListener('submit', function (e) {
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
       e.preventDefault();
 
       const email = document.getElementById('email').value;
@@ -79,37 +71,33 @@
       const state = document.getElementById('state').value;
       const services = document.getElementById('services').value;
       const hours = document.getElementById('hours').value;
+      const plan = document.getElementById('plan').value;
+
+      if (!plan) {
+        alert("Please select a subscription plan.");
+        return;
+      }
 
       auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(userCredential => {
           const uid = userCredential.user.uid;
           return db.collection("Business_owners").doc(uid).set({
-            email,
-            ownerName,
-            businessName,
-            address,
-            phone,
-            logo,
-            city,
-            state,
-            services,
-            hours
-          });
+            email, ownerName, businessName, address, phone, logo,
+            city, state, services, hours
+          }).then(() => uid);
         })
-        .then(() => {
-          const urlParams = new URLSearchParams(window.location.search);
-          const plan = urlParams.get('plan');
-          if (plan === 'monthly') {
-            window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
-          } else if (plan === 'annual') {
-            window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6VE96793E07454030NB7M7IA";
+        .then(uid => {
+          let paypalURL = "";
+          if (plan === "monthly") {
+            paypalURL = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
           } else {
-            alert("No plan was selected.");
+            paypalURL = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6VE96793E07454030NB7M7IA";
           }
+          window.location.href = paypalURL;
         })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("Signup failed: " + error.message);
+        .catch(error => {
+          console.error(error);
+          alert("Registration failed: " + error.message);
         });
     });
   </script>
