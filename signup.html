@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Business Owner Registration (Debug Mode)</title>
+  <title>Business Owner Registration (Enhanced Debug)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -63,8 +63,8 @@
 <body>
 
 <header>
-  <h1>Business Owner Registration (Debug Mode)</h1>
-  <p>Track everything happening below 👇</p>
+  <h1>Business Owner Registration (Enhanced Debug)</h1>
+  <p>Follow console messages below carefully</p>
 </header>
 
 <form id="registrationForm">
@@ -110,26 +110,41 @@
 function log(msg) {
   const logDiv = document.getElementById("debug-log");
   logDiv.innerHTML += "<br>" + msg;
+  console.log(msg);
 }
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-  authDomain: "black-service-spot.firebaseapp.com",
-  projectId: "black-service-spot",
-  storageBucket: "black-service-spot.firebasestorage.app",
-  messagingSenderId: "707361777966",
-  appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-  measurementId: "G-HDD97PF8K7"
-};
+try {
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+    authDomain: "black-service-spot.firebaseapp.com",
+    projectId: "black-service-spot",
+    storageBucket: "black-service-spot.firebasestorage.app",
+    messagingSenderId: "707361777966",
+    appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+    measurementId: "G-HDD97PF8K7"
+  };
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  log("[✅ Firebase initialized]");
+} catch (err) {
+  log("[❌ Firebase initialization failed: " + err.message + "]");
+}
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", function () {
+  log("[🚀 DOMContentLoaded fired]");
+
   const form = document.getElementById("registrationForm");
 
-  form.addEventListener("submit", async (e) => {
+  if (!form) {
+    log("[❌ ERROR: registrationForm not found]");
+    return;
+  }
+
+  log("[🧠 Hooking form submission...]");
+
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
     log("[🧠 Form submission started]");
 
@@ -145,8 +160,8 @@ window.addEventListener("DOMContentLoaded", () => {
     const password = "DefaultPass123!";
 
     if (!plan) {
-      alert("Select a plan.");
       log("[❌ No plan selected]");
+      alert("Please select a plan.");
       return;
     }
 
@@ -164,7 +179,7 @@ window.addEventListener("DOMContentLoaded", () => {
         .set({ businessName, businessType, services, logo, notes, uid, email, plan });
 
       log("[✅ Firestore write success]");
-      alert("Saved ✅ — now redirecting to PayPal");
+      alert("Saved ✅ — redirecting to PayPal...");
 
       if (plan === "monthly") {
         window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
@@ -174,7 +189,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     } catch (err) {
       log("[❌ ERROR: " + err.message + "]");
-      alert("Failed ❌ — see debug console");
+      alert("Failed ❌ — see debug log below");
     }
   });
 });
