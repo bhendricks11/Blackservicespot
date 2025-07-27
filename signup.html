@@ -10,7 +10,7 @@
             background: #f2f2f2;
         }
         header {
-            background: linear-gradient(to right, #7de2fc, #50c878); /* Gradient green */
+            background: linear-gradient(to right, #7de2fc, #50c878);
             color: white;
             padding: 30px 20px;
             text-align: center;
@@ -79,9 +79,16 @@
     <label for="notes">Private Notes (optional):</label>
     <textarea id="notes" name="notes" rows="4" placeholder="Internal notes or reminders..."></textarea>
 
+    <label for="plan">Choose Subscription Plan:</label>
+    <select id="plan" name="plan" required>
+        <option value="">Select</option>
+        <option value="monthly">Monthly - $29.95</option>
+        <option value="annual">Annual - $287.52 (20% off)</option>
+    </select>
+
     <button type="submit">Continue to Payment</button>
 </form>
-<!-- Firebase SDKs -->
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
@@ -103,42 +110,51 @@
 
   window.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("registrationForm");
-    if (!form) {
-      console.error("registrationForm not found!");
-      return;
-    }
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      console.log("Form submission intercepted.");
 
       const businessName = document.getElementById("businessName").value;
       const businessType = document.getElementById("businessType").value;
       const services = document.getElementById("services").value;
-      const logoInput = document.getElementById("logo");
-      const logo = logoInput && logoInput.files.length ? logoInput.files[0].name : "";
-      const notes = document.getElementById("notes")?.value || "";
+      const logoFile = document.getElementById("logo").files[0];
+      const logo = logoFile ? logoFile.name : "";
+      const notes = document.getElementById("notes").value || "";
+      const plan = document.getElementById("plan").value;
+
+      if (!plan) {
+        alert("Please select a subscription plan.");
+        return;
+      }
 
       const email = businessName.replace(/\s+/g, '').toLowerCase() + "@bss.com";
       const password = "DefaultPass123!";
 
       try {
-        console.log("Creating Firebase user...");
         const userCred = await auth.createUserWithEmailAndPassword(email, password);
         const uid = userCred.user.uid;
-        console.log("User created with UID:", uid);
 
-        await db.collection("Business_owners").doc("Client_list").collection("entries").doc(uid).set({
-          businessName, businessType, services, logo, notes, uid, email
-        });
+        await db.collection("Business_owners")
+                .doc("Client_list")
+                .collection("entries")
+                .doc(uid)
+                .set({
+                    businessName,
+                    businessType,
+                    services,
+                    logo,
+                    notes,
+                    uid,
+                    email,
+                    plan
+                });
 
-        console.log("Data written to Firestore.");
-        const selectedPlan = confirm("Click OK for Monthly or Cancel for Annual.");
-        if (selectedPlan) {
+        if (plan === "monthly") {
           window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
         } else {
           window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6VE96793E07454030NB7M7IA";
         }
+
       } catch (err) {
         console.error("Signup failed:", err.message);
         alert("Signup failed: " + err.message);
