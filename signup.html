@@ -10,7 +10,7 @@
             background: #f2f2f2;
         }
         header {
-            background: linear-gradient(to right, #7de2fc, #50c878);
+            background: linear-gradient(to right, #7de2fc, #50c878); /* Gradient green */
             color: white;
             padding: 30px 20px;
             text-align: center;
@@ -79,7 +79,7 @@
     <label for="notes">Private Notes (optional):</label>
     <textarea id="notes" name="notes" rows="4" placeholder="Internal notes or reminders..."></textarea>
 
-    <label for="plan">Choose Subscription Plan:</label>
+    <label for="plan">Choose Plan:</label>
     <select id="plan" name="plan" required>
         <option value="">Select</option>
         <option value="monthly">Monthly - $29.95</option>
@@ -122,32 +122,29 @@
       const notes = document.getElementById("notes").value || "";
       const plan = document.getElementById("plan").value;
 
-      if (!plan) {
-        alert("Please select a subscription plan.");
-        return;
-      }
-
       const email = businessName.replace(/\s+/g, '').toLowerCase() + "@bss.com";
       const password = "DefaultPass123!";
 
+      if (!plan) {
+        alert("Please select a plan.");
+        return;
+      }
+
       try {
+        console.log("Creating Firebase user...");
         const userCred = await auth.createUserWithEmailAndPassword(email, password);
         const uid = userCred.user.uid;
+        console.log("User created with UID:", uid);
 
         await db.collection("Business_owners")
-                .doc("Client_list")
-                .collection("entries")
-                .doc(uid)
-                .set({
-                    businessName,
-                    businessType,
-                    services,
-                    logo,
-                    notes,
-                    uid,
-                    email,
-                    plan
-                });
+          .doc("Client_list")
+          .collection("entries")
+          .doc(uid)
+          .set({
+            businessName, businessType, services, logo, notes, uid, email, plan
+          });
+
+        alert("Saved successfully! Redirecting to PayPal...");
 
         if (plan === "monthly") {
           window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
