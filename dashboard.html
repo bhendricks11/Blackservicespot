@@ -2,72 +2,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Business Owner Dashboard</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Business Dashboard</title>
   <style>
-    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
-    .container { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; }
-    h2 { color: #333; }
-    ul { padding-left: 20px; }
+    body { font-family: sans-serif; background: #f3f4f6; padding: 2rem; }
+    .container { max-width: 900px; margin: auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+    h1 { color: #059669; }
+    label { font-weight: bold; display: block; margin-top: 1rem; }
+    table { width: 100%; margin-top: 2rem; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 0.75rem; text-align: left; }
+    th { background: #f0fdf4; }
+    img { max-width: 150px; display: block; margin-top: 1rem; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Welcome to Your Business Portal</h2>
-    <div id="owner-info"></div>
-    <hr />
-    <h3>Client List</h3>
-    <ul id="client-list"></ul>
+    <h1>Welcome to Your Business Portal</h1>
+    <p>Manage your services and customers here.</p>
+
+    <label for="logoUpload">Your Logo:</label>
+    <input type="file" id="logoUpload" accept="image/*" />
+    <img id="previewLogo" src="https://via.placeholder.com/150?text=Your+Logo" alt="Your Logo" />
+
+    <h2>Your Clients</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Client Name</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Private Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tanisha Green</td>
+          <td>2025-08-02</td>
+          <td>1:00 PM</td>
+          <td>Wants monthly service follow-up.</td>
+        </tr>
+        <tr>
+          <td>Isaac Miles</td>
+          <td>2025-08-05</td>
+          <td>9:30 AM</td>
+          <td>First-time customer. Asked about bundles.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-      authDomain: "black-service-spot.firebaseapp.com",
-      projectId: "black-service-spot",
-      storageBucket: "black-service-spot.firebasestorage.app",
-      messagingSenderId: "707361777966",
-      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-      measurementId: "G-HDD97PF8K7"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    const params = new URLSearchParams(window.location.search);
-    const uid = params.get("uid");
-    const ownerDiv = document.getElementById("owner-info");
-    const clientList = document.getElementById("client-list");
-
-    if (uid) {
-      db.collection("Business_owners").doc(uid).get().then(doc => {
-        if (doc.exists) {
-          const data = doc.data();
-          ownerDiv.innerHTML = `
-            <strong>Name:</strong> ${data.ownerName}<br>
-            <strong>Business Name:</strong> ${data.businessName}<br>
-            <strong>Email:</strong> ${data.email}<br>
-            <strong>Phone:</strong> ${data.phone}<br>
-            <strong>Address:</strong> ${data.address || ''}<br>
-            <strong>City/State:</strong> ${data.city}, ${data.state}<br>
-            <strong>Services:</strong> ${data.services.join(", ")}<br>
-            <strong>Hours:</strong> ${data.hours || ''}<br>
-            <strong>Logo:</strong> <img src="${data.logo}" width="100" />
-          `;
-        }
-      });
-
-      db.collection("Business_owners").doc(uid).collection("Client_list").get().then(snapshot => {
-        snapshot.forEach(doc => {
-          const client = doc.data();
-          const li = document.createElement("li");
-          li.textContent = `${client.name} | ${client.phone} | ${client.address} | ${client.instructions} | Invoice: ${client.invoiceNumber}`;
-          clientList.appendChild(li);
-        });
-      });
-    }
+    document.getElementById('logoUpload').addEventListener('change', function (e) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        document.getElementById('previewLogo').src = reader.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
   </script>
+
+<script>
+  // Preview uploaded logo
+  document.getElementById('logoUpload').addEventListener('change', function (e) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      document.getElementById('logoPreview').src = reader.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  });
+</script>
+
+<!-- Enhanced layout and features -->
+<style>
+  .section-title {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    color: #059669;
+    font-weight: 600;
+    border-bottom: 2px solid #d1fae5;
+    padding-bottom: 0.5rem;
+  }
+
+  .client-table th, .client-table td {
+    font-size: 0.95rem;
+  }
+
+  .highlight {
+    background-color: #ecfdf5;
+    border-left: 4px solid #059669;
+    padding: 1rem;
+    margin-top: 2rem;
+    border-radius: 0.5rem;
+  }
+</style>
+
+<div class="highlight">
+  <h2 class="section-title">Your Business at a Glance</h2>
+  <img id="logoPreview" src="https://via.placeholder.com/150?text=Your+Logo" alt="Business Logo Preview"/>
+</div>
+
+<div>
+  <h2 class="section-title">Client Management</h2>
+  <table class="client-table">
+    <thead>
+      <tr>
+        <th>Client Name</th>
+        <th>Service Performed</th>
+        <th>Date</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John Doe</td>
+        <td>Haircut</td>
+        <td>2025-07-21</td>
+        <td>Preferred short fades</td>
+      </tr>
+      <tr>
+        <td>Lisa Ray</td>
+        <td>Mobile Car Wash</td>
+        <td>2025-07-19</td>
+        <td>Requested interior detailing</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 </body>
+
 </html>
