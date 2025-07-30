@@ -2,197 +2,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Business Owner Registration (Enhanced Debug)</title>
+  <title>Business Owner Registration (Offline Firebase Fix)</title>
+  <meta charset="UTF-8">
+  <script src="firebase-app.js"></script>
+  <script src="firebase-auth.js"></script>
+  <script src="firebase-firestore.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f2f2f2;
-    }
-    header {
-      background: linear-gradient(to right, #7de2fc, #50c878);
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
-    form {
-      background: white;
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 25px;
-      border-radius: 8px;
-    }
-    label {
-      display: block;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      margin-top: 30px;
-      width: 100%;
-      padding: 12px;
-      background-color: #50c878;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #3da864;
-    }
-    #debug-log {
-      background: #000;
-      color: #0f0;
-      padding: 10px;
-      font-family: monospace;
-      max-width: 600px;
-      margin: 20px auto;
-      border-radius: 6px;
-      height: 200px;
-      overflow-y: scroll;
-    }
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 30px; }
+    form { background: white; max-width: 600px; margin: auto; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; }
+    button { margin-top: 20px; padding: 12px; width: 100%; background: #28a745; color: white; font-size: 16px; border: none; border-radius: 4px; }
+    #log { background: black; color: lime; font-family: monospace; padding: 10px; margin-top: 25px; height: 200px; overflow-y: auto; border-radius: 6px; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Business Owner Registration (Enhanced Debug)</h1>
-  <p>Follow console messages below carefully</p>
-</header>
+<h2 style="text-align:center;">Business Owner Registration (Local Firebase Scripts)</h2>
 
 <form id="registrationForm">
-  <label for="businessName">Business Name:</label>
-  <input type="text" id="businessName" name="businessName" required>
-
-  <label for="businessType">Business Type:</label>
-  <select id="businessType" name="businessType" required>
-    <option value="">Select</option>
-    <option value="Beauty">Beauty</option>
-    <option value="Food">Food</option>
-    <option value="Health">Health</option>
-    <option value="Retail">Retail</option>
-    <option value="Other">Other</option>
-  </select>
-
-  <label for="services">Services Offered:</label>
-  <input type="text" id="services" name="services" placeholder="e.g. Haircuts, legal consultation">
-
-  <label for="logo">Upload Logo:</label>
-  <input type="file" id="logo" name="logo">
-
-  <label for="notes">Private Notes (optional):</label>
-  <textarea id="notes" name="notes" rows="4"></textarea>
-
-  <label for="plan">Choose Plan:</label>
-  <select id="plan" name="plan" required>
-    <option value="">Select</option>
-    <option value="monthly">Monthly - $29.95</option>
-    <option value="annual">Annual - $287.52</option>
-  </select>
-
+  <label>Business Name:<input type="text" id="businessName" required></label>
+  <label>Business Type:
+    <select id="businessType" required>
+      <option value="">Select</option>
+      <option>Beauty</option><option>Food</option><option>Health</option>
+      <option>Retail</option><option>Other</option>
+    </select>
+  </label>
+  <label>Services Offered:<input type="text" id="services"></label>
+  <label>Upload Logo:<input type="file" id="logo"></label>
+  <label>Private Notes:<textarea id="notes"></textarea></label>
+  <label>Choose Plan:
+    <select id="plan" required>
+      <option value="">Select</option>
+      <option value="monthly">Monthly - $29.95</option>
+      <option value="annual">Annual - $287.52</option>
+    </select>
+  </label>
   <button type="submit">Continue to Payment</button>
 </form>
 
-<div id="debug-log">[📋 Debug console initialized]</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+<div id="log">[📋 Debug log initialized]</div>
 
 <script>
-function log(msg) {
-  const logDiv = document.getElementById("debug-log");
-  logDiv.innerHTML += "<br>" + msg;
-  console.log(msg);
-}
-
-try {
-  const firebaseConfig = {
-    apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-    authDomain: "black-service-spot.firebaseapp.com",
-    projectId: "black-service-spot",
-    storageBucket: "black-service-spot.firebasestorage.app",
-    messagingSenderId: "707361777966",
-    appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-    measurementId: "G-HDD97PF8K7"
+  const log = (msg) => {
+    const el = document.getElementById("log");
+    el.innerHTML += "<br>" + msg;
+    console.log(msg);
   };
 
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-  log("[✅ Firebase initialized]");
-} catch (err) {
-  log("[❌ Firebase initialization failed: " + err.message + "]");
-}
+  document.addEventListener("DOMContentLoaded", () => {
+    log("[🚀 DOM loaded]");
 
-window.addEventListener("DOMContentLoaded", function () {
-  log("[🚀 DOMContentLoaded fired]");
-
-  const form = document.getElementById("registrationForm");
-
-  if (!form) {
-    log("[❌ ERROR: registrationForm not found]");
-    return;
-  }
-
-  log("[🧠 Hooking form submission...]");
-
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-    log("[🧠 Form submission started]");
-
-    const businessName = document.getElementById("businessName").value;
-    const businessType = document.getElementById("businessType").value;
-    const services = document.getElementById("services").value;
-    const logoFile = document.getElementById("logo").files[0];
-    const logo = logoFile ? logoFile.name : "";
-    const notes = document.getElementById("notes").value;
-    const plan = document.getElementById("plan").value;
-
-    const email = businessName.replace(/\s+/g, '').toLowerCase() + "@bss.com";
-    const password = "DefaultPass123!";
-
-    if (!plan) {
-      log("[❌ No plan selected]");
-      alert("Please select a plan.");
+    if (!window.firebase || !firebase.initializeApp) {
+      log("[❌ Firebase NOT loaded — check local script paths]");
       return;
     }
 
-    try {
-      log("[🔐 Creating Firebase user...]");
-      const userCred = await auth.createUserWithEmailAndPassword(email, password);
-      const uid = userCred.user.uid;
-      log("[✅ Firebase user created: " + uid + "]");
+    log("[✅ Firebase scripts loaded]");
 
-      log("[💾 Writing to Firestore...]");
-      await db.collection("Business_owners")
-        .doc("Client_list")
-        .collection("entries")
-        .doc(uid)
-        .set({ businessName, businessType, services, logo, notes, uid, email, plan });
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+      authDomain: "black-service-spot.firebaseapp.com",
+      projectId: "black-service-spot",
+      storageBucket: "black-service-spot.firebasestorage.app",
+      messagingSenderId: "707361777966",
+      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+      measurementId: "G-HDD97PF8K7"
+    };
 
-      log("[✅ Firestore write success]");
-      alert("Saved ✅ — redirecting to PayPal...");
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    log("[🔥 Firebase initialized]");
 
-      if (plan === "monthly") {
-        window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
-      } else {
-        window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6VE96793E07454030NB7M7IA";
+    const form = document.getElementById("registrationForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      log("[🧠 Form submitted]");
+
+      const businessName = document.getElementById("businessName").value;
+      const businessType = document.getElementById("businessType").value;
+      const services = document.getElementById("services").value;
+      const notes = document.getElementById("notes").value;
+      const plan = document.getElementById("plan").value;
+      const logo = document.getElementById("logo").files[0]?.name || "";
+      const email = businessName.replace(/\s+/g, '').toLowerCase() + "@bss.com";
+      const password = "TempPass123!";
+
+      try {
+        const cred = await auth.createUserWithEmailAndPassword(email, password);
+        const uid = cred.user.uid;
+        log("[✅ Firebase user created: " + uid + "]");
+        await db.collection("Business_owners_Client_list").doc(uid).set({
+          businessName, businessType, services, notes, logo, email, uid, plan
+        });
+        log("[✅ Firestore write successful]");
+        alert("Success! Redirecting to PayPal...");
+        if (plan === "monthly") {
+          window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-37739232P6875371KNB7M33A";
+        } else {
+          window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6VE96793E07454030NB7M7IA";
+        }
+      } catch (err) {
+        log("[❌ ERROR: " + err.message + "]");
+        alert("Signup failed: " + err.message);
       }
-
-    } catch (err) {
-      log("[❌ ERROR: " + err.message + "]");
-      alert("Failed ❌ — see debug log below");
-    }
+    });
   });
-});
 </script>
+
 </body>
 </html>
