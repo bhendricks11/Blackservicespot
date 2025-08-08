@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+  body{min-height:100vh;margin:0;background:linear-gradient(135deg,#0f7a53 0%,#1aa06d 40%,#e8fff6 100%);background-attachment:fixed}
+  #debug,#debugLog,.debug{display:none!important}
+</style>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Business Owner Registration</title>
@@ -151,5 +156,49 @@
       }
     });
   </script>
+  <script>
+// Read ?plan=monthly|annual and preselect if you have a plan <select> or radios
+(function(){
+  const p=new URLSearchParams(location.search).get('plan');
+  const sel=document.getElementById('planSelect');
+  if(sel && (p==='monthly'||p==='annual')) sel.value=p;
+})();
+
+// Stable PayPal redirect (keeps your Firestore code)
+const PLAN_IDS={ monthly:'37739232P6875371KNB7M33A', annual:'P-6VE96793E07454030NB7M7IA' };
+async function continueToPayment(e){
+  e.preventDefault();
+  const plan = (document.getElementById('planSelect')?.value) || 'monthly';
+  if(!PLAN_IDS[plan]) return alert('Choose Monthly or Annual.');
+  try{
+    if(typeof saveToFirestore==='function'){ await saveToFirestore(); }
+  }catch(err){ console.error(err); /* continue anyway */ }
+  location.href=`https://www.paypal.com/webapps/billing/subscriptions?plan_id=${PLAN_IDS[plan]}`;
+}
+// Attach to your existing submit button/form
+(document.getElementById('signupForm') || document.querySelector('form'))
+  ?.addEventListener('submit', continueToPayment);
+</script>
+  <script src="/js/cities-by-state.js"></script>
+<script>
+(function(){
+  const s=document.getElementById('stateSelect');
+  const c=document.getElementById('citySelect');
+  if(!s||!c||!window.CITIES_BY_STATE) return;
+
+  Object.keys(CITIES_BY_STATE).forEach(st=>{
+    const o=document.createElement('option'); o.value=st; o.textContent=st; s.appendChild(o);
+  });
+  s.addEventListener('change',()=>{
+    c.innerHTML='<option value="">Select a city…</option>';
+    const list=CITIES_BY_STATE[s.value]||[];
+    list.forEach(city=>{
+      const o=document.createElement('option'); o.value=city; o.textContent=city; c.appendChild(o);
+    });
+    c.disabled=!list.length;
+  });
+})();
+</script>
+
 </body>
 </html>
