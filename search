@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find Businesses</title>
+  <style>
+    :root { --brand:#059669; --brand-100:#ecfdf5; --brand-200:#d1fae5; --text:#111827; --muted:#6b7280; --bg:#f3f4f6; }
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text);}
+    .wrap{max-width:1000px; margin:2rem auto; background:#fff; border-radius:14px; box-shadow:0 8px 30px rgba(0,0,0,.06); padding:1.25rem;}
+    h1{color:var(--brand); margin:.25rem 0 1rem;}
+    .row{display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem;}
+    .row .wide{grid-column: span 2;}
+    label{font-weight:700; font-size:.95rem;}
+    select,input{width:100%; padding:.6rem .7rem; border:1px solid #e5e7eb; border-radius:10px; outline:none;}
+    .btn{appearance:none; border:1px solid var(--brand); background:var(--brand); color:#fff; padding:.7rem 1rem; border-radius:10px; font-weight:700; cursor:pointer;}
+    .btn.secondary{background:#fff; color:var(--brand)}
+    .toolbar{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.75rem;}
+    .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1rem;}
+    .pill{display:inline-block; font-size:.85rem; border:1px solid var(--brand-200); background:var(--brand-100); color:#065f46; padding:.25rem .5rem; border-radius:999px; margin-right:.25rem;}
+    .result{border:1px solid #e5e7eb; border-radius:12px; padding:1rem; display:grid; gap:.35rem;}
+    .muted{color:var(--muted)}
+    .spinner{display:none; margin:.75rem 0; height:4px; background:#e5e7eb; border-radius:4px; overflow:hidden;}
+    .spinner>div{height:100%; width:30%; background:var(--brand); animation:spin 1.2s infinite;}
+    @keyframes spin{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+    .empty{background:#fff7ed; border:1px solid #fed7aa; border-left:6px solid #f97316; color:#9a3412; padding:1rem; border-radius:12px;}
+    .quick{margin-top:.5rem;}
+    .quick a{font-weight:800; color:#065f46; background:var(--brand-100); border:1px solid var(--brand-200); padding:.25rem .5rem; border-radius:8px; text-decoration:none; margin-right:.35rem;}
+    .notice{background:var(--brand-100); border:1px solid var(--brand-200); border-left:6px solid var(--brand); padding:.75rem; border-radius:10px; margin-top:.75rem; color:#064e3b;}
+    @media (max-width:780px){ .row{grid-template-columns:1fr} .row .wide{grid-column:auto} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Search Businesses</h1>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <label for="state">State</label>
+          <select id="state">
+            <option value="">Select state…</option>
+          </select>
+        </div>
+        <div>
+          <label for="city">City</label>
+          <select id="city" disabled>
+            <option value="">Select city…</option>
+          </select>
+        </div>
+        <div class="wide">
+          <label for="service">Service (optional)</label>
+          <input id="service" placeholder="e.g., barber, car wash, tutoring"/>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div>
+          <label for="radius" style="display:block">Radius</label>
+          <select id="radius">
+            <option value="10">10 miles</option>
+            <option value="25">25 miles</option>
+            <option value="50">50 miles</option>
+            <option value="100" selected>100 miles</option>
+          </select>
+        </div>
+        <button id="searchBtn" class="btn">Search</button>
+        <button id="resetBtn" class="btn secondary">Reset</button>
+      </div>
+
+      <div id="spinner" class="spinner"><div></div></div>
+      <div id="radiusNotice" class="notice" style="display:none;">Heads up: Some listings may not include GPS coordinates yet. We’ll match by city/state when coordinates aren’t available.</div>
+    </div>
+
+    <div id="results" style="margin-top:1rem; display:grid; gap:.75rem;"></div>
+
+    <div id="empty" class="empty" style="display:none">
+      <b>No businesses found within your selected radius.</b>
+      <div class="quick">
+        <a id="expand100" href="#">Expand radius to 100 miles</a>
+        <a id="differentCity" href="#">Try a different city</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase & data -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+  <!-- Your state->city list (full file you asked for) -->
+  <script src="cities-by-state.js"></script>
+  <script>
+    // --- Firebase init ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+      authDomain: "black-service-spot.firebaseapp.com",
+      projectId: "black-service-spot",
+      storageBucket: "black-service-spot.firebasestorage.app",
+      messagingSenderId: "707361777966",
+      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+      measurementId: "G-HDD97PF8K7"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // --- UI refs ---
+    const stateEl = document.getElementById('state');
+    const cityEl = document.getElementById('city');
+    const serviceEl = document.getElementById('service');
+    const radiusEl = document.getElementById('radius');
+    const searchBtn = document.getElementById('searchBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const spinner = document.getElementById('spinner');
+    const results = document.getElementById('results');
+    const emptyBox = document.getElementById('empty');
+    const expand100 = document.getElementById('expand100');
+    const differentCity = document.getElementById('differentCity');
+    const radiusNotice = document.getElementById('radiusNotice');
+
+    // --- Populate states ---
+    // Expect CITIES_BY_STATE to be an object: { "AL": ["Birmingham", ...], "AK": [...] , ... }
+    (function loadStates(){
+      const states = Object.keys(CITIES_BY_STATE || {}).sort();
+      for (const s of states){
+        const opt = document.createElement('option');
+        opt.value = s; opt.textContent = s;
+        stateEl.appendChild(opt);
+      }
+    })();
+
+    stateEl.addEventListener('change', () => {
+      const s = stateEl.value;
+      cityEl.innerHTML = '<option value="">Select city…</option>';
+      if (!s){ cityEl.disabled = true; return; }
+      const cities = (CITIES_BY_STATE[s] || []).slice().sort();
+      for (const c of cities){
+        const opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        cityEl.appendChild(opt);
+      }
+      cityEl.disabled = false;
+    });
+
+    // Haversine distance (miles)
+    function distMiles(a, b){
+      if (!a || !b) return Infinity;
+      const toRad = d => d * Math.PI/180;
+      const R = 3958.8;
+      const dLat = toRad(b.lat - a.lat);
+      const dLon = toRad(b.lng - a.lng);
+      const lat1 = toRad(a.lat);
+      const lat2 = toRad(b.lat);
+      const x = Math.sin(dLat/2)**2 + Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLon/2)**2;
+      return 2*R*Math.asin(Math.sqrt(x));
+    }
+
+    function showSpinner(v){ spinner.style.display = v ? 'block' : 'none'; }
+    function clearResults(){ results.innerHTML = ''; emptyBox.style.display = 'none'; }
+    function showEmpty(){ emptyBox.style.display = 'block'; }
+
+    async function search(){
+      clearResults();
+      showSpinner(true);
+      radiusNotice.style.display = 'none';
+
+      const st = stateEl.value.trim();
+      const city = cityEl.value.trim();
+      const svc = serviceEl.value.trim().toLowerCase();
+      const rad = parseFloat(radiusEl.value || '100');
+
+      // Basic guard
+      if (!st){
+        showSpinner(false);
+        results.innerHTML = '<div class="card">Please select a state to search.</div>';
+        return;
+      }
+
+      // Query by state first (fast index). You can add a composite index later for state+service if needed.
+      let snap;
+      try{
+        snap = await db.collection('Business_owners').where('state','==',st).get();
+      }catch(e){
+        showSpinner(false);
+        results.innerHTML = '<div class="card">Search error. Please try again.</div>';
+        return;
+      }
+
+      // Get target center: if a city was chosen, we can try to use a known centroid from your dataset.
+      // We’ll try to derive center from the first matching business with that city+coords; if none, we’ll still match by city text and show a notice.
+      let center = null;
+      const all = [];
+      snap.forEach(doc => all.push({ id: doc.id, ...doc.data() }));
+
+      // Prefer coordinates from any listing in the selected city
+      if (city){
+        const withCityCoord = all.find(d => (d.city||'').toLowerCase() === city.toLowerCase() && typeof d.lat==='number' && typeof d.lng==='number');
+        if (withCityCoord) center = { lat: withCityCoord.lat, lng: withCityCoord.lng };
+      }
+
+      // Filter
+      let rows = all.filter(d => {
+        // Service contains (case-insensitive)
+        const okSvc = !svc || (Array.isArray(d.services) ? d.services.join(' ').toLowerCase().includes(svc) : (d.services||'').toLowerCase().includes(svc));
+
+        // City/Radius:
+        // If we have center + coords on listing, use distance; otherwise fall back to exact city match
+        let okGeo = true;
+        if (city){
+          if (center && typeof d.lat==='number' && typeof d.lng==='number'){
+            const miles = distMiles(center, {lat:d.lat, lng:d.lng});
+            okGeo = miles <= rad;
+          } else {
+            okGeo = (d.city||'').toLowerCase() === city.toLowerCase();
+            radiusNotice.style.display = 'block';
+          }
+        }
+        return okSvc && okGeo;
+      });
+
+      // Render
+      showSpinner(false);
+      if (!rows.length){ showEmpty(); return; }
+
+      // Sort nearest first if we used center
+      if (center){
+        rows.sort((a,b) => {
+          const da = (typeof a.lat==='number' && typeof a.lng==='number') ? distMiles(center,{lat:a.lat,lng:a.lng}) : 9e9;
+          const db = (typeof b.lat==='number' && typeof b.lng==='number') ? distMiles(center,{lat:b.lat,lng:b.lng}) : 9e9;
+          return da - db;
+        });
+      } else {
+        // Sort alphabetically by business name otherwise
+        rows.sort((a,b) => (a.businessName||'').localeCompare(b.businessName||''));
+      }
+
+      for (const d of rows){
+        const li = document.createElement('div');
+        li.className = 'result';
+        const servicesText = Array.isArray(d.services) ? d.services.join(', ') : (d.services || '—');
+        li.innerHTML = `
+          <div><b>${d.businessName || d.id}</b></div>
+          <div class="muted">${(d.city || '—')}, ${d.state || ''}</div>
+          <div>${servicesText.split(',').slice(0,4).map(s => `<span class="pill">${s.trim()}</span>`).join(' ')}</div>
+          <div class="muted">${d.address ? d.address : ''}</div>
+          <div style="margin-top:.35rem;">
+            <a class="btn" href="dashboard.html?biz=${encodeURIComponent(d.id)}" target="_blank" rel="noopener">View Profile</a>
+          </div>
+        `;
+        results.appendChild(li);
+      }
+    }
+
+    searchBtn.addEventListener('click', search);
+    resetBtn.addEventListener('click', () => {
+      stateEl.value = ''; cityEl.innerHTML = '<option value="">Select city…</option>'; cityEl.disabled = true;
+      serviceEl.value = ''; radiusEl.value = '100'; clearResults(); emptyBox.style.display = 'none'; radiusNotice.style.display='none';
+    });
+
+    // Quick links
+    expand100.addEventListener('click', (e)=>{ e.preventDefault(); radiusEl.value='100'; search(); });
+    differentCity.addEventListener('click', (e)=>{ e.preventDefault(); cityEl.focus(); });
+
+    // Optional: prefill from URL (?state=GA&city=Atlanta&service=barber)
+    (function prefill(){
+      const q = new URLSearchParams(location.search);
+      const s = q.get('state'); const c = q.get('city'); const sv = q.get('service'); const r = q.get('radius');
+      if (s && CITIES_BY_STATE[s]) {
+        stateEl.value = s;
+        stateEl.dispatchEvent(new Event('change'));
+        if (c) setTimeout(()=>{ cityEl.value = c; }, 50);
+      }
+      if (sv) serviceEl.value = sv;
+      if (r) radiusEl.value = r;
+    })();
+  </script>
+</body>
+</html>
