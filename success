@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subscription Successful</title>
+  <style>
+    :root { --brand:#059669; --brand-100:#ecfdf5; --brand-200:#d1fae5; --text:#111827; --muted:#6b7280; --bg:#f3f4f6; }
+    body { margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background: var(--bg); color: var(--text);}
+    .wrap { max-width: 760px; margin: 4rem auto; background:#fff; border-radius:14px; box-shadow:0 8px 30px rgba(0,0,0,.06); padding:2rem; }
+    .check { width:72px; height:72px; border-radius:50%; display:grid; place-items:center; background:var(--brand-100); color:var(--brand); font-size:42px; margin:auto; }
+    h1 { text-align:center; color:var(--brand); margin:.75rem 0 .25rem; }
+    p.center { text-align:center; color:var(--muted); margin:0 0 1rem; }
+    .card { background:var(--brand-100); border:1px solid var(--brand-200); border-left:6px solid var(--brand); border-radius:10px; padding:1rem; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:.75rem; margin-top:.75rem; }
+    .kv b{display:block; font-size:.9rem; color:#064e3b} .kv span{color:#111}
+    .btns { display:flex; gap:.5rem; justify-content:center; margin-top:1rem; flex-wrap:wrap; }
+    .btn { appearance:none; border:1px solid var(--brand); background:var(--brand); color:#fff; padding:.7rem 1rem; border-radius:10px; font-weight:700; cursor:pointer; text-decoration:none; }
+    .btn.outline { background:#fff; color:var(--brand); }
+    .muted { color:var(--muted); text-align:center; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="check">✓</div>
+    <h1>Payment successful!</h1>
+    <p class="center">Thanks for subscribing. We’re setting up your business portal now.</p>
+
+    <div class="card" aria-live="polite">
+      <div class="grid">
+        <div class="kv"><b>Business</b><span id="bizName">—</span></div>
+        <div class="kv"><b>Plan</b><span id="plan">—</span></div>
+        <div class="kv"><b>Email</b><span id="email">—</span></div>
+      </div>
+      <p class="muted" id="redirectMsg">You’ll be redirected to your dashboard in ~6 seconds…</p>
+    </div>
+
+    <div class="btns">
+      <a id="dashBtn" class="btn" href="dashboard.html">Go to Dashboard now</a>
+      <a class="btn outline" href="index.html">Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Firebase (read-only here for personalization) -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+      authDomain: "black-service-spot.firebaseapp.com",
+      projectId: "black-service-spot",
+      storageBucket: "black-service-spot.firebasestorage.app",
+      messagingSenderId: "707361777966",
+      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+      measurementId: "G-HDD97PF8K7"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const qs = new URLSearchParams(location.search);
+    const biz = qs.get('biz');               // pass through from signup
+    const plan = qs.get('plan') || 'Subscription';
+    document.getElementById('plan').textContent = plan;
+
+    // Personalize if we know the business doc
+    (async () => {
+      if (!biz) return;
+      try {
+        const doc = await db.collection('Business_owners').doc(biz).get();
+        if (doc.exists) {
+          const d = doc.data() || {};
+          document.getElementById('bizName').textContent = d.businessName || biz;
+          document.getElementById('email').textContent = d.email || '—';
+        } else {
+          document.getElementById('bizName').textContent = biz;
+        }
+      } catch { /* non-blocking */ }
+    })();
+
+    // Redirect to dashboard with ?biz=
+    const dashUrl = biz ? `dashboard.html?biz=${encodeURIComponent(biz)}` : `dashboard.html`;
+    document.getElementById('dashBtn').href = dashUrl;
+    setTimeout(() => (location.href = dashUrl), 6000);
+  </script>
+</body>
+</html>
