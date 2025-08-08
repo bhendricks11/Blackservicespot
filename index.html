@@ -2032,3 +2032,14 @@
   </script>
  </body>
 </html>
+<style id="hotfix-css">
+  /* Hide the wrong plans anywhere they appear */
+  .pricing .plan:has(.price:contains("$59")),
+  .pricing .plan:has(.price:contains("$99")) { display:none !important; }
+
+  /* If your HTML doesn’t use .price text, still hide by text match */
+  .pricing *:is(:where(:not(script)):contains("$59"),
+                :where(:not(script)):contains("$99")) {
+    display:none !important;
+  }
+</style>
