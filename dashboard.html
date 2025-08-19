@@ -1,334 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Business Dashboard</title>
-  <style>
-    :root {
-      --brand:#059669;
-      --brand-100:#ecfdf5;
-      --brand-200:#d1fae5;
-      --text:#111827;
-      --muted:#6b7280;
-      --bg:#f3f4f6;
-      --white:#fff;
-    }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); padding: 1.25rem; color: var(--text); }
-    .container { max-width: 1000px; margin: auto; background: var(--white); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
-    h1 { color: var(--brand); margin: 0 0 .25rem; }
-    .sub { color: var(--muted); margin: 0 0 1rem; }
-
-    .glance { margin-top: 1rem; background: var(--brand-100); border: 1px solid var(--brand-200); border-left: 6px solid var(--brand); border-radius: 10px; padding: 1rem; display: grid; grid-template-columns: 130px 1fr; gap: 1rem; align-items: start; }
-    .logoWrap { text-align: center; }
-    #logoPreview { width: 130px; height: 130px; object-fit: cover; border-radius: 10px; background: #f9fafb; border: 1px solid #e5e7eb; }
-    .infoGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .5rem .75rem; }
-    .kv { font-size: .95rem; }
-    .kv b { color: var(--text); }
-    .kv span { color: var(--muted); }
-
-    .actions { display:flex; gap:.5rem; flex-wrap: wrap; margin-top:.5rem; }
-    .btn { appearance:none; border:1px solid var(--brand); background: var(--brand); color:#fff; padding:.55rem .9rem; border-radius:8px; font-weight:600; cursor:pointer; }
-    .btn.outline { background:#fff; color:var(--brand); }
-    .hint { font-size:.85rem; color: var(--muted); }
-
-    .section-title { margin-top: 1.5rem; font-size: 1.15rem; color: var(--brand); font-weight: 700; border-bottom: 2px solid var(--brand-200); padding-bottom: .5rem; }
-
-    table { width: 100%; border-collapse: collapse; margin-top: .75rem; font-size: .95rem; }
-    th, td { border: 1px solid #e5e7eb; padding: .65rem .6rem; text-align: left; vertical-align: top; }
-    th { background: var(--brand-100); }
-    tbody tr:hover { background:#fafafa; }
-
-    .empty { padding: .9rem; background:#f9fafb; border:1px dashed #e5e7eb; border-radius:8px; }
-
-    /* Mobile polish */
-    @media (max-width: 560px) {
-      .glance { grid-template-columns: 1fr; }
-      .logoWrap { display:flex; gap: .75rem; align-items:center; }
-      #logoPreview { width: 90px; height: 90px; }
-      .actions { gap:.4rem; }
-      .btn { flex:1 1 auto; text-align:center; }
-      table { font-size: .9rem; }
-    }
-
-    /* Small loading and alert styles */
-    .bar { height:4px; width:100%; background: #e5e7eb; border-radius: 4px; overflow:hidden; margin:.5rem 0 0; display:none; }
-    .bar > div { height:100%; width:30%; background: var(--brand); animation: slide 1.2s infinite; }
-    @keyframes slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(400%)} }
-    .alert { padding:.75rem .9rem; border-radius:8px; margin:.75rem 0; }
-    .alert.warn { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; }
-    .alert.info { background:#eff6ff; border:1px solid #bfdbfe; color:#1e3a8a; }
-    .alert.success { background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; }
-    .muted { color: var(--muted); }
-    .sr-only { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Owner Dashboard</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+  body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0;padding:24px}
+  .card{max-width:1000px;margin:auto;background:#fff;border-radius:12px;padding:24px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  .muted{color:#6b7280}
+  pre{background:#f8fafc;padding:12px;border-radius:8px;overflow:auto}
+</style>
+<script>
+(function(){
+  window.__bssGetBizName = function(){
+    const p = new URLSearchParams(location.search);
+    const v = p.get('biz') || p.get('business') || localStorage.getItem('bss_businessName');
+    return v && v.trim() ? v.trim() : null;
+  };
+  window.__bssResolveOwnerDoc = async function(db, businessName){
+    let ref = db.collection('Business_owners').doc('Client_list').collection('Client_list').doc(businessName);
+    let snap = await ref.get();
+    if (snap.exists) return ref;
+    ref = db.collection('Business_owners').doc(businessName);
+    snap = await ref.get();
+    if (snap.exists) return ref;
+    return null;
+  };
+})();
+</script>
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to Your Business Portal</h1>
-    <p class="sub">Manage your business profile and clients below.</p>
-
-    <!-- Auth + status messages -->
-    <div id="authMessage" class="alert info" role="status" style="display:none"></div>
-
-    <section class="glance" aria-labelledby="glance-title">
-      <div class="logoWrap">
-        <img id="logoPreview" src="https://via.placeholder.com/150?text=Your+Logo" alt="Your business logo"/>
-        <div class="actions">
-          <label for="logoUpload" class="btn outline" role="button">Upload Logo</label>
-          <input id="logoUpload" type="file" accept="image/*" class="sr-only" />
-          <button id="saveLogoBtn" class="btn" disabled>Save Logo</button>
-        </div>
-        <div class="hint">PNG/JPG, square works best.</div>
-        <div id="logoProgress" class="bar"><div></div></div>
-      </div>
-
-      <div>
-        <h2 id="glance-title" class="section-title" style="margin-top:0">Your Business at a Glance</h2>
-        <div class="infoGrid">
-          <div class="kv"><b>Business:</b> <span id="bizName" class="muted">—</span></div>
-          <div class="kv"><b>Owner:</b> <span id="ownerName" class="muted">—</span></div>
-          <div class="kv"><b>Email:</b> <span id="email" class="muted">—</span></div>
-          <div class="kv"><b>Phone:</b> <span id="phone" class="muted">—</span></div>
-          <div class="kv"><b>Address:</b> <span id="address" class="muted">—</span></div>
-          <div class="kv"><b>City/State:</b> <span id="cityState" class="muted">—</span></div>
-          <div class="kv"><b>Services:</b> <span id="services" class="muted">—</span></div>
-          <div class="kv"><b>Hours:</b> <span id="hours" class="muted">—</span></div>
-          <div class="kv"><b>Notes:</b> <span id="notes" class="muted">—</span></div>
-        </div>
-      </div>
-    </section>
-
-    <h2 class="section-title">Client Management</h2>
-    <div id="clientsWrap">
-      <table id="clientsTable" style="display:none">
-        <thead>
-          <tr>
-            <th>Client Name</th>
-            <th>Service</th>
-            <th>Date</th>
-            <th>Phone</th>
-            <th>Special Instructions</th>
-            <th>Invoice #</th>
-          </tr>
-        </thead>
-        <tbody id="clientsBody"></tbody>
-      </table>
-      <div id="clientsEmpty" class="empty">No clients yet. When customers hire you, they’ll appear here.</div>
-    </div>
+  <div class="card">
+    <h2 id="bizTitle">Loading business…</h2>
+    <div class="muted" id="bizMeta"></div>
+    <pre id="raw" class="muted" style="white-space:pre-wrap;margin-top:16px"></pre>
   </div>
 
-  <!-- Firebase SDKs (v10 modular) -->
-  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
+<script>
+ const firebaseConfig = {
+  apiKey:"AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+  authDomain:"black-service-spot.firebaseapp.com",
+  projectId:"black-service-spot"
+ };
+ if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+ const db = firebase.firestore();
 
-  <script>
-    // ---- 1) Initialize Firebase with YOUR config (from your saved project details) ----
-    const firebaseConfig = {
-      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-      authDomain: "black-service-spot.firebaseapp.com",
-      projectId: "black-service-spot",
-      storageBucket: "black-service-spot.firebasestorage.app",
-      messagingSenderId: "707361777966",
-      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-      measurementId: "G-HDD97PF8K7"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+ function getBizName(){
+   const p = new URLSearchParams(location.search);
+   const v = p.get('business') || p.get('biz') || localStorage.getItem('bss_businessName');
+   return v && v.trim() ? v.trim() : null;
+ }
 
-    // ---- Elements ----
-    const authMessage = document.getElementById('authMessage');
-
-    const logoUpload = document.getElementById('logoUpload');
-    const logoPreview = document.getElementById('logoPreview');
-    const saveLogoBtn = document.getElementById('saveLogoBtn');
-    const logoProgress = document.getElementById('logoProgress');
-
-    const el = (id) => document.getElementById(id);
-    const fields = {
-      bizName: el('bizName'),
-      ownerName: el('ownerName'),
-      email: el('email'),
-      phone: el('phone'),
-      address: el('address'),
-      cityState: el('cityState'),
-      services: el('services'),
-      hours: el('hours'),
-      notes: el('notes')
-    };
-
-    const clientsTable = document.getElementById('clientsTable');
-    const clientsBody = document.getElementById('clientsBody');
-    const clientsEmpty = document.getElementById('clientsEmpty');
-
-    let ownerDocRef = null;
-    let pendingLogoFile = null;
-
-    // ---- Helpers ----
-    function showInfo(msg, type = 'info') {
-      authMessage.className = `alert ${type}`;
-      authMessage.textContent = msg;
-      authMessage.style.display = 'block';
-    }
-    function hideInfo() { authMessage.style.display = 'none'; }
-    function bar(show) { logoProgress.style.display = show ? 'block' : 'none'; }
-
-    function qs(param) {
-      const v = new URLSearchParams(location.search).get(param);
-      return v && v.trim() ? v.trim() : null;
-    }
-
-    // ---- 2) Load the right business owner doc ----
-    // Strategy:
-    //   A) If URL has ?biz=<BusinessName>, try that as the document ID in "Business_owners"
-    //   B) Otherwise, find the doc where ownerUid == auth.uid
-    async function getOwnerDoc(user) {
-      const byBiz = qs('biz');
-      if (byBiz) {
-        const d = await db.collection('Business_owners').doc(byBiz).get();
-        if (d.exists) return d.ref;
-      }
-      // Fallback to UID lookup
-      const snap = await db.collection('Business_owners')
-        .where('ownerUid', '==', user.uid)
-        .limit(1)
-        .get();
-      if (!snap.empty) return snap.docs[0].ref;
-
-      return null;
-    }
-
-    // ---- 3) Populate the UI from Firestore ----
-    function fillOwnerUI(data) {
-      // Text fields (fallback to em dash)
-      const get = (k, fallback='—') => (data && data[k]) ? data[k] : fallback;
-
-      fields.bizName.textContent   = get('businessName');
-      fields.ownerName.textContent = get('ownerName');
-      fields.email.textContent     = get('email');
-      fields.phone.textContent     = get('phone');
-      fields.address.textContent   = get('address');
-
-      const city = get('city', '');
-      const state = get('state', '');
-      fields.cityState.textContent = (city || state) ? [city, state].filter(Boolean).join(', ') : '—';
-
-      const services = Array.isArray(data.services) ? data.services.join(', ') : (data.services || '—');
-      fields.services.textContent = services;
-
-      fields.hours.textContent = get('hours', '—');
-      fields.notes.textContent = get('privateNotes', '—');
-
-      // Logo
-      const logoUrl = data.logoUrl || null;
-      logoPreview.src = logoUrl ? logoUrl : 'https://via.placeholder.com/150?text=Your+Logo';
-    }
-
-    async function loadClientsTable() {
-      if (!ownerDocRef) return;
-
-      // Clients live under subcollection: Business_owners/{doc}/Client_list
-      const snap = await ownerDocRef.collection('Client_list').get();
-      clientsBody.innerHTML = '';
-
-      if (snap.empty) {
-        clientsTable.style.display = 'none';
-        clientsEmpty.style.display = 'block';
-        return;
-      }
-
-      snap.forEach(doc => {
-        const c = doc.data() || {};
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${c.name || '—'}</td>
-          <td>${c.service || '—'}</td>
-          <td>${c.date || '—'}</td>
-          <td>${c.phone || '—'}</td>
-          <td>${c.specialInstructions || '—'}</td>
-          <td>${c.invoiceNumber || '—'}</td>
-        `;
-        clientsBody.appendChild(tr);
-      });
-
-      clientsEmpty.style.display = 'none';
-      clientsTable.style.display = 'table';
-    }
-
-    // ---- 4) Auth flow: require sign-in, then fetch owner data ----
-    auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        showInfo('You are not signed in. Please sign in from the signup or login page to view your dashboard.', 'warn');
-        return;
-      }
-      hideInfo();
-      try {
-        ownerDocRef = await getOwnerDoc(user);
-        if (!ownerDocRef) {
-          showInfo('We couldn’t find your business record yet. If you just signed up, give it a moment and refresh.', 'warn');
-          return;
-        }
-
-        // Get and render owner profile
-        const ownerSnap = await ownerDocRef.get();
-        fillOwnerUI(ownerSnap.data() || {});
-
-        // Load clients
-        await loadClientsTable();
-
-        // Listen for profile changes in real-time
-        ownerDocRef.onSnapshot(s => {
-          if (s.exists) fillOwnerUI(s.data());
-        });
-      } catch (err) {
-        console.error(err);
-        showInfo('Error loading your dashboard. Please refresh or try again shortly.', 'warn');
-      }
-    });
-
-    // ---- 5) Logo upload & save to Storage + Firestore ----
-    logoUpload.addEventListener('change', (e) => {
-      if (!e.target.files || !e.target.files[0]) return;
-      pendingLogoFile = e.target.files[0];
-
-      // Preview immediately
-      const reader = new FileReader();
-      reader.onload = () => (logoPreview.src = reader.result);
-      reader.readAsDataURL(pendingLogoFile);
-
-      saveLogoBtn.disabled = false;
-    });
-
-    saveLogoBtn.addEventListener('click', async () => {
-      if (!ownerDocRef || !pendingLogoFile) return;
-      try {
-        saveLogoBtn.disabled = true;
-        bar(true);
-
-        const safeId = ownerDocRef.id.replace(/[^\w\-]+/g, '_');
-        const ext = (pendingLogoFile.name.split('.').pop() || 'png').toLowerCase();
-        const path = `logos/${safeId}/logo.${ext}`;
-
-        const ref = storage.ref().child(path);
-        await ref.put(pendingLogoFile);
-        const url = await ref.getDownloadURL();
-
-        await ownerDocRef.update({ logoUrl: url, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
-
-        showInfo('Logo updated successfully!', 'success');
-        pendingLogoFile = null;
-      } catch (e) {
-        console.error(e);
-        showInfo('Could not upload logo. Please try again.', 'warn');
-      } finally {
-        bar(false);
-        saveLogoBtn.disabled = true;
-      }
-    });
-  </script>
+ async function load(){
+   const businessName = getBizName();
+   const title = document.getElementById('bizTitle');
+   const meta  = document.getElementById('bizMeta');
+   if (!businessName){
+     title.textContent = 'No business found';
+     meta.textContent = 'Open from signup (or add ?business=Your Name to the URL).';
+     return;
+   }
+   // Try nested path first
+   let docRef = db.collection('Business_owners').doc('Client_list').collection('Client_list').doc(businessName);
+   let snap = await docRef.get();
+   // Fallback: root path
+   if (!snap.exists){
+     const altRef = db.collection('Business_owners').doc(businessName);
+     const alt = await altRef.get();
+     if (alt.exists){ docRef = altRef; snap = alt; }
+   }
+   if (!snap.exists){
+     title.textContent = businessName;
+     meta.textContent = 'Record not found yet. If you just paid, refresh in a moment.';
+     return;
+   }
+   const d = snap.data();
+   title.textContent = d.businessName || businessName;
+   meta.textContent = (d.city||'') + (d.state ? ', ' + d.state : '') + (d.businessType ? ' • ' + d.businessType : '');
+   document.getElementById('raw').textContent = JSON.stringify(d,null,2);
+ }
+ load();
+</script>
 </body>
 </html>
