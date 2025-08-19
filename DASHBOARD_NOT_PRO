@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Owner Dashboard</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+  body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0;padding:24px}
+  .card{max-width:1000px;margin:auto;background:#fff;border-radius:12px;padding:24px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  .muted{color:#6b7280}
+  pre{background:#f8fafc;padding:12px;border-radius:8px;overflow:auto}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2 id="bizTitle">Loading business…</h2>
+    <div class="muted" id="bizMeta"></div>
+    <pre id="raw" class="muted" style="white-space:pre-wrap;margin-top:16px"></pre>
+  </div>
+
+<script>
+ const firebaseConfig = {
+  apiKey:"AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+  authDomain:"black-service-spot.firebaseapp.com",
+  projectId:"black-service-spot"
+ };
+ if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+ const db = firebase.firestore();
+
+ function getBizName(){
+   const p = new URLSearchParams(location.search);
+   const v = p.get('business') || p.get('biz') || localStorage.getItem('bss_businessName');
+   return v && v.trim() ? v.trim() : null;
+ }
+
+ async function load(){
+   const businessName = getBizName();
+   const title = document.getElementById('bizTitle');
+   const meta  = document.getElementById('bizMeta');
+   if (!businessName){
+     title.textContent = 'No business found';
+     meta.textContent = 'Open from signup (or add ?business=Your Name to the URL).';
+     return;
+   }
+   // Try nested path first
+   let docRef = db.collection('Business_owners').doc('Client_list').collection('Client_list').doc(businessName);
+   let snap = await docRef.get();
+   // Fallback: root path
+   if (!snap.exists){
+     const altRef = db.collection('Business_owners').doc(businessName);
+     const alt = await altRef.get();
+     if (alt.exists){ docRef = altRef; snap = alt; }
+   }
+   if (!snap.exists){
+     title.textContent = businessName;
+     meta.textContent = 'Record not found yet. If you just paid, refresh in a moment.';
+     return;
+   }
+   const d = snap.data();
+   title.textContent = d.businessName || businessName;
+   meta.textContent = (d.city||'') + (d.state ? ', ' + d.state : '') + (d.businessType ? ' • ' + d.businessType : '');
+   document.getElementById('raw').textContent = JSON.stringify(d,null,2);
+ }
+ load();
+</script>
+</body>
+</html>
 
