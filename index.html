@@ -16,63 +16,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-<script>
-(function(){
-  // 1) Force the two correct plan buttons to point to signup with the plan
-  function relinkPlanButtons(){
-    const anchors = [...document.querySelectorAll('a, button')];
-    anchors.forEach(a=>{
-      const txt=(a.textContent||'').toLowerCase();
-      if(txt.includes('monthly') || txt.includes('$29.95')){
-        a.setAttribute('href','/signup.html?plan=monthly');
-        a.onclick=null;
-      }
-      if(txt.includes('annual') || txt.includes('year') || txt.includes('$287.52')){
-        a.setAttribute('href','/signup.html?plan=annual');
-        a.onclick=null;
-      }
-      if(txt.includes('register business')){
-        a.setAttribute('href','/signup.html?plan=monthly');
-      }
-    });
-  }
-
-  // 2) Wire the homepage search to go to search.html with params (works with your existing form)
-  function wireSearch(){
-    const form = document.getElementById('homepageSearchForm')
-      || document.querySelector('form[data-search]')
-      || document.querySelector('form[action*="search"]')
-      || document.querySelector('form'); // fallback
-
-    if(!form) return;
-
-    const service = form.querySelector('#serviceInput,[name="service"],[placeholder*="Service"]');
-    const city    = form.querySelector('#locationInput,[name="location"],[placeholder*="Location"],[placeholder*="City"]');
-    const cat     = form.querySelector('#categorySelect,[name="category"]');
-
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      const q = new URLSearchParams({
-        service: (service?.value||''),
-        city:    (city?.value||''),
-        category:(cat?.value||'All'),
-        radius:  '25'
-      });
-      window.location.href = '/search.html?' + q.toString();
-    }, {once:true});
-  }
-
-  // 3) Kill any lingering debug banners
-  function hideDebug(){
-    document.querySelectorAll('#debug,#debugLog,.debug')
-      .forEach(el=> el.style.display='none');
-  }
-
-  relinkPlanButtons();
-  wireSearch();
-  hideDebug();
-})();
-</script>
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -2087,18 +2030,5 @@
             });
         });
   </script>
-  /js/
-  <script src="/js/hotfix-bundle.js"></script>
  </body>
 </html>
-<style id="hotfix-css">
-  /* Hide the wrong plans anywhere they appear */
-  .pricing .plan:has(.price:contains("$59")),
-  .pricing .plan:has(.price:contains("$99")) { display:none !important; }
-
-  /* If your HTML doesn’t use .price text, still hide by text match */
-  .pricing *:is(:where(:not(script)):contains("$59"),
-                :where(:not(script)):contains("$99")) {
-    display:none !important;
-  }
-</style>
