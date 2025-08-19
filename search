@@ -1,156 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Business Search</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find Businesses</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="" crossorigin=""></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      color: #333;
-    }
-    .search-container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 500px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    select, button {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      background: green;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background: darkgreen;
-    }
-    .results {
-      margin-top: 20px;
-    }
+    :root { --green1:#004225; --green2:#007f5f; --accent:#118c4f; }
+    body { font-family: Arial, sans-serif; background: linear-gradient(to right, var(--green1), var(--green2)); margin:0; padding:24px; color:#0d1f17;}
+    .card { background:#fff; max-width:1200px; margin:auto; padding:22px; border-radius:12px; box-shadow:0 6px 24px rgba(0,0,0,.12); }
+    h1 { margin:0 0 10px; color:#004225; text-align:center; }
+    .row { display:grid; grid-template-columns: 2fr 2fr 1fr 1fr; gap:16px; }
+    @media (max-width:1000px){ .row{ grid-template-columns:1fr; } }
+    label { font-weight:600; font-size:14px; }
+    input, select { width:100%; padding:12px; margin:8px 0 18px; border:1px solid #cfcfcf; border-radius:8px; font-size:15px; }
+    input[readonly] { background:#f6f7f8; }
+    button { background: var(--accent); color:#fff; border:none; border-radius:8px; padding:12px 16px; font-size:16px; cursor:pointer; width:100%; }
+    .wrap { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+    @media (max-width:1000px){ .wrap{ grid-template-columns:1fr; } }
+    #map { height: 520px; width: 100%; border-radius: 12px; border: 1px solid #e5ece9; }
+    .results { margin-top:8px; }
+    .biz { border:1px solid #e8ecea; border-radius:8px; padding:12px; margin-bottom:10px; }
+    .muted { color:#6b7c76; font-size:13px; }
+    .pill { display:inline-block; padding:3px 8px; border-radius:999px; background:#e8faf0; color:#0f5a34; font-size:12px; margin-left:6px; }
   </style>
 </head>
 <body>
-  <h1>Find a Business</h1>
-  <div class="search-container">
-    <label for="state">Select State:</label>
-    <select id="state">
-      <option value="">-- Select a state --</option>
-    </select>
+  <div class="card">
+    <h1>Find Businesses Near You</h1>
+    <div class="row">
+      <div>
+        <label>Business Type</label>
+        <input id="typeInput" placeholder="e.g., Barber, Plumber, Catering" />
+      </div>
+      <div>
+        <label>City (type to search)</label>
+        <input id="cityInput" placeholder="Start typing a city" list="cityList" autocomplete="off" />
+        <datalist id="cityList"></datalist>
+        <div class="muted">We use the city center for the search radius.</div>
+      </div>
+      <div>
+        <label>State (auto-filled)</label>
+        <input id="stateOutput" placeholder="State" readonly />
+      </div>
+      <div>
+        <label>Radius</label>
+        <select id="radiusSelect">
+          <option value="25">25 miles</option>
+          <option value="50" selected>50 miles</option>
+          <option value="100">100 miles</option>
+          <option value="250">250 miles</option>
+        </select>
+      </div>
+    </div>
 
-    <label for="city">Select City:</label>
-    <select id="city">
-      <option value="">-- Select a city --</option>
-    </select>
+    <input type="hidden" id="lat" />
+    <input type="hidden" id="lng" />
 
-    <button onclick="searchBusiness()">Search</button>
-
-    <div class="results" id="results"></div>
+    <div class="wrap">
+      <div>
+        <div id="map"></div>
+      </div>
+      <div>
+        <button id="searchBtn">Search Businesses</button>
+        <div class="results" id="results"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Embedded Cities List -->
   <script>
-    window.CITIES_BY_STATE = {
-      "AL": ["Birmingham", "Montgomery", "Mobile", "Huntsville", "Tuscaloosa", "Hoover", "Dothan", "Auburn", "Decatur"],
-      "AK": ["Anchorage", "Fairbanks", "Juneau", "Sitka", "Ketchikan", "Wasilla", "Kenai"],
-      "AZ": ["Phoenix", "Tucson", "Mesa", "Chandler", "Glendale", "Scottsdale", "Gilbert", "Tempe", "Peoria"],
-      "AR": ["Little Rock", "Fort Smith", "Fayetteville", "Springdale", "Jonesboro", "North Little Rock", "Conway"],
-      "CA": ["Los Angeles", "San Diego", "San Jose", "San Francisco", "Fresno", "Sacramento", "Long Beach", "Oakland", "Bakersfield"],
-      "CO": ["Denver", "Colorado Springs", "Aurora", "Fort Collins", "Lakewood", "Thornton", "Arvada", "Westminster", "Pueblo"],
-      "CT": ["Bridgeport", "New Haven", "Stamford", "Hartford", "Waterbury", "Norwalk", "Danbury", "New Britain"],
-      "DE": ["Wilmington", "Dover", "Newark", "Middletown", "Smyrna", "Milford", "Seaford"],
-      "FL": ["Jacksonville", "Miami", "Tampa", "Orlando", "St. Petersburg", "Hialeah", "Tallahassee", "Fort Lauderdale", "Port St. Lucie"],
-      "GA": ["Atlanta", "Augusta", "Columbus", "Macon", "Savannah", "Athens", "Sandy Springs", "South Fulton", "Roswell"],
-      "HI": ["Honolulu", "Hilo", "Kailua", "Kapolei", "Kaneohe", "Waipahu", "Mililani Town", "Kihei"],
-      "ID": ["Boise", "Meridian", "Nampa", "Idaho Falls", "Pocatello", "Caldwell", "Coeur d'Alene", "Twin Falls"],
-      "IL": ["Chicago", "Aurora", "Naperville", "Joliet", "Rockford", "Springfield", "Elgin", "Peoria", "Champaign"],
-      "IN": ["Indianapolis", "Fort Wayne", "Evansville", "South Bend", "Carmel", "Bloomington", "Hammond", "Gary"],
-      "IA": ["Des Moines", "Cedar Rapids", "Davenport", "Sioux City", "Iowa City", "Waterloo", "Ames", "West Des Moines"],
-      "KS": ["Wichita", "Overland Park", "Kansas City", "Olathe", "Topeka", "Lawrence", "Shawnee", "Manhattan"],
-      "KY": ["Louisville", "Lexington", "Bowling Green", "Owensboro", "Covington", "Richmond", "Georgetown", "Florence"],
-      "LA": ["New Orleans", "Baton Rouge", "Shreveport", "Lafayette", "Lake Charles", "Kenner", "Bossier City", "Monroe"],
-      "ME": ["Portland", "Lewiston", "Bangor", "South Portland", "Auburn", "Biddeford", "Sanford", "Brunswick"],
-      "MD": ["Baltimore", "Columbia", "Germantown", "Silver Spring", "Waldorf", "Frederick", "Ellicott City", "Glen Burnie"],
-      "MA": ["Boston", "Worcester", "Springfield", "Cambridge", "Lowell", "Brockton", "Quincy", "Lynn", "Fall River"],
-      "MI": ["Detroit", "Grand Rapids", "Warren", "Sterling Heights", "Ann Arbor", "Lansing", "Flint", "Dearborn", "Livonia"],
-      "MN": ["Minneapolis", "Saint Paul", "Rochester", "Duluth", "Bloomington", "Brooklyn Park", "Plymouth", "Maple Grove"],
-      "MS": ["Jackson", "Gulfport", "Southaven", "Hattiesburg", "Biloxi", "Meridian", "Tupelo", "Olive Branch"],
-      "MO": ["Kansas City", "St. Louis", "Springfield", "Columbia", "Independence", "Lee's Summit", "O'Fallon", "St. Joseph"],
-      "MT": ["Billings", "Missoula", "Great Falls", "Bozeman", "Butte", "Helena", "Kalispell"],
-      "NE": ["Omaha", "Lincoln", "Bellevue", "Grand Island", "Kearney", "Fremont", "Hastings"],
-      "NV": ["Las Vegas", "Henderson", "Reno", "North Las Vegas", "Sparks", "Carson City", "Elko"],
-      "NH": ["Manchester", "Nashua", "Concord", "Dover", "Rochester", "Keene", "Portsmouth"],
-      "NJ": ["Newark", "Jersey City", "Paterson", "Elizabeth", "Edison", "Woodbridge", "Lakewood", "Toms River"],
-      "NM": ["Albuquerque", "Las Cruces", "Rio Rancho", "Santa Fe", "Roswell", "Farmington", "Clovis", "Hobbs"],
-      "NY": ["New York", "Buffalo", "Rochester", "Yonkers", "Syracuse", "Albany", "New Rochelle", "Mount Vernon"],
-      "NC": ["Charlotte", "Raleigh", "Greensboro", "Durham", "Winston-Salem", "Fayetteville", "Cary", "Wilmington"],
-      "ND": ["Fargo", "Bismarck", "Grand Forks", "Minot", "West Fargo", "Mandan", "Dickinson"],
-      "OH": ["Columbus", "Cleveland", "Cincinnati", "Toledo", "Akron", "Dayton", "Parma", "Canton", "Youngstown"],
-      "OK": ["Oklahoma City", "Tulsa", "Norman", "Broken Arrow", "Edmond", "Lawton", "Stillwater"],
-      "OR": ["Portland", "Salem", "Eugene", "Gresham", "Hillsboro", "Beaverton", "Bend", "Medford", "Springfield"],
-      "PA": ["Philadelphia", "Pittsburgh", "Allentown", "Erie", "Reading", "Scranton", "Bethlehem", "Lancaster"],
-      "RI": ["Providence", "Warwick", "Cranston", "Pawtucket", "East Providence", "Woonsocket", "Newport"],
-      "SC": ["Charleston", "Columbia", "North Charleston", "Mount Pleasant", "Rock Hill", "Greenville", "Summerville"],
-      "SD": ["Sioux Falls", "Rapid City", "Aberdeen", "Brookings", "Watertown", "Mitchell", "Yankton"],
-      "TN": ["Nashville", "Memphis", "Knoxville", "Chattanooga", "Clarksville", "Murfreesboro", "Franklin", "Jackson"],
-      "TX": ["Houston", "San Antonio", "Dallas", "Austin", "Fort Worth", "El Paso", "Arlington", "Corpus Christi"],
-      "UT": ["Salt Lake City", "West Valley City", "Provo", "West Jordan", "Orem", "Sandy", "Ogden", "St. George"],
-      "VT": ["Burlington", "South Burlington", "Rutland", "Barre", "Montpelier", "St. Albans", "Newport"],
-      "VA": ["Virginia Beach", "Norfolk", "Chesapeake", "Richmond", "Newport News", "Alexandria", "Hampton", "Roanoke"],
-      "WA": ["Seattle", "Spokane", "Tacoma", "Vancouver", "Bellevue", "Kent", "Everett", "Renton", "Yakima"],
-      "WV": ["Charleston", "Huntington", "Morgantown", "Parkersburg", "Wheeling", "Weirton", "Fairmont"],
-      "WI": ["Milwaukee", "Madison", "Green Bay", "Kenosha", "Racine", "Appleton", "Waukesha", "Eau Claire"],
-      "WY": ["Cheyenne", "Casper", "Laramie", "Gillette", "Rock Springs", "Sheridan", "Green River"]
+    // Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+      authDomain: "black-service-spot.firebaseapp.com",
+      projectId: "black-service-spot",
+      storageBucket: "black-service-spot.appspot.com",
+      messagingSenderId: "707361777966",
+      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf"
     };
-
-    // Populate state dropdown
-    const stateSelect = document.getElementById('state');
-    Object.keys(window.CITIES_BY_STATE).forEach(stateCode => {
-      const opt = document.createElement('option');
-      opt.value = stateCode;
-      opt.textContent = stateCode;
-      stateSelect.appendChild(opt);
-    });
-
-    // Populate city dropdown when state changes
-    stateSelect.addEventListener('change', function() {
-      const citySelect = document.getElementById('city');
-      citySelect.innerHTML = '<option value="">-- Select a city --</option>';
-      const cities = window.CITIES_BY_STATE[this.value] || [];
-      cities.forEach(city => {
-        const opt = document.createElement('option');
-        opt.value = city;
-        opt.textContent = city;
-        citySelect.appendChild(opt);
-      });
-    });
-
-    function searchBusiness() {
-      const state = document.getElementById('state').value;
-      const city = document.getElementById('city').value;
-      const resultsDiv = document.getElementById('results');
-
-      if (!state || !city) {
-        resultsDiv.innerHTML = '<p style="color:red;">Please select both state and city.</p>';
-        return;
-      }
-
-      // Placeholder search results
-      resultsDiv.innerHTML = `<p>Searching for businesses in <strong>${city}, ${state}</strong>...</p>`;
-    }
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
   </script>
+
+  <script src="js/city-index-loader.js"></script>
+  <script src="js/radius-search.js"></script>
 </body>
 </html>
