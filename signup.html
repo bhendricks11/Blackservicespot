@@ -4,63 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Business Owner Sign Up - Black Service Spot</title>
-  <meta name="description" content="Register your business on Black Service Spot. Choose a plan, add your details, and get discovered by customers in your area."/>
+  <meta name="description" content="Register your business on Black Service Spot. Choose a plan, add your details, and subscribe via PayPal."/>
   <style>
-    :root {
-      --g1:#10b981; --g2:#059669; --g3:#047857;
-      --bg:#f9fafb; --text:#111827; --muted:#6b7280; --card:#ffffff; --accent:#10b981;
-      --ring:#10b981; --border:#e5e7eb;
-    }
-    * { box-sizing: border-box; }
-    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: var(--bg); }
-    header { background: #fff; position: sticky; top:0; z-index: 20; border-bottom:1px solid #f0f0f0; }
-    .nav { max-width: 1100px; padding: 0.75rem 1rem; margin: 0 auto; display:flex; align-items:center; justify-content: space-between; }
-    .brand { display:flex; align-items:center; gap:.5rem; color:var(--g2); font-weight: 800; }
-    .brand svg { color: var(--g2); }
-    .main {
-      min-height: 100vh;
-      background: linear-gradient(135deg, var(--g1), var(--g2) 50%, var(--g3));
-      padding: 2rem 1rem 3rem;
-      display:flex; align-items: flex-start; justify-content: center;
-    }
-    .card {
-      width: 100%; max-width: 1000px; background: var(--card);
-      border-radius: 1rem; box-shadow: 0 20px 40px rgba(0,0,0,.15); overflow:hidden;
-    }
-    .card-header {
-      background: linear-gradient(135deg, #6ee7b7, #34d399 50%, #10b981);
-      color: #064e3b; padding: 1.25rem 1.25rem;
-    }
-    .card-header h1 { margin:0; font-size: 1.4rem; }
-    .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .section { padding: 1.25rem; }
-    .section h2 { font-size: 1.1rem; margin: 0 0 .75rem 0; color:#064e3b; }
-    label { font-weight: 600; display:block; margin: .5rem 0 .35rem; color: #374151; }
-    input[type="text"], input[type="email"], input[type="file"], select, textarea {
-      width: 100%; padding: .7rem .8rem; border:2px solid var(--border); border-radius:.6rem; outline: none;
-      font-size: .95rem; background:#fff; transition: border-color .2s, box-shadow .2s;
-    }
-    textarea { min-height: 90px; resize: vertical; }
-    input:focus, select:focus, textarea:focus { border-color: var(--ring); box-shadow: 0 0 0 3px rgba(16,185,129,.15); }
-    .row { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-    .row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75rem; }
-    .actions { display:flex; gap:.75rem; align-items:center; flex-wrap: wrap; }
-    .btn { border:none; padding:.8rem 1rem; border-radius:.6rem; font-weight:700; cursor:pointer; }
-    .btn-primary { background: var(--accent); color:#fff; }
-    .btn-secondary { background: transparent; color: var(--accent); border:2px solid var(--accent); }
-    .muted { color: var(--muted); font-size: .9rem; }
-    .disclaimer {
-      background: #f0fdf4; border: 1px solid #bbf7d0; color: #065f46;
-      padding: .75rem 1rem; border-radius: .6rem; font-size: .9rem;
-    }
-    footer { max-width: 1000px; margin: 1rem auto 0; padding: 0 1rem; color: #e5e7eb; }
-    .small { font-size: .85rem; }
-
-    @media (max-width: 840px) {
-      .grid { grid-template-columns: 1fr; }
-      .row, .row-3 { grid-template-columns: 1fr; }
-    }
+    :root{--g1:#10b981;--g2:#059669;--g3:#047857;--bg:#f9fafb;--text:#111827;--muted:#6b7280;--card:#ffffff;--ring:#10b981;--border:#e5e7eb;}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    header{background:#fff;position:sticky;top:0;z-index:20;border-bottom:1px solid #f0f0f0}
+    .nav{max-width:1100px;padding:.75rem 1rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:.5rem;color:#059669;font-weight:800}
+    .main{min-height:100vh;background:linear-gradient(135deg,var(--g1),var(--g2) 50%,var(--g3));padding:2rem 1rem 3rem;display:flex;align-items:flex-start;justify-content:center}
+    .card{width:100%;max-width:1000px;background:var(--card);border-radius:1rem;box-shadow:0 20px 40px rgba(0,0,0,.15);overflow:hidden}
+    .card-header{background:linear-gradient(135deg,#6ee7b7,#34d399 50%,#10b981);color:#064e3b;padding:1.25rem}
+    .card-header h1{margin:0;font-size:1.4rem}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .section{padding:1.25rem}
+    .section h2{font-size:1.1rem;margin:0 0 .75rem 0;color:#064e3b}
+    label{font-weight:600;display:block;margin:.5rem 0 .35rem;color:#374151}
+    input[type="text"],input[type="email"],input[type="file"],select,textarea{width:100%;padding:.7rem .8rem;border:2px solid var(--border);border-radius:.6rem;outline:none;background:#fff;font-size:.95rem;transition:border-color .2s,box-shadow .2s}
+    textarea{min-height:90px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:var(--ring);box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .btn{border:none;padding:.75rem 1rem;border-radius:.6rem;font-weight:700;cursor:pointer}
+    .btn-primary{background:#10b981;color:#fff}
+    .btn-secondary{background:transparent;color:#10b981;border:2px solid #10b981}
+    .muted{color:var(--muted);font-size:.9rem}
+    .pay-wrap{margin-top:1rem;border:1px dashed #d1fae5;background:#f0fdf4;border-radius:.75rem;padding:1rem}
+    .pill{display:inline-block;padding:.25rem .5rem;background:#ecfdf5;color:#065f46;border-radius:999px;font-size:.75rem;margin-left:.5rem}
+    @media (max-width: 840px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
   </style>
+  <!-- PayPal SDK: visible buttons -->
+  <script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&vault=true&intent=subscription"></script>
 </head>
 <body>
   <header>
@@ -69,121 +41,87 @@
         <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.09 8.26 22 9l-8.91.74L12 16 10.91 9.74 2 9l8.91-.74L12 2z"/></svg>
         Black Service Spot — Business Registration
       </div>
-      <div><a href="index.html" class="small" style="color:#059669;text-decoration:none;">← Back to Home</a></div>
+      <div><a href="index.html" class="muted" style="text-decoration:none;">← Back to Home</a></div>
     </div>
   </header>
 
   <main class="main">
     <div class="card">
-      <div class="card-header">
-        <h1>Register Your Business</h1>
-      </div>
+      <div class="card-header"><h1>Register Your Business</h1></div>
 
       <form id="signupForm" class="section" autocomplete="on">
-        <div class="disclaimer" style="margin-bottom:1rem;">
-          <strong>Important:</strong> Complete the form below. Your data is saved to our secure database, then you’ll be taken to PayPal to start your subscription.
-        </div>
-
         <div class="grid">
-          <!-- Left column -->
           <section>
-            <h2>Business Owner Information</h2>
-
+            <h2>Your Details</h2>
             <label for="ownerName">Your Name</label>
-            <input id="ownerName" name="ownerName" type="text" placeholder="First Last" required />
-
+            <input id="ownerName" type="text" required/>
             <label for="businessName">Business Name</label>
-            <input id="businessName" name="businessName" type="text" placeholder="Your LLC or DBA" required />
-
-            <label for="email">Email Address</label>
-            <input id="email" name="email" type="email" placeholder="you@business.com" required />
-
-            <label for="phone">Phone Number</label>
-            <input id="phone" name="phone" type="text" placeholder="(555) 555-5555" />
+            <input id="businessName" type="text" required/>
+            <label for="email">Email</label>
+            <input id="email" type="email" required/>
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" placeholder="(555) 555-5555"/>
 
             <div class="row">
               <div>
                 <label for="stateSelect">State</label>
-                <select id="stateSelect" name="state" required>
+                <select id="stateSelect" required>
                   <option value="" disabled selected>Select State</option>
                 </select>
               </div>
               <div>
                 <label for="citySelect">City</label>
-                <select id="citySelect" name="city" required disabled>
+                <select id="citySelect" required disabled>
                   <option value="" disabled selected>Select City</option>
                 </select>
               </div>
             </div>
 
             <label for="address">Business Address <span class="muted">(optional)</span></label>
-            <input id="address" name="address" type="text" placeholder="123 Main St, Suite 100" />
-
-            <div class="row">
-              <div>
-                <label for="hours">Hours of Operation <span class="muted">(optional)</span></label>
-                <input id="hours" name="hours" type="text" placeholder="Mon–Fri 9am–5pm" />
-              </div>
-              <div>
-                <label for="logo">Business Logo</label>
-                <input id="logo" name="logo" type="file" accept="image/*" />
-              </div>
-            </div>
-          </section>
-
-          <!-- Right column -->
-          <section>
-            <h2>Services & Notes</h2>
+            <input id="address" type="text" placeholder="123 Main St"/>
 
             <label for="businessType">Business Type</label>
-            <input id="businessType" name="businessType" type="text" placeholder="Barber, Caterer, Consultant..." required />
+            <input id="businessType" type="text" placeholder="Barber, Caterer, Consultant..." required/>
 
-            <label for="services">List of Services</label>
-            <textarea id="services" name="services" placeholder="e.g., Braids, Locs, Silk Press (comma-separated)"></textarea>
+            <label for="services">Services <span class="muted">(comma-separated)</span></label>
+            <textarea id="services" placeholder="Braids, Locs, Silk Press"></textarea>
 
-            <label for="specialInstructions">Private Notes <span class="muted">(visible to you only)</span></label>
-            <textarea id="specialInstructions" name="specialInstructions" placeholder="Any special internal notes..."></textarea>
+          </section>
 
-            <h2 style="margin-top:1rem;">Choose a Plan</h2>
-            <div class="row">
-              <div>
-                <label for="planSelect">Subscription</label>
-                <select id="planSelect" name="plan" required>
-                  <option value="monthly">Monthly — $29.95 + $4.95 setup</option>
-                  <option value="annual">Annual — $287.52 (20% off) + $4.95 setup</option>
-                </select>
-              </div>
-              <div>
-                <label>&nbsp;</label>
-                <div class="actions">
-                  <button type="submit" class="btn btn-primary" id="submitBtn">Continue to Payment</button>
-                  <button type="button" class="btn btn-secondary" id="cancelBtn" onclick="window.location.href='index.html'">Cancel</button>
-                </div>
-              </div>
+          <section>
+            <h2>Plan & Payment</h2>
+            <label for="planSelect">Choose Plan <span class="pill">$4.95 setup</span></label>
+            <select id="planSelect" required>
+              <option value="monthly">Monthly — $29.95</option>
+              <option value="annual">Annual — $287.52 (20% off)</option>
+            </select>
+
+            <div class="pay-wrap">
+              <p class="muted" style="margin-top:0">1) Fill the form • 2) Click the PayPal button below • 3) Approve subscription • 4) You’ll be redirected to your dashboard.</p>
+              <div id="paypal-monthly" style="display:none"></div>
+              <div id="paypal-annual" style="display:none"></div>
+              <p id="payMsg" class="muted" style="margin-top:.5rem;"></p>
             </div>
 
-            <p class="muted" style="margin-top:.5rem;">By continuing, you agree to our Terms of Service and Privacy Policy.</p>
+            <div style="margin-top:1rem">
+              <button id="prepBtn" type="button" class="btn btn-primary">Save & Show PayPal Button</button>
+              <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+            </div>
+
+            <!-- Hidden sync for Firestore convenience -->
+            <input type="hidden" id="stateHidden"/>
+            <input type="hidden" id="cityHidden"/>
           </section>
         </div>
-
-        <!-- Hidden sync for Firestore convenience -->
-        <input type="hidden" id="stateHidden" name="stateHidden" />
-        <input type="hidden" id="cityHidden"  name="cityHidden" />
       </form>
     </div>
   </main>
 
-  <footer>
-    <p class="small" style="color:#065f46;">© 2025 Black Service Spot</p>
-  </footer>
-
-  <!-- Firebase (v9 modular) -->
+  <!-- Firebase (v10 modular) -->
   <script type="module">
-    // Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // ===== Your Firebase Config (from memory) =====
     const firebaseConfig = {
       apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
       authDomain: "black-service-spot.firebaseapp.com",
@@ -193,44 +131,13 @@
       appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
       measurementId: "G-HDD97PF8K7"
     };
-
     const app = initializeApp(firebaseConfig);
     const db  = getFirestore(app);
 
-    // === PayPal Plan IDs ===
-    const PAYPAL_CLIENT_ID = "EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB";
-    const MONTHLY_PLAN_ID  = "P-REPLACE_WITH_MONTHLY_PLAN_ID"; // TODO: ensure this is your P-… monthly plan id
-    const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";     // known good annual plan id
-
-    // === Utilities ===
-    const $ = (id) => document.getElementById(id);
-    function getQueryParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
-    function preselectPlanFromURL() {
-      const p = (getQueryParam('plan') || '').toLowerCase();
-      if (p === 'annual' || p === 'monthly') {
-        $("planSelect").value = p;
-      }
-      const state = getQueryParam('state'); const city = getQueryParam('city');
-      if (state) { try { document.querySelector('#stateSelect').value = state.length===2? state.toUpperCase(): state; } catch(_){} }
-      if (city)  { try { document.querySelector('#cityHidden').value = city; } catch(_){} }
-    }
-
-    function sanitizeId(s) {
-      return String(s || 'unknown').trim().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-').toLowerCase();
-    }
-    function parseServices(text) {
-      if (!text) return [];
-      return text.split(',').map(s => s.trim()).filter(Boolean);
-    }
-
-    async function saveOwnerAndRedirect(e) {
-      e.preventDefault();
-      const submit = $("submitBtn");
-      submit.disabled = true; submit.textContent = "Saving...";
-
+    // Expose save function to window so PayPal (non-module) can call it
+    window.BSS = window.BSS || {};
+    window.BSS.saveRegistration = async function saveRegistration(){
+      const $ = id => document.getElementById(id);
       const ownerName  = $("ownerName").value.trim();
       const business   = $("businessName").value.trim();
       const email      = $("email").value.trim();
@@ -238,228 +145,136 @@
       const state      = $("stateHidden").value || $("stateSelect").value;
       const city       = $("cityHidden").value  || $("citySelect").value;
       const address    = $("address").value.trim();
-      const hours      = $("hours").value.trim();
       const businessType = $("businessType").value.trim();
-      const services   = parseServices($("services").value);
-      const notes      = $("specialInstructions").value.trim();
+      const services   = $("services").value.split(",").map(s=>s.trim()).filter(Boolean);
       const plan       = $("planSelect").value;
 
-      if (!business) {
-        alert("Please enter your Business Name."); submit.disabled = false; submit.textContent = "Continue to Payment"; return;
+      if(!ownerName || !business || !email || !state || !city || !businessType){
+        throw new Error("Please complete all required fields (Name, Business, Email, State, City, Business Type).");
       }
-      // Use business name as document id per your preference
-      const docId = sanitizeId(business);
 
-      try {
-        await setDoc(doc(db, "Business_owners", docId), {
-          ownerName, businessName: business, email, phone,
-          state, city, address, hours, businessType, services,
-          notes, plan, createdAt: serverTimestamp()
-        }, { merge: true });
+      const docId = business.trim().toLowerCase().replace(/[^\w\- ]+/g,"").replace(/\s+/g,"-");
+      await setDoc(doc(db, "Business_owners", docId), {
+        ownerName, businessName: business, email, phone, state, city, address,
+        businessType, services, plan, createdAt: serverTimestamp()
+      }, { merge: true });
 
-        // Small pause to ensure write completes before payment
-        await new Promise(r => setTimeout(r, 1200));
-
-        // Kick off PayPal subscription with selected plan
-        const planId = (plan === 'annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
-        if (!planId || !planId.startsWith('P-')) {
-          alert("Your PayPal monthly plan ID is not configured. Please update MONTHLY_PLAN_ID in this file to your P-… plan ID.");
-          submit.disabled = false; submit.textContent = "Continue to Payment";
-          return;
-        }
-        // Dynamically load the PayPal SDK (so it doesn't block initial load)
-        const sdk = document.createElement('script');
-        sdk.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&vault=true&intent=subscription`;
-        document.body.appendChild(sdk);
-        sdk.onload = () => {
-          // Render an invisible button and click it programmatically
-          const container = document.createElement('div');
-          container.id = "paypal-button-container-auto";
-          container.style.position = "fixed";
-          container.style.left = "-9999px";
-          document.body.appendChild(container);
-
-          // @ts-ignore
-          paypal.Buttons({
-            style: { layout: 'vertical', label: 'subscribe' },
-            createSubscription: function(data, actions) {
-              return actions.subscription.create({ plan_id: planId });
-            },
-            onApprove: function(data, actions) {
-              // Redirect to dashboard after PayPal approval
-              window.location.href = "success.html?business=" + encodeURIComponent(docId);
-            },
-            onError: function(err) {
-              console.error(err);
-              alert("PayPal error: " + (err && err.message ? err.message : "Unknown error"));
-              submit.disabled = false; submit.textContent = "Continue to Payment";
-            }
-          }).render('#paypal-button-container-auto').then(() => {
-            // Trigger the flow
-            const btn = document.querySelector('#paypal-button-container-auto iframe');
-            if (!btn) {
-              // fallback: open hosted plan url
-              window.location.href = "https://www.paypal.com/webapps/billing/subscriptions?plan_id=" + encodeURIComponent(planId);
-            }
-          });
-        };
-        sdk.onerror = () => {
-          window.location.href = "https://www.paypal.com/webapps/billing/subscriptions?plan_id=" + encodeURIComponent(planId);
-        };
-
-      } catch (err) {
-        console.error(err);
-        alert("There was a problem saving your registration. Please check your connection and try again.");
-        submit.disabled = false; submit.textContent = "Continue to Payment";
-      }
-    }
-
-    // Attach listeners
-    document.getElementById('signupForm').addEventListener('submit', saveOwnerAndRedirect);
-    preselectPlanFromURL();
+      return { docId, plan };
+    };
   </script>
 
-  <!-- Inline Cities Dataset + Connector (so this single file works anywhere) -->
+  <!-- Inline Cities dataset + connector (short list for demo; keep your current one if already working) -->
   <script>
-  // --- cities-by-state.js (inline) ---
-  window.CITIES_BY_STATE = {
-    "AL": ["Birmingham","Huntsville","Mobile","Montgomery","Tuscaloosa","Hoover","Auburn","Dothan","Decatur","Madison"],
-    "AK": ["Anchorage","Fairbanks","Juneau","Sitka","Ketchikan","Wasilla","Kenai","Kodiak"],
-    "AZ": ["Phoenix","Tucson","Mesa","Chandler","Scottsdale","Glendale","Gilbert","Tempe","Peoria","Surprise"],
-    "AR": ["Little Rock","Fort Smith","Fayetteville","Springdale","Jonesboro","Rogers","Conway","Bentonville"],
-    "CA": ["Los Angeles","San Diego","San Jose","San Francisco","Fresno","Sacramento","Long Beach","Oakland","Bakersfield","Anaheim","Riverside","Irvine","Stockton","Chula Vista","Fremont","Santa Ana","Modesto","Oxnard","San Bernardino"],
-    "CO": ["Denver","Colorado Springs","Aurora","Fort Collins","Lakewood","Thornton","Arvada","Westminster","Pueblo","Greeley","Boulder"],
-    "CT": ["Bridgeport","New Haven","Stamford","Hartford","Waterbury","Norwalk","Danbury","New Britain"],
-    "DE": ["Wilmington","Dover","Newark","Middletown","Smyrna","Milford"],
-    "FL": ["Jacksonville","Miami","Tampa","Orlando","St. Petersburg","Hialeah","Port St. Lucie","Cape Coral","Tallahassee","Fort Lauderdale","Pembroke Pines","Hollywood","Gainesville","Coral Springs","Miramar","Clearwater"],
-    "GA": ["Atlanta","Augusta","Columbus","Macon","Savannah","Athens","Sandy Springs","Roswell","Albany","Johns Creek","Warner Robins"],
-    "HI": ["Honolulu","Hilo","Kailua","Kapolei","Kaneohe","Pearl City","Waipahu"],
-    "ID": ["Boise","Meridian","Nampa","Idaho Falls","Pocatello","Caldwell","Twin Falls"],
-    "IL": ["Chicago","Aurora","Naperville","Joliet","Rockford","Springfield","Elgin","Peoria","Champaign","Waukegan","Cicero"],
-    "IN": ["Indianapolis","Fort Wayne","Evansville","South Bend","Carmel","Fishers","Bloomington","Hammond","Gary","Lafayette"],
-    "IA": ["Des Moines","Cedar Rapids","Davenport","Sioux City","Iowa City","Waterloo","Ames","West Des Moines"],
-    "KS": ["Wichita","Overland Park","Kansas City","Olathe","Topeka","Lawrence","Shawnee"],
-    "KY": ["Louisville","Lexington","Bowling Green","Owensboro","Covington","Georgetown","Richmond"],
-    "LA": ["New Orleans","Baton Rouge","Shreveport","Lafayette","Lake Charles","Kenner","Bossier City"],
-    "ME": ["Portland","Lewiston","Bangor","South Portland","Auburn","Biddeford"],
-    "MD": ["Baltimore","Columbia","Germantown","Silver Spring","Waldorf","Glen Burnie","Frederick","Ellicott City","Rockville","Gaithersburg"],
-    "MA": ["Boston","Worcester","Springfield","Cambridge","Lowell","Brockton","New Bedford","Quincy","Lynn","Fall River"],
-    "MI": ["Detroit","Grand Rapids","Warren","Sterling Heights","Ann Arbor","Lansing","Flint","Dearborn","Livonia","Troy"],
-    "MN": ["Minneapolis","St. Paul","Rochester","Bloomington","Brooklyn Park","Duluth","Plymouth","Maple Grove","Woodbury","St. Cloud"],
-    "MS": ["Jackson","Gulfport","Southaven","Hattiesburg","Biloxi","Olive Branch","Tupelo"],
-    "MO": ["Kansas City","St. Louis","Springfield","Columbia","Independence","Lee's Summit","O'Fallon","St. Joseph"],
-    "MT": ["Billings","Missoula","Great Falls","Bozeman","Butte","Helena","Kalispell"],
-    "NE": ["Omaha","Lincoln","Bellevue","Grand Island","Kearney","Fremont","Hastings"],
-    "NV": ["Las Vegas","Henderson","Reno","North Las Vegas","Sparks","Carson City","Elko"],
-    "NH": ["Manchester","Nashua","Concord","Derry","Dover","Rochester","Keene"],
-    "NJ": ["Newark","Jersey City","Paterson","Elizabeth","Edison","Woodbridge","Lakewood","Toms River","Hamilton","Trenton"],
-    "NM": ["Albuquerque","Las Cruces","Rio Rancho","Santa Fe","Roswell","Farmington","Clovis"],
-    "NY": ["New York","Buffalo","Rochester","Yonkers","Syracuse","Albany","New Rochelle","Mount Vernon","Schenectady","Utica","White Plains"],
-    "NC": ["Charlotte","Raleigh","Greensboro","Durham","Winston-Salem","Fayetteville","Cary","Wilmington","High Point"],
-    "ND": ["Fargo","Bismarck","Grand Forks","Minot","West Fargo","Williston"],
-    "OH": ["Columbus","Cleveland","Cincinnati","Toledo","Akron","Dayton","Parma","Canton","Lorain","Hamilton"],
-    "OK": ["Oklahoma City","Tulsa","Norman","Broken Arrow","Lawton","Edmond","Moore","Stillwater"],
-    "OR": ["Portland","Salem","Eugene","Gresham","Hillsboro","Beaverton","Bend","Medford","Springfield","Corvallis"],
-    "PA": ["Philadelphia","Pittsburgh","Allentown","Erie","Reading","Scranton","Bethlehem","Lancaster","Harrisburg","York"],
-    "RI": ["Providence","Warwick","Cranston","Pawtucket","East Providence","Woonsocket"],
-    "SC": ["Charleston","Columbia","North Charleston","Mount Pleasant","Rock Hill","Greenville","Summerville"],
-    "SD": ["Sioux Falls","Rapid City","Aberdeen","Brookings","Watertown"],
-    "TN": ["Nashville","Memphis","Knoxville","Chattanooga","Clarksville","Murfreesboro","Franklin","Jackson"],
-    "TX": ["Houston","San Antonio","Dallas","Austin","Fort Worth","El Paso","Arlington","Corpus Christi","Plano","Laredo","Lubbock","Garland","Irving","Amarillo","Grand Prairie","McKinney"],
-    "UT": ["Salt Lake City","West Valley City","Provo","West Jordan","Orem","Sandy","Ogden","St. George","Layton"],
-    "VT": ["Burlington","South Burlington","Rutland","Barre","Montpelier"],
-    "VA": ["Virginia Beach","Norfolk","Chesapeake","Richmond","Newport News","Alexandria","Hampton","Roanoke","Portsmouth","Suffolk"],
-    "WA": ["Seattle","Spokane","Tacoma","Vancouver","Bellevue","Kent","Everett","Renton","Spokane Valley"],
-    "WV": ["Charleston","Huntington","Morgantown","Parkersburg","Wheeling","Weirton","Fairmont"],
-    "WI": ["Milwaukee","Madison","Green Bay","Kenosha","Racine","Appleton","Waukesha","Eau Claire"],
-    "WY": ["Cheyenne","Casper","Laramie","Gillette","Rock Springs","Sheridan"]
-  };
-  window.US_STATES = [
-    { code: "AL", name: "Alabama" }, { code: "AK", name: "Alaska" },
-    { code: "AZ", name: "Arizona" }, { code: "AR", name: "Arkansas" },
-    { code: "CA", name: "California" }, { code: "CO", name: "Colorado" },
-    { code: "CT", name: "Connecticut" }, { code: "DE", name: "Delaware" },
-    { code: "FL", name: "Florida" }, { code: "GA", name: "Georgia" },
-    { code: "HI", name: "Hawaii" }, { code: "ID", name: "Idaho" },
-    { code: "IL", name: "Illinois" }, { code: "IN", name: "Indiana" },
-    { code: "IA", name: "Iowa" }, { code: "KS", name: "Kansas" },
-    { code: "KY", name: "Kentucky" }, { code: "LA", name: "Louisiana" },
-    { code: "ME", name: "Maine" }, { code: "MD", name: "Maryland" },
-    { code: "MA", name: "Massachusetts" }, { code: "MI", name: "Michigan" },
-    { code: "MN", name: "Minnesota" }, { code: "MS", name: "Mississippi" },
-    { code: "MO", name: "Missouri" }, { code: "MT", name: "Montana" },
-    { code: "NE", name: "Nebraska" }, { code: "NV", name: "Nevada" },
-    { code: "NH", name: "New Hampshire" }, { code: "NJ", name: "New Jersey" },
-    { code: "NM", name: "New Mexico" }, { code: "NY", name: "New York" },
-    { code: "NC", name: "North Carolina" }, { code: "ND", name: "North Dakota" },
-    { code: "OH", name: "Ohio" }, { code: "OK", name: "Oklahoma" },
-    { code: "OR", name: "Oregon" }, { code: "PA", name: "Pennsylvania" },
-    { code: "RI", name: "Rhode Island" }, { code: "SC", name: "South Carolina" },
-    { code: "SD", name: "South Dakota" }, { code: "TN", name: "Tennessee" },
-    { code: "TX", name: "Texas" }, { code: "UT", name: "Utah" },
-    { code: "VT", name: "Vermont" }, { code: "VA", name: "Virginia" },
-    { code: "WA", name: "Washington" }, { code: "WV", name: "West Virginia" },
-    { code: "WI", name: "Wisconsin" }, { code: "WY", name: "Wyoming" }
-  ];
+    window.CITIES_BY_STATE = window.CITIES_BY_STATE || {
+      "Georgia": ["Atlanta","Augusta","Savannah","Columbus","Macon","Athens"],
+      "Louisiana": ["Baton Rouge","Bossier City","Kenner","Lafayette","Lake Charles","New Orleans","Shreveport"],
+      "Texas": ["Houston","Dallas","Austin","San Antonio","Fort Worth","Plano","Arlington"]
+    };
+    (function(){
+      const stateEl = document.getElementById('stateSelect');
+      const cityEl  = document.getElementById('citySelect');
+      const hiddenState = document.getElementById('stateHidden');
+      const hiddenCity  = document.getElementById('cityHidden');
 
-  // --- signup-dropdown.js (inline) ---
-  (function () {
-    const CONFIG = { stateSelectId:'stateSelect', citySelectId:'citySelect', stateHiddenId:'stateHidden', cityHiddenId:'cityHidden' };
-    const stateEl = document.getElementById(CONFIG.stateSelectId);
-    const cityEl  = document.getElementById(CONFIG.citySelectId);
-    if (!stateEl || !cityEl) { console.warn('[signup-dropdown] Missing selects'); return; }
-
-    const hiddenState = document.getElementById(CONFIG.stateHiddenId);
-    const hiddenCity  = document.getElementById(CONFIG.cityHiddenId);
-
-    const DATA = window.CITIES_BY_STATE || {};
-    const STATE_LIST = window.US_STATES || [];
-    const CODE_BY_NAME = new Map(STATE_LIST.map(s => [s.name.toLowerCase(), s.code]));
-    const NAME_BY_CODE = new Map(STATE_LIST.map(s => [s.code, s.name]));
-
-    function resolveStateCode(input){
-      if(!input) return null; const s=String(input).trim();
-      if(s.length===2) return s.toUpperCase();
-      return CODE_BY_NAME.get(s.toLowerCase()) || null;
-    }
-    function getCitiesFor(code){
-      if(!code) return [];
-      const byCode = DATA[code];
-      if(Array.isArray(byCode)) return byCode.slice();
-      const full = NAME_BY_CODE.get(code);
-      if(full && Array.isArray(DATA[full])) return DATA[full].slice();
-      return [];
-    }
-    function populateStates(){
-      const current = new Set(Array.from(stateEl.options).map(o=>o.value));
-      STATE_LIST.slice().sort((a,b)=>a.name.localeCompare(b.name))
-        .filter(s=>!current.has(s.code)).forEach(s=>{
-          const opt=document.createElement('option'); opt.value=s.code; opt.textContent=s.name; stateEl.appendChild(opt);
-        });
-    }
-    function resetCity(){
-      cityEl.innerHTML=''; const ph=document.createElement('option');
-      ph.value=''; ph.textContent='Select City'; ph.disabled=true; ph.selected=true; cityEl.appendChild(ph); cityEl.disabled=true;
-    }
-    function populateCities(code, pre){
+      // populate states
+      Object.keys(CITIES_BY_STATE).sort().forEach(name=>{
+        const opt=document.createElement('option'); opt.value=name; opt.textContent=name; stateEl.appendChild(opt);
+      });
+      function resetCity(){
+        cityEl.innerHTML=''; const ph=document.createElement('option');
+        ph.value=''; ph.textContent='Select City'; ph.disabled=true; ph.selected=true; cityEl.appendChild(ph); cityEl.disabled=true;
+      }
+      function populateCities(stateName){
+        resetCity();
+        const list=(CITIES_BY_STATE[stateName]||[]).slice().sort();
+        list.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; cityEl.appendChild(o); });
+        if(list.length){ cityEl.disabled=false; }
+        syncHidden();
+      }
+      function syncHidden(){ hiddenState.value = stateEl.value || ''; hiddenCity.value = cityEl.value || ''; }
+      stateEl.addEventListener('change', ()=>{ populateCities(stateEl.value); });
+      cityEl.addEventListener('change', syncHidden);
       resetCity();
-      const deduped = Array.from(new Set(getCitiesFor(code).map(x=>String(x).trim()).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
-      for(const c of deduped){ const opt=document.createElement('option'); opt.value=c; opt.textContent=c; cityEl.appendChild(opt); }
-      if(deduped.length){ cityEl.disabled=false; if(pre){ const m=deduped.find(c=>c.toLowerCase()===pre.toLowerCase()); if(m) cityEl.value=m; } }
-      syncHidden();
-    }
-    function syncHidden(){ if(hiddenState) hiddenState.value=stateEl.value||''; if(hiddenCity) hiddenCity.value=cityEl.value||''; }
-    function handleState(){ const code=resolveStateCode(stateEl.value); populateCities(code,null); syncHidden(); stateEl.dispatchEvent(new Event('input',{bubbles:true})); }
-    function handleCity(){ syncHidden(); cityEl.dispatchEvent(new Event('input',{bubbles:true})); }
-    function params(){ const u=new URLSearchParams(location.search); return {st:u.get('state')||'', ct:u.get('city')||''}; }
+    })();
+  </script>
 
-    resetCity(); populateStates();
-    const {st, ct} = params();
-    if(st){ const code=resolveStateCode(st); if(code){ stateEl.value=code; populateCities(code, ct||null); } }
-    stateEl.addEventListener('change', handleState);
-    cityEl.addEventListener('change', handleCity);
-    syncHidden();
-  })();
+  <!-- PayPal button rendering + flow -->
+  <script>
+    const MONTHLY_PLAN_ID = "P-37739232P6875371KNB7M33A";
+    const ANNUAL_PLAN_ID  = "P-6VE96793E07454030NB7M7IA";
+
+    const payMonthly = document.getElementById('paypal-monthly');
+    const payAnnual  = document.getElementById('paypal-annual');
+    const planSelect = document.getElementById('planSelect');
+    const payMsg     = document.getElementById('payMsg');
+    const prepBtn    = document.getElementById('prepBtn');
+
+    // Render both buttons (hidden); we let user choose plan to show the right one
+    function renderButtons(){
+      if (window.paypal && !payMonthly.hasChildNodes()) {
+        paypal.Buttons({
+          style: { layout: 'vertical', label: 'subscribe' },
+          onClick: async () => {
+            payMsg.textContent = "Saving your info...";
+            try{
+              const { docId } = await window.BSS.saveRegistration();
+              sessionStorage.setItem('bss_doc', docId);
+              payMsg.textContent = "Opening PayPal...";
+            }catch(e){ payMsg.textContent = e.message || "Please complete required fields."; throw e; }
+          },
+          createSubscription: (data, actions) => actions.subscription.create({ plan_id: MONTHLY_PLAN_ID }),
+          onApprove: () => {
+            const id = sessionStorage.getItem('bss_doc') || '';
+            window.location.href = "success.html?business=" + encodeURIComponent(id);
+          },
+          onError: (err) => { console.error(err); payMsg.textContent = "PayPal error. Try again."; }
+        }).render('#paypal-monthly');
+      }
+      if (window.paypal && !payAnnual.hasChildNodes()) {
+        paypal.Buttons({
+          style: { layout: 'vertical', label: 'subscribe' },
+          onClick: async () => {
+            payMsg.textContent = "Saving your info...";
+            try{
+              const { docId } = await window.BSS.saveRegistration();
+              sessionStorage.setItem('bss_doc', docId);
+              payMsg.textContent = "Opening PayPal...";
+            }catch(e){ payMsg.textContent = e.message || "Please complete required fields."; throw e; }
+          },
+          createSubscription: (data, actions) => actions.subscription.create({ plan_id: ANNUAL_PLAN_ID }),
+          onApprove: () => {
+            const id = sessionStorage.getItem('bss_doc') || '';
+            window.location.href = "success.html?business=" + encodeURIComponent(id);
+          },
+          onError: (err) => { console.error(err); payMsg.textContent = "PayPal error. Try again."; }
+        }).render('#paypal-annual');
+      }
+    }
+
+    // Toggle which PayPal button is visible
+    function showSelectedButton(){
+      const plan = planSelect.value;
+      payMonthly.style.display = (plan === 'monthly') ? 'block' : 'none';
+      payAnnual.style.display  = (plan === 'annual')  ? 'block' : 'none';
+    }
+    planSelect.addEventListener('change', showSelectedButton);
+
+    // User clicks "Save & Show PayPal Button"
+    prepBtn.addEventListener('click', async () => {
+      try{
+        // Validate required fields before showing buttons
+        await window.BSS.saveRegistration();
+        payMsg.textContent = "Saved ✔ Now choose the PayPal button below.";
+        renderButtons();
+        showSelectedButton();
+      }catch(e){
+        payMsg.textContent = e.message || "Please complete all required fields.";
+      }
+    });
+
+    // Initial
+    renderButtons();
+    showSelectedButton();
   </script>
 </body>
 </html>
