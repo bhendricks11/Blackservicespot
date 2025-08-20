@@ -1,86 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Business Owner Dashboard</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<style>
-  body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0;padding:24px}
-  .card{max-width:1000px;margin:auto;background:#fff;border-radius:12px;padding:24px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
-  .muted{color:#6b7280}
-  pre{background:#f8fafc;padding:12px;border-radius:8px;overflow:auto}
-</style>
-<script>
-(function(){
-  window.__bssGetBizName = function(){
-    const p = new URLSearchParams(location.search);
-    const v = p.get('biz') || p.get('business') || localStorage.getItem('bss_businessName');
-    return v && v.trim() ? v.trim() : null;
-  };
-  window.__bssResolveOwnerDoc = async function(db, businessName){
-    let ref = db.collection('Business_owners').doc('Client_list').collection('Client_list').doc(businessName);
-    let snap = await ref.get();
-    if (snap.exists) return ref;
-    ref = db.collection('Business_owners').doc(businessName);
-    snap = await ref.get();
-    if (snap.exists) return ref;
-    return null;
-  };
-})();
-</script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Business Dashboard — Black Service Spot</title>
+  <meta name="description" content="Manage your Black Service Spot business profile, services, and customers."/>
+  <style>
+    :root { --g1:#10b981; --g2:#059669; --g3:#047857; --text:#111827; --muted:#6b7280; --bg:#f9fafb; --card:#fff; --border:#e5e7eb; --ring:#10b981; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: var(--bg); }
+    header { background:#fff; border-bottom:1px solid #f0f0f0; position:sticky; top:0; z-index:30; }
+    .nav { max-width: 1200px; margin:0 auto; padding:.8rem 1rem; display:flex; align-items:center; justify-content:space-between; }
+    .brand { display:flex; align-items:center; gap:.5rem; color:#059669; font-weight:800; }
+    .grid { max-width: 1200px; margin: 1rem auto; padding: 0 1rem; display:grid; grid-template-columns: 340px 1fr; gap:1rem; }
+    .card { background:var(--card); border-radius:1rem; box-shadow:0 14px 30px rgba(0,0,0,.12); padding:1rem; }
+    .section h2 { margin:.25rem 0 1rem; color:#064e3b; font-size:1.1rem; }
+    label { font-weight:600; display:block; margin:.5rem 0 .35rem; color:#374151; }
+    input[type="text"], input[type="email"], input[type="file"], select, textarea {
+      width:100%; padding:.7rem .8rem; border:2px solid var(--border); border-radius:.6rem; outline:none; background:#fff; font-size:.95rem;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--ring); box-shadow:0 0 0 3px rgba(16,185,129,.15); }
+    .row { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+    .btn { border:none; padding:.75rem 1rem; border-radius:.6rem; font-weight:700; cursor:pointer; }
+    .btn-primary { background:#10b981; color:#fff; }
+    .btn-secondary { background:transparent; color:#10b981; border:2px solid #10b981; }
+    .muted { color: var(--muted); font-size:.9rem; }
+    .avatar { width:110px; height:110px; border-radius:50%; background:#ecfdf5; display:flex; align-items:center; justify-content:center; color:#047857; font-weight:800; font-size:1.6rem; overflow:hidden; }
+    .avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+    .pill { display:inline-block; padding:.25rem .5rem; background:#ecfdf5; color:#065f46; border-radius:999px; font-size:.75rem; margin-left:.5rem; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { text-align:left; padding:.6rem .5rem; border-bottom:1px solid #f1f5f9; font-size:.95rem; }
+    th { background:#f8fafc; }
+    tr:hover td { background:#f9fafb; }
+    .stack { display:flex; gap:.5rem; flex-wrap:wrap; }
+    @media (max-width: 980px){ .grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
-  <div class="card">
-    <h2 id="bizTitle">Loading business…</h2>
-    <div class="muted" id="bizMeta"></div>
-    <pre id="raw" class="muted" style="white-space:pre-wrap;margin-top:16px"></pre>
-  </div>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.09 8.26 22 9l-8.91.74L12 16 10.91 9.74 2 9l8.91-.74L12 2z"/></svg>
+        Black Service Spot — Dashboard
+      </div>
+      <div class="stack">
+        <a href="index.html" class="btn btn-secondary">Home</a>
+        <button id="refreshBtn" class="btn btn-secondary">Refresh</button>
+      </div>
+    </div>
+  </header>
 
-<script>
- const firebaseConfig = {
-  apiKey:"AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-  authDomain:"black-service-spot.firebaseapp.com",
-  projectId:"black-service-spot"
- };
- if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
- const db = firebase.firestore();
+  <main class="grid">
+    <!-- Profile / Settings -->
+    <section class="card section">
+      <h2>Your Business Profile</h2>
+      <div style="display:flex; gap:1rem; align-items:center; margin-bottom:1rem;">
+        <div class="avatar" id="logoAvatar"><span id="logoInitials">BS</span></div>
+        <div>
+          <div style="font-weight:800; font-size:1.1rem;" id="businessTitle">Business Name</div>
+          <div class="muted" id="businessSubtitle">City, State <span class="pill" id="planPill">Plan</span></div>
+        </div>
+      </div>
 
- function getBizName(){
-   const p = new URLSearchParams(location.search);
-   const v = p.get('business') || p.get('biz') || localStorage.getItem('bss_businessName');
-   return v && v.trim() ? v.trim() : null;
- }
+      <label for="logoFile">Update Logo</label>
+      <input id="logoFile" type="file" accept="image/*" />
 
- async function load(){
-   const businessName = getBizName();
-   const title = document.getElementById('bizTitle');
-   const meta  = document.getElementById('bizMeta');
-   if (!businessName){
-     title.textContent = 'No business found';
-     meta.textContent = 'Open from signup (or add ?business=Your Name to the URL).';
-     return;
-   }
-   // Try nested path first
-   let docRef = db.collection('Business_owners').doc('Client_list').collection('Client_list').doc(businessName);
-   let snap = await docRef.get();
-   // Fallback: root path
-   if (!snap.exists){
-     const altRef = db.collection('Business_owners').doc(businessName);
-     const alt = await altRef.get();
-     if (alt.exists){ docRef = altRef; snap = alt; }
-   }
-   if (!snap.exists){
-     title.textContent = businessName;
-     meta.textContent = 'Record not found yet. If you just paid, refresh in a moment.';
-     return;
-   }
-   const d = snap.data();
-   title.textContent = d.businessName || businessName;
-   meta.textContent = (d.city||'') + (d.state ? ', ' + d.state : '') + (d.businessType ? ' • ' + d.businessType : '');
-   document.getElementById('raw').textContent = JSON.stringify(d,null,2);
- }
- load();
-</script>
+      <div class="row" style="margin-top:.75rem;">
+        <div>
+          <label for="ownerName">Owner Name</label>
+          <input id="ownerName" type="text" />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" type="email" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" type="text" />
+        </div>
+        <div>
+          <label for="address">Address</label>
+          <input id="address" type="text" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="state">State</label>
+          <input id="state" type="text" placeholder="GA" />
+        </div>
+        <div>
+          <label for="city">City</label>
+          <input id="city" type="text" placeholder="Atlanta" />
+        </div>
+      </div>
+
+      <label for="businessType">Business Type</label>
+      <input id="businessType" type="text" />
+
+      <label for="services">Services (comma-separated)</label>
+      <input id="services" type="text" />
+
+      <label for="notes">Private Notes</label>
+      <textarea id="notes"></textarea>
+
+      <div class="stack" style="margin-top:.75rem;">
+        <button id="saveProfileBtn" class="btn btn-primary">Save Profile</button>
+      </div>
+      <p class="muted" id="profileMsg" style="margin-top:.5rem;"></p>
+    </section>
+
+    <!-- Clients -->
+    <section class="card section">
+      <h2>Your Customers</h2>
+      <div class="row">
+        <div>
+          <label for="clientName">Customer Name</label>
+          <input id="clientName" type="text" placeholder="Full Name" />
+        </div>
+        <div>
+          <label for="clientPhone">Phone</label>
+          <input id="clientPhone" type="text" placeholder="(555) 555-5555" />
+        </div>
+      </div>
+
+      <label for="clientAddress">Address</label>
+      <input id="clientAddress" type="text" placeholder="123 Main St" />
+
+      <label for="clientInstructions">Special Instructions (type of services needed)</label>
+      <textarea id="clientInstructions" placeholder="e.g., deep clean, 3 hr session, etc."></textarea>
+
+      <div class="row">
+        <div>
+          <label for="invoiceNumber">Invoice #</label>
+          <input id="invoiceNumber" type="text" placeholder="INV-1001" />
+        </div>
+        <div style="display:flex; align-items:flex-end;">
+          <button id="addClientBtn" class="btn btn-primary" style="width:100%;">Add Customer</button>
+        </div>
+      </div>
+
+      <div style="overflow:auto; margin-top:1rem;">
+        <table id="clientsTable">
+          <thead>
+            <tr>
+              <th>Name</th><th>Phone</th><th>Address</th><th>Instructions</th><th>Invoice #</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="muted" id="clientMsg" style="margin-top:.5rem;"></p>
+    </section>
+  </main>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, onSnapshot, deleteDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+      authDomain: "black-service-spot.firebaseapp.com",
+      projectId: "black-service-spot",
+      storageBucket: "black-service-spot.firebasestorage.app",
+      messagingSenderId: "707361777966",
+      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+      measurementId: "G-HDD97PF8K7"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+    const storage = getStorage(app);
+
+    // Helpers
+    const $ = (id)=>document.getElementById(id);
+    function qp(name){ const u=new URLSearchParams(location.search); return u.get(name)||''; }
+    function initials(name){ return (name||'B S').split(/\s+/).map(p=>p[0]).join('').slice(0,2).toUpperCase(); }
+    function sanitizeId(s){ return String(s||'unknown').trim().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-').toLowerCase(); }
+
+    const docId = sanitizeId(qp('business') || '');
+    if(!docId){
+      alert("Missing business identifier. Returning to home.");
+      window.location.href = "index.html";
+    }
+
+    const ownerRef = doc(db, "Business_owners", docId);
+    const clientsRef = collection(ownerRef, "Client_list");
+
+    // DOM refs
+    const businessTitle = $("businessTitle");
+    const businessSubtitle = $("businessSubtitle");
+    const planPill = $("planPill");
+    const logoAvatar = $("logoAvatar");
+    const logoInitials = $("logoInitials");
+    const logoFile = $("logoFile");
+    const profileMsg = $("profileMsg");
+
+    // Load profile
+    async function loadProfile(){
+      const snap = await getDoc(ownerRef);
+      if(!snap.exists()){
+        businessTitle.textContent = "Business Not Found";
+        businessSubtitle.textContent = "Please verify your link";
+        return;
+      }
+      const d = snap.data();
+      businessTitle.textContent = d.businessName || "Business Name";
+      businessSubtitle.textContent = `${d.city || ''}${d.city && d.state ? ', ' : ''}${d.state || ''}`;
+      planPill.textContent = (d.plan || 'Plan').toUpperCase();
+
+      // Fill form fields
+      $("ownerName").value = d.ownerName || "";
+      $("email").value     = d.email || "";
+      $("phone").value     = d.phone || "";
+      $("address").value   = d.address || "";
+      $("state").value     = d.state || "";
+      $("city").value      = d.city || "";
+      $("businessType").value = d.businessType || "";
+      $("services").value  = Array.isArray(d.services) ? d.services.join(", ") : (d.services || "");
+      $("notes").value     = d.notes || "";
+
+      if(d.logoUrl){
+        logoAvatar.innerHTML = `<img alt="Logo" src="${d.logoUrl}"/>`;
+      }else{
+        logoAvatar.innerHTML = ""; logoAvatar.appendChild(logoInitials); logoInitials.textContent = initials(d.businessName);
+      }
+    }
+
+    // Save profile
+    $("saveProfileBtn").addEventListener("click", async () => {
+      profileMsg.textContent = "Saving...";
+      try {
+        await setDoc(ownerRef, {
+          ownerName: $("ownerName").value.trim(),
+          email: $("email").value.trim(),
+          phone: $("phone").value.trim(),
+          address: $("address").value.trim(),
+          state: $("state").value.trim(),
+          city: $("city").value.trim(),
+          businessType: $("businessType").value.trim(),
+          services: $("services").value.split(",").map(s=>s.trim()).filter(Boolean),
+          notes: $("notes").value.trim(),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        profileMsg.textContent = "Saved ✔";
+        await loadProfile();
+      } catch (e) {
+        console.error(e); profileMsg.textContent = "Failed to save. Please try again.";
+      }
+      setTimeout(()=> profileMsg.textContent="", 2000);
+    });
+
+    // Logo upload
+    logoFile.addEventListener("change", async (e) => {
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+      profileMsg.textContent = "Uploading logo...";
+      try {
+        const r = ref(storage, `logos/${docId}/${file.name}`);
+        await uploadBytes(r, file);
+        const url = await getDownloadURL(r);
+        await updateDoc(ownerRef, { logoUrl: url, updatedAt: serverTimestamp() });
+        profileMsg.textContent = "Logo updated ✔";
+        await loadProfile();
+      } catch (err) {
+        console.error(err);
+        profileMsg.textContent = "Logo upload failed.";
+      }
+      setTimeout(()=> profileMsg.textContent="", 2500);
+    });
+
+    // Clients: add
+    $("addClientBtn").addEventListener("click", async () => {
+      const name = $("clientName").value.trim();
+      if(!name){ $("clientMsg").textContent = "Enter a customer name."; setTimeout(()=> $("clientMsg").textContent="", 1500); return; }
+      try {
+        await addDoc(clientsRef, {
+          name,
+          phone: $("clientPhone").value.trim(),
+          address: $("clientAddress").value.trim(),
+          instructions: $("clientInstructions").value.trim(),
+          invoiceNumber: $("invoiceNumber").value.trim(),
+          createdAt: serverTimestamp()
+        });
+        $("clientName").value = ""; $("clientPhone").value=""; $("clientAddress").value="";
+        $("clientInstructions").value=""; $("invoiceNumber").value="";
+        $("clientMsg").textContent = "Customer added ✔";
+      } catch (e) {
+        console.error(e); $("clientMsg").textContent = "Failed to add customer.";
+      }
+      setTimeout(()=> $("clientMsg").textContent="", 1800);
+    });
+
+    // Clients: live list
+    const tbody = document.querySelector("#clientsTable tbody");
+    function renderRow(id, d){
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${d.name || ""}</td>
+        <td>${d.phone || ""}</td>
+        <td>${d.address || ""}</td>
+        <td>${d.instructions || ""}</td>
+        <td>${d.invoiceNumber || ""}</td>
+        <td><button data-id="${id}" class="btn btn-secondary btn-del" style="padding:.4rem .6rem;">Delete</button></td>`;
+      tbody.appendChild(tr);
+    }
+    function clearTable(){ tbody.innerHTML = ""; }
+
+    const q = query(clientsRef, orderBy("createdAt","desc"));
+    onSnapshot(q, (snap) => {
+      clearTable();
+      snap.forEach(doc => renderRow(doc.id, doc.data()));
+      // Hook delete buttons
+      document.querySelectorAll(".btn-del").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+          const id = e.currentTarget.getAttribute("data-id");
+          if(!id) return;
+          if(!confirm("Delete this customer?")) return;
+          await deleteDoc(doc(clientsRef, id));
+        });
+      });
+    });
+
+    // Refresh
+    $("refreshBtn").addEventListener("click", loadProfile);
+
+    // Init
+    loadProfile();
+  </script>
 </body>
 </html>
