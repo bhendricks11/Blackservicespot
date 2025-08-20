@@ -1,5 +1,4 @@
-window.citiesByState = {
-  "AL": ["Birmingham","Huntsville","Mobile", ...],
+window.citiesByState = {"AL": ["Birmingham","Huntsville","Mobile", ...],
   "AK": ["Anchorage","Fairbanks","Juneau", ...],
   // etc for all 50 states
 };
