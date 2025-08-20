@@ -152,7 +152,7 @@
 
 <footer><p class="small">© 2025 Black Service Spot</p></footer>
 
-<!-- Firebase -->
+<!-- Firebase (module) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -167,6 +167,7 @@
   };
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
+
   window.BSS = window.BSS || {};
   window.BSS.save = async function(){
     const $ = id => document.getElementById(id);
@@ -182,23 +183,26 @@
     const services   = ($("services").value || "").split(",").map(s=>s.trim()).filter(Boolean);
     const notes      = $("specialInstructions").value.trim();
     const plan       = $("planSelect").value;
+
     if(!ownerName || !business || !email || !state || !city || !businessType){
       throw new Error("Please complete all required fields.");
     }
+
     const docId = business.replace(/[^\w\- ]+/g,"").trim().replace(/\s+/g,"-").toLowerCase();
     await setDoc(doc(db, "Business_owners", docId), {
       ownerName, businessName: business, email, phone, state, city, address, hours,
       businessType, services, notes, plan, createdAt: serverTimestamp()
     }, { merge: true });
+
     sessionStorage.setItem('bss_doc', docId);
     return { docId, plan };
   };
 </script>
 
-<!-- Load state->city data -->
+<!-- Load cities data (either variable name is fine) -->
 <script src="js/cities-by-state.js"></script>
 
-<!-- Proper binder for State -> City -->
+<!-- Robust binder: works with codes OR names, and with citiesByState OR CITIES_BY_STATE -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const stateEl = document.getElementById('stateSelect');
@@ -206,40 +210,65 @@ document.addEventListener('DOMContentLoaded', function () {
   const hiddenState = document.getElementById('stateHidden');
   const hiddenCity  = document.getElementById('cityHidden');
 
-  if (!stateEl || !cityEl || !window.citiesByState) return;
+  const DATA = window.citiesByState || window.CITIES_BY_STATE;
+  if (!stateEl || !cityEl || !DATA) { console.warn('State/city data not found'); return; }
 
-  function resetCities() {
-    cityEl.innerHTML = '<option value="" disabled selected>Select City</option>';
-    cityEl.disabled = true;
-  }
+  // Map codes <-> names so we handle either key shape
+  const CODE_TO_NAME = {
+    AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",
+    FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",
+    LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",
+    MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",
+    NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",
+    SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",
+    WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"
+  };
+  const NAME_TO_CODE = Object.fromEntries(Object.entries(CODE_TO_NAME).map(([k,v])=>[v,k]));
 
+  // Normalize keys in DATA to state codes
+  const codeSet = new Set();
+  Object.keys(DATA).forEach(k=>{
+    if (k.length === 2 && CODE_TO_NAME[k]) codeSet.add(k);
+    else if (NAME_TO_CODE[k]) codeSet.add(NAME_TO_CODE[k]);
+  });
+  const codes = Array.from(codeSet).sort((a,b)=> (CODE_TO_NAME[a]||a).localeCompare(CODE_TO_NAME[b]||b));
+
+  // Populate state list if not already in HTML
   if (stateEl.options.length <= 1) {
-    const states = Object.keys(window.citiesByState);
     stateEl.innerHTML =
       '<option value="" disabled selected>Select State</option>' +
-      states.map(s => `<option value="${s}">${s}</option>`).join('');
+      codes.map(code => `<option value="${code}">${CODE_TO_NAME[code]||code}</option>`).join('');
+  }
+
+  function resetCities(){
+    cityEl.innerHTML = '<option value="" disabled selected>Select City</option>';
+    cityEl.disabled = true;
+    hiddenCity.value = '';
+  }
+
+  function getCitiesFor(code){
+    return DATA[code] || DATA[CODE_TO_NAME[code]] || [];
   }
 
   resetCities();
 
   stateEl.addEventListener('change', function () {
-    const selState = stateEl.value;
-    const cities = window.citiesByState[selState] || [];
+    const code = stateEl.value;
+    const cities = getCitiesFor(code);
     resetCities();
-    if (!cities.length) return;
+    if (!cities || !cities.length) { hiddenState.value = code; return; }
 
     const frag = document.createDocumentFragment();
-    for (const c of cities) {
+    cities.forEach(c=>{
       const opt = document.createElement('option');
       opt.value = c;
       opt.textContent = c;
       frag.appendChild(opt);
-    }
+    });
     cityEl.appendChild(frag);
     cityEl.disabled = false;
 
-    hiddenState.value = selState;
-    hiddenCity.value = '';
+    hiddenState.value = code;
   });
 
   cityEl.addEventListener('change', function () {
@@ -248,11 +277,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- PayPal SDK (lazy bootstrap) -->
+<!-- PayPal SDK (lazy bootstrap after save) -->
 <script>
   const PAYPAL_CLIENT_ID = "EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB";
-  const MONTHLY_PLAN_ID  = "37739232P6875371KNB7M33A";
-  const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";
+  const MONTHLY_PLAN_ID  = "37739232P6875371KNB7M33A";   // $29.95 + $4.95
+  const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";  // $287.52 + $4.95
 
   const form = document.getElementById('signupForm');
   const submitBtn = document.getElementById('submitBtn');
@@ -263,12 +292,15 @@ document.addEventListener('DOMContentLoaded', function () {
     try{
       const { plan } = await window.BSS.save();
       const planId = (plan==='annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
+
       const s=document.createElement('script');
       s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&vault=true&intent=subscription`;
       document.body.appendChild(s);
+
       s.onload = ()=>{
         const hidden=document.createElement('div');
-        hidden.id='pp-hidden'; hidden.style.position='fixed'; hidden.style.left='-9999px'; hidden.style.top='-9999px'; document.body.appendChild(hidden);
+        hidden.id='pp-hidden'; hidden.style.position='fixed'; hidden.style.left='-9999px'; hidden.style.top='-9999px';
+        document.body.appendChild(hidden);
         // @ts-ignore
         paypal.Buttons({
           style:{layout:'vertical',label:'subscribe'},
@@ -277,9 +309,12 @@ document.addEventListener('DOMContentLoaded', function () {
           onError:(err)=>{ console.error(err); alert("PayPal error. Please try again."); submitBtn.disabled=false; submitBtn.textContent="Continue to Payment"; }
         }).render('#pp-hidden');
       };
+
       s.onerror = ()=>{
+        // Fallback direct link
         window.location.href = "https://www.paypal.com/webapps/billing/subscriptions?plan_id="+encodeURIComponent(planId);
       };
+
     }catch(err){
       console.error(err);
       alert(err.message || "Please complete all required fields.");
