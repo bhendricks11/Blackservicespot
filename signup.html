@@ -195,40 +195,63 @@
   };
 </script>
 
-<!-- City/State binder (uses your global dataset if present) -->
+<!-- Load state->city data -->
+<script src="js/cities-by-state.js"></script>
+
+<!-- Proper binder for State -> City -->
 <script>
-  window.CITIES_BY_STATE = window.CITIES_BY_STATE || { "LA": ["Baton Rouge","Bossier City","Kenner","Lafayette","Lake Charles","New Orleans","Shreveport"] };
-  window.US_STATES = window.US_STATES || [ {code:"LA", name:"Louisiana"} ];
-  (function(){
-    const stateEl=document.getElementById('stateSelect'); const cityEl=document.getElementById('citySelect');
-    const hiddenState=document.getElementById('stateHidden'); const hiddenCity=document.getElementById('cityHidden');
-    function resetCity(){ cityEl.innerHTML=''; const ph=document.createElement('option'); ph.value=''; ph.textContent='Select City'; ph.disabled=true; ph.selected=true; cityEl.appendChild(ph); cityEl.disabled=true; }
-    function populateStates(){
-      if(stateEl.options.length<=1){
-        Object.entries(window.US_STATES).forEach(([i,s])=>{});
-      }
+document.addEventListener('DOMContentLoaded', function () {
+  const stateEl = document.getElementById('stateSelect');
+  const cityEl  = document.getElementById('citySelect');
+  const hiddenState = document.getElementById('stateHidden');
+  const hiddenCity  = document.getElementById('cityHidden');
+
+  if (!stateEl || !cityEl || !window.citiesByState) return;
+
+  function resetCities() {
+    cityEl.innerHTML = '<option value="" disabled selected>Select City</option>';
+    cityEl.disabled = true;
+  }
+
+  if (stateEl.options.length <= 1) {
+    const states = Object.keys(window.citiesByState);
+    stateEl.innerHTML =
+      '<option value="" disabled selected>Select State</option>' +
+      states.map(s => `<option value="${s}">${s}</option>`).join('');
+  }
+
+  resetCities();
+
+  stateEl.addEventListener('change', function () {
+    const selState = stateEl.value;
+    const cities = window.citiesByState[selState] || [];
+    resetCities();
+    if (!cities.length) return;
+
+    const frag = document.createDocumentFragment();
+    for (const c of cities) {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      frag.appendChild(opt);
     }
-    // If you already populate states elsewhere, we won't overwrite.
-    if(stateEl.options.length<=1 && Array.isArray(window.US_STATES)){
-      window.US_STATES.forEach(s=>{ const opt=document.createElement('option'); opt.value=s.code||s.name; opt.textContent=s.name||s.code; stateEl.appendChild(opt); });
-    }
-    stateEl.addEventListener('change', ()=>{
-      resetCity();
-      const code = stateEl.value.toUpperCase();
-      const list = window.CITIES_BY_STATE[code] || window.CITIES_BY_STATE[stateEl.options[stateEl.selectedIndex].text] || [];
-      list.slice().sort().forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; cityEl.appendChild(o); });
-      if(list.length) cityEl.disabled=false;
-      hiddenState.value = stateEl.value; hiddenCity.value = cityEl.value;
-    });
-    cityEl.addEventListener('change', ()=>{ hiddenCity.value = cityEl.value; });
-    resetCity();
-  })();
+    cityEl.appendChild(frag);
+    cityEl.disabled = false;
+
+    hiddenState.value = selState;
+    hiddenCity.value = '';
+  });
+
+  cityEl.addEventListener('change', function () {
+    hiddenCity.value = cityEl.value;
+  });
+});
 </script>
 
 <!-- PayPal SDK (lazy bootstrap) -->
 <script>
   const PAYPAL_CLIENT_ID = "EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB";
-  const MONTHLY_PLAN_ID  = "P-37739232P6875371KNB7M33A";
+  const MONTHLY_PLAN_ID  = "37739232P6875371KNB7M33A";
   const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";
 
   const form = document.getElementById('signupForm');
@@ -240,7 +263,6 @@
     try{
       const { plan } = await window.BSS.save();
       const planId = (plan==='annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
-      // lazy load sdk
       const s=document.createElement('script');
       s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&vault=true&intent=subscription`;
       document.body.appendChild(s);
@@ -265,5 +287,6 @@
     }
   });
 </script>
+
 </body>
 </html>
