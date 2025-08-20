@@ -838,10 +838,10 @@
       Choose Your Subscription Plan
      </h2>
      <a class="btn btn-primary" href="signup.html?plan=monthly">
-      Sign Up Monthly ($29.95 + $4.95 Setup Fee)
+      Sign Up Monthly ($29.95 + $4.95 setup)
      </a>
      <a class="btn btn-secondary" href="signup.html?plan=annual" style="margin-left:1rem;">
-      Sign Up Annually ($287.52 + $4.95 Setup Fee)
+      Sign Up Annually ($287.52 + $4.95 setup)
      </a>
     </section>
     <!-- Search Form -->
@@ -1023,40 +1023,7 @@
        <label>
         Select Your Plan *
        </label>
-       <div class="plan-selection">
-        <div class="plan-option" onclick="selectBusinessPlan('starter')">
-         <input id="planStarter" name="plan" type="radio" value="starter"/>
-         <label for="planStarter">
-          <strong>
-           Starter Plan - $29/month
-          </strong>
-          <div class="plan-details">
-           Basic listing, up to 5 services, email support
-          </div>
-         </label>
-        </div>
-        <div class="plan-option" onclick="selectBusinessPlan('professional')">
-         <input id="planProfessional" name="plan" type="radio" value="professional"/>
-         <label for="planProfessional">
-          <strong>
-           Professional Plan - 
-          <div class="plan-details">
-           Featured listing, unlimited services, priority support
-          </div>
-         </label>
-        </div>
-        <div class="plan-option" onclick="selectBusinessPlan('enterprise')">
-         <input id="planEnterprise" name="plan" type="radio" value="enterprise"/>
-         <label for="planEnterprise">
-          <strong>
-           Enterprise Plan - 
-          <div class="plan-details">
-           Premium placement, advanced features, dedicated support
-          </div>
-         </label>
-        </div>
-       </div>
-      </div>
+       <div class="plan-selection"><div class="plan-option" onclick="document.getElementById('planMonthly').checked = true"><input id="planMonthly" name="plan" type="radio" value="monthly"/><label for="planMonthly"><strong>Monthly - $29.95</strong><div class="plan-details">Business listing, portal access</div></label></div><div class="plan-option" onclick="document.getElementById('planAnnual').checked = true"><input id="planAnnual" name="plan" type="radio" value="annual"/><label for="planAnnual"><strong>Annual - $287.52 (20% off)</strong><div class="plan-details">Same features, billed annually</div></label></div></div></div></div>
      </div>
      
     </form>
@@ -1483,99 +1450,37 @@
             }
         ];
 
+        
         const pricingPlans = {
             monthly: [
                 {
-                    name: "Starter",
-                    price: 29,
-                    features: [
-                        "7-day free trial",
-                        "Basic business listing",
-                        "Up to 5 services",
-                        "Customer contact form",
-                        "Basic analytics",
-                        "Email support"
-                    ]
-                },
-                {
-                    name: "Professional",
-                    price: 59,
+                    name: "Business Listing",
+                    price: 29.95,
                     popular: true,
                     features: [
-                        "7-day free trial",
-                        "Featured business listing",
-                        "Unlimited services",
-                        "Advanced customer messaging",
-                        "Detailed analytics & insights",
-                        "Priority email support",
-                        "Social media integration",
-                        "Customer review management"
-                    ]
-                },
-                {
-                    name: "Enterprise",
-                    price: 99,
-                    features: [
-                        "7-day free trial",
-                        "Premium featured placement",
-                        "Unlimited services & locations",
-                        "Advanced CRM integration",
-                        "Custom branding options",
-                        "Phone & email support",
-                        "API access",
-                        "Dedicated account manager",
-                        "Advanced reporting dashboard"
+                        "Business owner portal access",
+                        "Business listing in directory",
+                        "City & State targeting",
+                        "Customer contact form",
+                        "Email support"
                     ]
                 }
             ],
             annual: [
                 {
-                    name: "Starter",
-                    price: 278,
-                    originalPrice: 348,
-                    features: [
-                        "7-day free trial",
-                        "Basic business listing",
-                        "Up to 5 services",
-                        "Customer contact form",
-                        "Basic analytics",
-                        "Email support"
-                    ]
-                },
-                {
-                    name: "Professional",
-                    price: 566,
-                    originalPrice: 708,
+                    name: "Business Listing (Annual)",
+                    price: 287.52,
+                    originalPrice: 359.40,
                     popular: true,
                     features: [
-                        "7-day free trial",
-                        "Featured business listing",
-                        "Unlimited services",
-                        "Advanced customer messaging",
-                        "Detailed analytics & insights",
-                        "Priority email support",
-                        "Social media integration",
-                        "Customer review management"
-                    ]
-                },
-                {
-                    name: "Enterprise",
-                    price: 950,
-                    originalPrice: 1188,
-                    features: [
-                        "7-day free trial",
-                        "Premium featured placement",
-                        "Unlimited services & locations",
-                        "Advanced CRM integration",
-                        "Custom branding options",
-                        "Phone & email support",
-                        "API access",
-                        "Dedicated account manager",
-                        "Advanced reporting dashboard"
+                        "Everything in Monthly plan",
+                        "Annual billing with 20% discount",
+                        "Priority email support"
                     ]
                 }
             ]
         };
+
 
         let currentBillingCycle = 'monthly';
 
@@ -1639,9 +1544,7 @@
                     <ul class="plan-features">
                         ${plan.features.map(feature => `<li>${feature}</li>`).join('')}
                     </ul>
-                    <button class="btn btn-primary" onclick="selectPlan('${plan.name}', ${plan.price}, '${currentBillingCycle}')">
-                        Start Free Trial
-                    </button>
+                    <a class="btn btn-primary" href="signup.html?plan=${currentBillingCycle === 'annual' ? 'annual' : 'monthly'}">Continue to Sign Up</a>
                 </div>
             `).join('');
         }
@@ -1719,9 +1622,8 @@
             const planInfo = document.getElementById('selectedPlanInfo');
             
             const planPrices = {
-                starter: { price: 29, name: 'Starter' },
-                professional: { price: 59, name: 'Professional' },
-                enterprise: { price: 99, name: 'Enterprise' }
+                monthly: { price: 29.95, name: 'Monthly' },
+                annual: { price: 287.52, name: 'Annual' }
             };
             
             const selectedPlan = planPrices[businessData.selectedPlan];
