@@ -1,1936 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
+<head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Black Service Spot - Empowering Black Business Excellence
-  </title>
-  <meta content="Connect with trusted black-owned businesses in your community. Find quality services while supporting economic empowerment through Black Service Spot." name="description"/>
-  <!-- PayPal SDK with demo configuration for immediate functionality -->
-  <script src="https://www.paypal.com/sdk/js?client-id=demo¤cy=USD&amp;intent=capture">
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Black Service Spot - Empowering Black Business Excellence</title>
+  <meta name="description" content="Connect with trusted black-owned businesses in your community. Find quality services while supporting economic empowerment through Black Service Spot."/>
   <style>
-   * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; line-height: 1.6; color: #111827; }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: #111827;
-        }
-
-        /* Custom gradient styles */
-        .gradient-green {
-            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-        }
-
-        .gradient-green-light {
-            background: linear-gradient(135deg, #6ee7b7 0%, #34d399 50%, #10b981 100%);
-        }
-
+        /* Greens */
+        .gradient-green { background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%); }
+        .gradient-green-light { background: linear-gradient(135deg, #6ee7b7 0%, #34d399 50%, #10b981 100%); }
         .text-gradient-green {
-            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+          background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
 
         /* Header */
-        .header {
-            background: white;
-            padding: 1rem 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .header { background: white; padding: 1rem 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: bold; color: #059669; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: #374151; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #059669; }
+        .auth-buttons { display: flex; gap: 1rem; }
+        .btn { padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-weight: 500; transition: all 0.3s; border: none; cursor: pointer; display: inline-block; text-align: center; }
+        .btn-primary { background: #10b981; color: white; }
+        .btn-primary:hover { background: #059669; }
+        .btn-secondary { background: transparent; color: #10b981; border: 2px solid #10b981; }
+        .btn-secondary:hover { background: #10b981; color: white; }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%); color: white; padding: 5rem 0; text-align: center; }
+        .hero-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .hero h1 { font-size: 3rem; font-weight: bold; margin-bottom: 1.5rem; line-height: 1.2; }
+        .hero p { font-size: 1.25rem; margin-bottom: 2rem; color: #d1fae5; max-width: 600px; margin-left: auto; margin-right: auto; }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #059669;
-        }
+        /* Disclaimer */
+        .disclaimer-banner { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 0.5rem; padding: 1rem; margin-top: 2rem; font-size: 0.875rem; color: #d1fae5; max-width: 800px; margin-left: auto; margin-right: auto; }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+        /* Search */
+        .search-form { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 800px; margin: 2rem auto 0; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: end; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { color: #374151; font-weight: 500; margin-bottom: 0.5rem; }
+        .form-group input, .form-group select, .form-group textarea { padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #10b981; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #374151;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
+        /* Stats */
+        .stats { padding: 4rem 0; background: white; }
+        .stats-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+        .stat-item { padding: 1rem; }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: #10b981; margin-bottom: 0.5rem; }
+        .stat-label { color: #6b7280; font-weight: 500; }
 
-        .nav-links a:hover {
-            color: #059669;
-        }
+        /* Sections */
+        .featured, .testimonials, .pricing { padding: 5rem 0; }
+        .featured { background: #f9fafb; }
+        .testimonials { background: white; }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .section-title { text-align: center; margin-bottom: 3rem; }
+        .section-title h2 { font-size: 2.5rem; font-weight: bold; color: #111827; margin-bottom: 1rem; }
+        .section-title p { font-size: 1.25rem; color: #6b7280; max-width: 600px; margin: 0 auto; }
 
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: #10b981;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #059669;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: #10b981;
-            border: 2px solid #10b981;
-        }
-
-        .btn-secondary:hover {
-            background: #10b981;
-            color: white;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-            color: white;
-            padding: 5rem 0;
-            text-align: center;
-        }
-
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            color: #d1fae5;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Disclaimer Banner */
-        .disclaimer-banner {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-top: 2rem;
-            font-size: 0.875rem;
-            color: #d1fae5;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Search Form */
-        .search-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 800px;
-            margin: 2rem auto 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr auto;
-            gap: 1rem;
-            align-items: end;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            color: #374151;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 0.75rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #10b981;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Business Portal Styles */
-        .business-portal {
-            padding: 4rem 0;
-            background: #f9fafb;
-            display: none;
-        }
-
-        .portal-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-full {
-            margin-bottom: 1rem;
-        }
-
-        .image-upload {
-            border: 2px dashed #d1d5db;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-
-        .image-upload:hover {
-            border-color: #10b981;
-        }
-
-        .image-upload.drag-over {
-            border-color: #10b981;
-            background-color: #f0fdf4;
-        }
-
-        .image-preview {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .plan-selection {
-            background: #f9fafb;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .plan-option {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .plan-option:hover {
-            background-color: #f3f4f6;
-        }
-
-        .plan-option input[type="radio"] {
-            margin: 0;
-        }
-
-        .plan-details {
-            margin-left: 1.5rem;
-            font-size: 0.875rem;
-            color: #6b7280;
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 4rem 0;
-            background: white;
-        }
-
-        .stats-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 1rem;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #10b981;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: #6b7280;
-            font-weight: 500;
-        }
-
-        /* Featured Businesses */
-        .featured {
-            padding: 5rem 0;
-            background: #f9fafb;
-        }
-
-        .section-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #111827;
-            margin-bottom: 1rem;
-        }
-
-        .section-title p {
-            font-size: 1.25rem;
-            color: #6b7280;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .business-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .business-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .business-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .business-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .business-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #6b7280;
-        }
-
-        .business-info h3 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #111827;
-            margin-bottom: 0.25rem;
-        }
-
-        .business-category {
-            color: #6b7280;
-            font-size: 0.875rem;
-        }
-
-        .business-description {
-            color: #6b7280;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .business-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .rating {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .stars {
-            color: #fbbf24;
-        }
+        /* Business cards */
+        .business-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .business-card { background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; }
+        .business-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .business-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .business-avatar { width: 60px; height: 60px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: #6b7280; }
+        .business-info h3 { font-size: 1.25rem; font-weight: bold; color: #111827; margin-bottom: 0.25rem; }
+        .business-category { color: #6b7280; font-size: 0.875rem; }
+        .business-description { color: #6b7280; margin-bottom: 1rem; line-height: 1.6; }
+        .business-footer { display: flex; justify-content: space-between; align-items: center; }
+        .rating { display: flex; align-items: center; gap: 0.25rem; }
+        .stars { color: #fbbf24; }
 
         /* Testimonials */
-        .testimonials {
-            padding: 5rem 0;
-            background: white;
-        }
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .testimonial-card { background: #f9fafb; padding: 2rem; border-radius: 1rem; text-align: center; }
+        .testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; background: #e5e7eb; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #6b7280; }
+        .testimonial-text { font-style: italic; color: #374151; margin-bottom: 1rem; line-height: 1.6; }
+        .testimonial-author { font-weight: 600; color: #111827; }
 
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .testimonial-card {
-            background: #f9fafb;
-            padding: 2rem;
-            border-radius: 1rem;
-            text-align: center;
-        }
-
-        .testimonial-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: #e5e7eb;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #6b7280;
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            color: #374151;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: #111827;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            padding: 5rem 0;
-            background: #f9fafb;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .pricing-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-        }
-
-        .pricing-card.popular {
-            border: 3px solid #10b981;
-            transform: scale(1.05);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #10b981;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
-        .plan-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #111827;
-            margin-bottom: 0.5rem;
-        }
-
-        .plan-price {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #10b981;
-            margin-bottom: 0.5rem;
-        }
-
-        .plan-period {
-            color: #6b7280;
-            margin-bottom: 2rem;
-        }
-
-        .plan-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .plan-features li {
-            padding: 0.5rem 0;
-            color: #374151;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .plan-features li::before {
-            content: "✓";
-            color: #10b981;
-            font-weight: bold;
-        }
-
-        .billing-toggle {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .toggle-container {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .toggle-container input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #10b981;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .annual-discount {
-            background: #dcfce7;
-            color: #166534;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
+        /* Pricing - simplified to TWO plans */
+        .pricing { background: #f9fafb; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+        .pricing-card { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; position: relative; }
+        .plan-name { font-size: 1.5rem; font-weight: bold; color: #111827; margin-bottom: 0.5rem; }
+        .plan-price { font-size: 3rem; font-weight: bold; color: #10b981; margin-bottom: 0.5rem; }
+        .plan-period { color: #6b7280; margin-bottom: 1.25rem; }
+        .plan-features { list-style: none; margin: 1rem 0 2rem; }
+        .plan-features li { padding: 0.5rem 0; color: #374151; display: flex; align-items: center; gap: 0.5rem; }
+        .plan-features li::before { content: "✓"; color: #10b981; font-weight: bold; }
 
         /* Footer */
-        .footer {
-            background: #111827;
-            color: white;
-            padding: 3rem 0 1rem;
-        }
+        .footer { background: #111827; color: white; padding: 3rem 0 1rem; }
+        .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .footer-section h3 { color: #10b981; margin-bottom: 1rem; font-size: 1.25rem; }
+        .footer-section p, .footer-section li { color: #d1d5db; margin-bottom: 0.5rem; }
+        .footer-section ul { list-style: none; }
+        .footer-section a { color: #d1d5db; text-decoration: none; transition: color 0.3s; }
+        .footer-section a:hover { color: #10b981; }
+        .footer-bottom { border-top: 1px solid #374151; padding-top: 1rem; margin-top: 2rem; text-align: center; color: #9ca3af; }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-section h3 {
-            color: #10b981;
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
-
-        .footer-section p,
-        .footer-section li {
-            color: #d1d5db;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: #d1d5db;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #10b981;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #374151;
-            padding-top: 1rem;
-            margin-top: 2rem;
-            text-align: center;
-            color: #9ca3af;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 1rem;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: #000;
-        }
-
-        .paypal-container {
-            margin-top: 1rem;
-        }
-
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .search-form {
-                grid-template-columns: 1fr;
-                padding: 1.5rem;
-            }
-
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
-            }
-
-            .plan-price {
-                font-size: 2rem;
-            }
-
-            .pricing-card.popular {
-                transform: none;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
+          .nav-links { display: none; }
+          .hero h1 { font-size: 2rem; }
+          .search-form { grid-template-columns: 1fr; padding: 1.5rem; }
+          .stats-container { grid-template-columns: repeat(2, 1fr); }
+          .section-title h2 { font-size: 2rem; }
+          .plan-price { font-size: 2rem; }
         }
-
         @media (max-width: 480px) {
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                padding: 3rem 0;
-            }
-
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .section-container {
-                padding: 0 0.5rem;
-            }
+          .stats-container { grid-template-columns: 1fr; }
+          .hero { padding: 3rem 0; }
+          .hero h1 { font-size: 1.5rem; }
+          .section-container { padding: 0 0.5rem; }
         }
   </style>
- </head>
- <body>
+</head>
+<body>
   <!-- Header -->
   <header class="header">
-   <nav class="nav-container">
-    <div class="logo">
-     <svg fill="currentColor" height="32" viewbox="0 0 24 24" width="32">
-      <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z">
-      </path>
-     </svg>
-     Black Service Spot
-    </div>
-    <ul class="nav-links">
-     <li>
-      <a href="#home">
-       Home
-      </a>
-     </li>
-     <li>
-      <a href="#featured">
-       Businesses
-      </a>
-     </li>
-     <li>
-      <a href="#pricing">
-       Pricing
-      </a>
-     </li>
-     <li>
-      <a href="#testimonials">
-       Reviews
-      </a>
-     </li>
-    </ul>
-    <div class="auth-buttons">
-     <a class="btn btn-secondary" href="#" onclick="showLogin()">
-      Login
-     </a>
-     <a class="btn btn-primary" href="#" onclick="showRegister()">
-      Register Business
-     </a>
-     <a class="btn btn-secondary" href="#" onclick="showBusinessPortal()">
-      Business Portal
-     </a>
-    </div>
-   </nav>
+    <nav class="nav-container">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"></path></svg>
+        Black Service Spot
+      </div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#featured">Businesses</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <a class="btn btn-secondary" href="#" onclick="showLogin()">Login</a>
+        <a class="btn btn-primary" href="signup.html">Register Business</a>
+        <a class="btn btn-secondary" href="dashboard.html">Business Portal</a>
+      </div>
+    </nav>
   </header>
-  <!-- Hero Section -->
+
+  <!-- Hero -->
   <section class="hero" id="home">
-   <div class="hero-container">
-    <h1>
-     Empowering Black
-     <br/>
-     <span style="color: #6ee7b7;">
-      Business Excellence
-     </span>
-    </h1>
-    <p>
-     Connect with trusted black-owned businesses in your community. Find quality services while supporting economic empowerment.
-    </p>
-    <!-- Disclaimer -->
-    <div class="disclaimer-banner">
-     <p>
-      <strong>
-       Important Disclaimer:
-      </strong>
-      Black Service Spot is a platform connecting customers with business owners. We are not responsible for the quality of services, insurance coverage, or any damages that may occur. Business owners are responsible for their own insurance and credentials. Customers should verify all insurance and credentials before engaging services. By using this platform, all parties agree to hold Black Service Spot harmless from any liability.
-     </p>
+    <div class="hero-container">
+      <h1>Empowering Black<br/><span style="color:#6ee7b7;">Business Excellence</span></h1>
+      <p>Connect with trusted black-owned businesses in your community. Find quality services while supporting economic empowerment.</p>
+
+      <div class="disclaimer-banner">
+        <p><strong>Important Disclaimer:</strong> Black Service Spot is a platform connecting customers with business owners. We are not responsible for the quality of services, insurance coverage, or any damages that may occur. Business owners are responsible for their own insurance and credentials. Customers should verify all insurance and credentials before engaging services. By using this platform, all parties agree to hold Black Service Spot harmless from any liability.</p>
+      </div>
+
+      <!-- Primary CTA buttons (link to signup with plan preselected) -->
+      <section id="plans" style="padding:2rem;text-align:center;">
+        <h2>Choose Your Subscription Plan</h2>
+        <a class="btn btn-primary" href="signup.html?plan=monthly">Sign Up Monthly ($29.95 + $4.95 Setup Fee)</a>
+        <a class="btn btn-secondary" style="margin-left:1rem;" href="signup.html?plan=annual">Sign Up Annually ($287.52 + $4.95 Setup Fee)</a>
+      </section>
+
+      <!-- Search -->
+      <form class="search-form" onsubmit="searchBusinesses(event)">
+        <div class="form-group">
+          <label for="service">Service Needed</label>
+          <input id="service" type="text" placeholder="Hair salon, catering, etc."/>
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input id="location" type="text" placeholder="City, State"/>
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category">
+            <option value="">All Categories</option>
+            <option value="beauty">Hair &amp; Beauty</option>
+            <option value="food">Food &amp; Catering</option>
+            <option value="services">Professional Services</option>
+            <option value="retail">Retail &amp; Shopping</option>
+            <option value="fitness">Health &amp; Fitness</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
     </div>
-    <section id="plans" style="padding:2rem;text-align:center;">
-     <h2>
-      Choose Your Subscription Plan
-     </h2>
-     <a class="btn btn-primary" href="signup.html?plan=monthly">
-      Sign Up Monthly ($29.95 + $4.95 setup)
-     </a>
-     <a class="btn btn-secondary" href="signup.html?plan=annual" style="margin-left:1rem;">
-      Sign Up Annually ($287.52 + $4.95 setup)
-     </a>
-    </section>
-    <!-- Search Form -->
-    <form class="search-form" onsubmit="searchBusinesses(event)">
-     <div class="form-group">
-      <label for="service">
-       Service Needed
-      </label>
-      <input id="service" placeholder="Hair salon, catering, etc." type="text"/>
-     </div>
-     <div class="form-group">
-      <label for="location">
-       Location
-      </label>
-      <input id="location" placeholder="City, State" type="text"/>
-     </div>
-     <div class="form-group">
-      <label for="category">
-       Category
-      </label>
-      <select id="category">
-       <option value="">
-        All Categories
-       </option>
-       <option value="beauty">
-        Hair &amp; Beauty
-       </option>
-       <option value="food">
-        Food &amp; Catering
-       </option>
-       <option value="services">
-        Professional Services
-       </option>
-       <option value="retail">
-        Retail &amp; Shopping
-       </option>
-       <option value="fitness">
-        Health &amp; Fitness
-       </option>
-      </select>
-     </div>
-     <button class="btn btn-primary" type="submit">
-      Search
-     </button>
-    </form>
-   </div>
   </section>
-  <!-- Business Portal Section -->
-  <section class="business-portal" id="businessPortal">
-   <div class="section-container">
-    <div class="section-title">
-     <h2>
-      Business Portal
-     </h2>
-     <p>
-      List your business and start connecting with customers
-     </p>
-    </div>
-    <form class="portal-form" id="businessForm" onsubmit="submitBusiness(event)">
-     <div class="form-row">
-      <div class="form-group">
-       <label for="businessName">
-        Business Name *
-       </label>
-       <input id="businessName" required="" type="text"/>
-      </div>
-      <div class="form-group">
-       <label for="ownerName">
-        Owner Name *
-       </label>
-       <input id="ownerName" required="" type="text"/>
-      </div>
-     </div>
-     <div class="form-row">
-      <div class="form-group">
-       <label for="businessEmail">
-        Business Email *
-       </label>
-       <input id="businessEmail" required="" type="email"/>
-      </div>
-      <div class="form-group">
-       <label for="businessPhone">
-        Phone Number *
-       </label>
-       <input id="businessPhone" required="" type="tel"/>
-      </div>
-     </div>
-     <div class="form-row">
-      <div class="form-group">
-       <label for="businessCity">
-        City *
-       </label>
-       <input id="businessCity" required="" type="text"/>
-      </div>
-      <div class="form-group">
-       <label for="businessState">
-        State *
-       </label>
-       <input id="businessState" required="" type="text"/>
-      </div>
-     </div>
-     <div class="form-full">
-      <div class="form-group">
-       <label for="businessCategory">
-        Business Category *
-       </label>
-       <select id="businessCategory" required="">
-        <option value="">
-         Select Category
-        </option>
-        <option value="beauty">
-         Hair &amp; Beauty
-        </option>
-        <option value="food">
-         Food &amp; Catering
-        </option>
-        <option value="services">
-         Professional Services
-        </option>
-        <option value="retail">
-         Retail &amp; Shopping
-        </option>
-        <option value="fitness">
-         Health &amp; Fitness
-        </option>
-        <option value="automotive">
-         Automotive
-        </option>
-        <option value="construction">
-         Construction &amp; Home
-        </option>
-        <option value="education">
-         Education &amp; Training
-        </option>
-        <option value="entertainment">
-         Entertainment
-        </option>
-        <option value="technology">
-         Technology
-        </option>
-       </select>
-      </div>
-     </div>
-     <div class="form-full">
-      <div class="form-group">
-       <label for="businessDescription">
-        Business Description *
-       </label>
-       <textarea id="businessDescription" placeholder="Describe your business, services, and what makes you unique..." required=""></textarea>
-      </div>
-     </div>
-     <div class="form-full">
-      <div class="form-group">
-       <label for="businessServices">
-        Services Offered *
-       </label>
-       <textarea id="businessServices" placeholder="List the main services you provide..." required=""></textarea>
-      </div>
-     </div>
-     <div class="form-full">
-      <div class="form-group">
-       <label>
-        Business Logo/Image
-       </label>
-       <div class="image-upload" id="imageUpload" onclick="document.getElementById('logoUpload').click()">
-        <p>
-         Click to upload your business logo or drag and drop
-        </p>
-        <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
-         Recommended: 400x400px, PNG or JPG
-        </p>
-        <input accept="image/*" id="logoUpload" onchange="handleImageUpload(event)" style="display: none;" type="file"/>
-        <img class="image-preview" id="imagePreview" style="display: none;"/>
-       </div>
-      </div>
-     </div>
-     <div class="form-full">
-      <div class="form-group">
-       <label>
-        Select Your Plan *
-       </label>
-       <div class="plan-selection"><div class="plan-option" onclick="document.getElementById('planMonthly').checked = true"><input id="planMonthly" name="plan" type="radio" value="monthly"/><label for="planMonthly"><strong>Monthly - $29.95</strong><div class="plan-details">Business listing, portal access</div></label></div><div class="plan-option" onclick="document.getElementById('planAnnual').checked = true"><input id="planAnnual" name="plan" type="radio" value="annual"/><label for="planAnnual"><strong>Annual - $287.52 (20% off)</strong><div class="plan-details">Same features, billed annually</div></label></div></div></div></div>
-     </div>
-     
-    </form>
-   </div>
-  </section>
-  <!-- Stats Section -->
+
+  <!-- Stats -->
   <section class="stats">
-   <div class="stats-container">
-    <div class="stat-item">
-     <div class="stat-number">
-      2,500+
-     </div>
-     <div class="stat-label">
-      Black-Owned Businesses
-     </div>
+    <div class="stats-container">
+      <div class="stat-item"><div class="stat-number">2,500+</div><div class="stat-label">Black-Owned Businesses</div></div>
+      <div class="stat-item"><div class="stat-number">150+</div><div class="stat-label">Cities Covered</div></div>
+      <div class="stat-item"><div class="stat-number">50,000+</div><div class="stat-label">Happy Customers</div></div>
+      <div class="stat-item"><div class="stat-number">75+</div><div class="stat-label">Service Categories</div></div>
     </div>
-    <div class="stat-item">
-     <div class="stat-number">
-      150+
-     </div>
-     <div class="stat-label">
-      Cities Covered
-     </div>
-    </div>
-    <div class="stat-item">
-     <div class="stat-number">
-      50,000+
-     </div>
-     <div class="stat-label">
-      Happy Customers
-     </div>
-    </div>
-    <div class="stat-item">
-     <div class="stat-number">
-      75+
-     </div>
-     <div class="stat-label">
-      Service Categories
-     </div>
-    </div>
-   </div>
   </section>
+
   <!-- Featured Businesses -->
   <section class="featured" id="featured">
-   <div class="section-container">
-    <div class="section-title">
-     <h2>
-      Featured Black-Owned Businesses
-     </h2>
-     <p>
-      Discover exceptional businesses making a difference in their communities
-     </p>
+    <div class="section-container">
+      <div class="section-title">
+        <h2>Featured Black-Owned Businesses</h2>
+        <p>Discover exceptional businesses making a difference in their communities</p>
+      </div>
+      <div class="business-grid" id="businessGrid">
+        <!-- Populated by JS -->
+      </div>
     </div>
-    <div class="business-grid" id="businessGrid">
-     <div class="business-card">
-      <div class="business-header">
-       <img alt="Elegant Hair Studio" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2310b981'/%3E%3Ctext x='50' y='55' text-anchor='middle' font-size='24' fill='white' font-family='Arial'%3EKJ%3C/text%3E%3C/svg%3E" style="width: 60px; height: 60px; border-radius: 50%;"/>
-       <div class="business-info">
-        <h3>
-         Elegant Hair Studio
-        </h3>
-        <div class="business-category">
-         Hair &amp; Beauty
-        </div>
-       </div>
-      </div>
-      <p class="business-description">
-       Premium hair styling and beauty services with natural products
-      </p>
-      <div class="business-footer">
-       <div class="rating">
-        <span class="stars">
-         ★★★★★
-        </span>
-        <span>
-         4.9
-        </span>
-       </div>
-       <span>
-        Atlanta, GA
-       </span>
-      </div>
-     </div>
-     <div class="business-card">
-      <div class="business-header">
-       <img alt="Soul Food Kitchen" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23059669'/%3E%3Ctext x='50' y='55' text-anchor='middle' font-size='24' fill='white' font-family='Arial'%3EMW%3C/text%3E%3C/svg%3E" style="width: 60px; height: 60px; border-radius: 50%;"/>
-       <div class="business-info">
-        <h3>
-         Soul Food Kitchen
-        </h3>
-        <div class="business-category">
-         Food &amp; Catering
-        </div>
-       </div>
-      </div>
-      <p class="business-description">
-       Authentic Southern cuisine and catering for all occasions
-      </p>
-      <div class="business-footer">
-       <div class="rating">
-        <span class="stars">
-         ★★★★★
-        </span>
-        <span>
-         4.8
-        </span>
-       </div>
-       <span>
-        Houston, TX
-       </span>
-      </div>
-     </div>
-     <div class="business-card">
-      <div class="business-header">
-       <img alt="Digital Growth Marketing" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23047857'/%3E%3Ctext x='50' y='55' text-anchor='middle' font-size='24' fill='white' font-family='Arial'%3ETD%3C/text%3E%3C/svg%3E" style="width: 60px; height: 60px; border-radius: 50%;"/>
-       <div class="business-info">
-        <h3>
-         Digital Growth Marketing
-        </h3>
-        <div class="business-category">
-         Professional Services
-        </div>
-       </div>
-      </div>
-      <p class="business-description">
-       Digital marketing and business consulting for growing companies
-      </p>
-      <div class="business-footer">
-       <div class="rating">
-        <span class="stars">
-         ★★★★★
-        </span>
-        <span>
-         4.9
-        </span>
-       </div>
-       <span>
-        Chicago, IL
-       </span>
-      </div>
-     </div>
-     <div class="business-card">
-      <div class="business-header">
-       <img alt="Fresh Threads Boutique" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2310b981'/%3E%3Ctext x='50' y='55' text-anchor='middle' font-size='24' fill='white' font-family='Arial'%3EJB%3C/text%3E%3C/svg%3E" style="width: 60px; height: 60px; border-radius: 50%;"/>
-       <div class="business-info">
-        <h3>
-         Fresh Threads Boutique
-        </h3>
-        <div class="business-category">
-         Retail &amp; Shopping
-        </div>
-       </div>
-      </div>
-      <p class="business-description">
-       Trendy fashion and accessories celebrating African heritage
-      </p>
-      <div class="business-footer">
-       <div class="rating">
-        <span class="stars">
-         ★★★★★
-        </span>
-        <span>
-         4.7
-        </span>
-       </div>
-       <span>
-        Los Angeles, CA
-       </span>
-      </div>
-     </div>
-    </div>
-   </div>
   </section>
+
   <!-- Testimonials -->
   <section class="testimonials" id="testimonials">
-   <div class="section-container">
-    <div class="section-title">
-     <h2>
-      What Our Customers Say
-     </h2>
-     <p>
-      Real stories from customers who found amazing black-owned businesses through our platform
-     </p>
+    <div class="section-container">
+      <div class="section-title">
+        <h2>What Our Customers Say</h2>
+        <p>Real stories from customers who found amazing black-owned businesses through our platform</p>
+      </div>
+      <div class="testimonial-grid" id="testimonialGrid">
+        <!-- Populated by JS -->
+      </div>
     </div>
-    <div class="testimonial-grid" id="testimonialGrid">
-     <!-- Testimonials will be populated by JavaScript -->
-    </div>
-   </div>
   </section>
-  <!-- Pricing Section -->
+
+  <!-- Pricing (ONLY two plans; no $59 / $99 anywhere) -->
   <section class="pricing" id="pricing">
-   <div class="section-container">
-    <div class="section-title">
-     <h2>
-      Choose Your Business Plan
-     </h2>
-     <p>
-      Select the perfect plan to showcase your business and connect with customers
-     </p>
+    <div class="section-container">
+      <div class="section-title">
+        <h2>Choose Your Business Plan</h2>
+        <p>Select the plan to showcase your business and connect with customers</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="plan-name">Monthly</div>
+          <div class="plan-price">$29.95</div>
+          <div class="plan-period">per month + one-time $4.95 setup</div>
+          <ul class="plan-features">
+            <li>Business listing</li>
+            <li>Up to 5 services</li>
+            <li>Customer contact form</li>
+            <li>Basic analytics</li>
+            <li>Email support</li>
+          </ul>
+          <a class="btn btn-primary" href="signup.html?plan=monthly">Continue to Sign Up</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="plan-name">Annual</div>
+          <div class="plan-price">$287.52</div>
+          <div class="plan-period">per year (20% off) + one-time $4.95 setup</div>
+          <ul class="plan-features">
+            <li>Business listing</li>
+            <li>Unlimited services</li>
+            <li>Priority support</li>
+            <li>Analytics & insights</li>
+            <li>Review management</li>
+          </ul>
+          <a class="btn btn-secondary" href="signup.html?plan=annual">Continue to Sign Up</a>
+        </div>
+      </div>
     </div>
-    <div class="billing-toggle">
-     <span>
-      Monthly
-     </span>
-     <label class="toggle-container">
-      <input id="billingToggle" onchange="toggleBilling()" type="checkbox"/>
-      <span class="slider">
-      </span>
-     </label>
-     <span>
-      Annual
-     </span>
-     <span class="annual-discount">
-      Save 20%
-     </span>
-    </div>
-    <div class="pricing-grid" id="pricingGrid">
-     <!-- Pricing cards will be populated by JavaScript -->
-    </div>
-   </div>
   </section>
+
   <!-- Footer -->
   <footer class="footer">
-   <div class="footer-content">
-    <div class="footer-section">
-     <h3>
-      Black Service Spot
-     </h3>
-     <p>
-      Empowering black business excellence through community connections and economic growth.
-     </p>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Black Service Spot</h3>
+        <p>Empowering black business excellence through community connections and economic growth.</p>
+      </div>
+      <div class="footer-section">
+        <h3>For Businesses</h3>
+        <ul>
+          <li><a href="#pricing">Pricing Plans</a></li>
+          <li><a href="signup.html">Register Your Business</a></li>
+          <li><a href="#">Business Resources</a></li>
+          <li><a href="#">Success Stories</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>For Customers</h3>
+        <ul>
+          <li><a href="#featured">Find Businesses</a></li>
+          <li><a href="#">Leave Reviews</a></li>
+          <li><a href="#">Support Local</a></li>
+          <li><a href="#">Community Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="footer-section">
-     <h3>
-      For Businesses
-     </h3>
-     <ul>
-      <li>
-       <a href="#pricing">
-        Pricing Plans
-       </a>
-      </li>
-      <li>
-       <a href="#" onclick="showBusinessPortal()">
-        Register Your Business
-       </a>
-      </li>
-      <li>
-       <a href="#">
-        Business Resources
-       </a>
-      </li>
-      <li>
-       <a href="#">
-        Success Stories
-       </a>
-      </li>
-     </ul>
+    <div class="footer-bottom">
+      <p>© 2025 Black Service Spot. All rights reserved.</p>
     </div>
-    <div class="footer-section">
-     <h3>
-      For Customers
-     </h3>
-     <ul>
-      <li>
-       <a href="#featured">
-        Find Businesses
-       </a>
-      </li>
-      <li>
-       <a href="#">
-        Leave Reviews
-       </a>
-      </li>
-      <li>
-       <a href="#">
-        Support Local
-       </a>
-      </li>
-      <li>
-       <a href="#">
-        Community Events
-       </a>
-      </li>
-     </ul>
-    </div>
-    <div class="footer-section">
-     <h3>
-      Support
-     </h3>
-     <ul>
-      <li>
-       <a href="#">
-        Help Center
-       </a>
-      </li>
-      <li>
-       <a href="#">
-        Contact Us
-       </a>
-      </li>
-      <li>
-       <a href="#">
-        Privacy Policy
-       </a>
-      </li>
-      <li>
-       <a href="#">
-        Terms of Service
-       </a>
-      </li>
-     </ul>
-    </div>
-   </div>
-   <div class="footer-bottom">
-    <p>
-     © 2025 Black Service Spot. All rights reserved.
-    </p>
-   </div>
   </footer>
-  <!-- Payment Modal -->
-  <div class="modal" id="paymentModal">
-   <div class="modal-content">
-    <span class="close" onclick="closePaymentModal()">
-     ×
-    </span>
-    
-    <div id="selectedPlanInfo">
+
+  <!-- Login Modal (kept simple/unchanged) -->
+  <div class="modal" id="loginModal" style="display:none; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background:white; margin:5% auto; padding:2rem; border-radius:1rem; width:90%; max-width:500px; position:relative;">
+      <span class="close" onclick="closeLoginModal()" style="position:absolute; right:1rem; top:1rem; cursor:pointer; font-size:28px;">×</span>
+      <h2>Login to Your Account</h2>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group" style="margin-top:1rem;">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" required/>
+        </div>
+        <div class="form-group" style="margin-top:1rem;">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" required/>
+        </div>
+        <button class="btn btn-primary" style="width:100%; margin-top:1rem;" type="submit">Login</button>
+      </form>
     </div>
-    <div class="paypal-container" id="paypalContainer">
-     <!-- PayPal button will be rendered here -->
-    </div>
-   </div>
   </div>
-  <!-- Login Modal -->
-  <div class="modal" id="loginModal">
-   <div class="modal-content">
-    <span class="close" onclick="closeLoginModal()">
-     ×
-    </span>
-    <h2>
-     Login to Your Account
-    </h2>
-    <form id="loginForm" onsubmit="handleLogin(event)">
-     <div class="form-group">
-      <label for="loginEmail">
-       Email
-      </label>
-      <input id="loginEmail" required="" type="email"/>
-     </div>
-     <div class="form-group">
-      <label for="loginPassword">
-       Password
-      </label>
-      <input id="loginPassword" required="" type="password"/>
-     </div>
-     <button class="btn btn-primary" style="width: 100%;" type="submit">
-      Login
-     </button>
-    </form>
-   </div>
-  </div>
+
   <script>
-   // Sample data
-        const businesses = [
-            {
-                id: 1,
-                name: "Elegant Hair Studio",
-                category: "Hair & Beauty",
-                description: "Premium hair styling and beauty services with natural products",
-                rating: 4.9,
-                location: "Atlanta, GA",
-                owner: "Keisha Johnson"
-            },
-            {
-                id: 2,
-                name: "Soul Food Kitchen",
-                category: "Food & Catering",
-                description: "Authentic Southern cuisine and catering for all occasions",
-                rating: 4.8,
-                location: "Houston, TX",
-                owner: "Marcus Williams"
-            },
-            {
-                id: 3,
-                name: "Digital Growth Marketing",
-                category: "Professional Services",
-                description: "Digital marketing and business consulting for growing companies",
-                rating: 4.9,
-                location: "Chicago, IL",
-                owner: "Tanya Davis"
-            },
-            {
-                id: 4,
-                name: "Fresh Threads Boutique",
-                category: "Retail & Shopping",
-                description: "Trendy fashion and accessories celebrating African heritage",
-                rating: 4.7,
-                location: "Los Angeles, CA",
-                owner: "Jasmine Brown"
-            }
-        ];
+    // Demo data (same as your original, trimmed to essentials)
+    const businesses = [
+      { id:1, name:"Elegant Hair Studio", category:"Hair & Beauty", description:"Premium hair styling and beauty services with natural products", rating:4.9, location:"Atlanta, GA", owner:"Keisha Johnson" },
+      { id:2, name:"Soul Food Kitchen", category:"Food & Catering", description:"Authentic Southern cuisine and catering for all occasions", rating:4.8, location:"Houston, TX", owner:"Marcus Williams" },
+      { id:3, name:"Digital Growth Marketing", category:"Professional Services", description:"Digital marketing and business consulting for growing companies", rating:4.9, location:"Chicago, IL", owner:"Tanya Davis" },
+      { id:4, name:"Fresh Threads Boutique", category:"Retail & Shopping", description:"Trendy fashion and accessories celebrating African heritage", rating:4.7, location:"Los Angeles, CA", owner:"Jasmine Brown" }
+    ];
 
-        const testimonials = [
-            {
-                name: "Sarah Wilson",
-                text: "Found the perfect catering service for my wedding through Black Service Spot. The food was incredible and the service was top-notch!",
-                avatar: "SW"
-            },
-            {
-                name: "Michael Thompson",
-                text: "As a business owner, this platform has helped me connect with so many new customers. The community support is amazing!",
-                avatar: "MT"
-            },
-            {
-                name: "Jennifer Lee",
-                text: "I love supporting black-owned businesses and this platform makes it so easy to discover new services in my area.",
-                avatar: "JL"
-            },
-            {
-                name: "David Brown",
-                text: "The quality of services I've found here is outstanding. Every business I've worked with has exceeded my expectations.",
-                avatar: "DB"
-            }
-        ];
+    const testimonials = [
+      { name:"Sarah Wilson", text:"Found the perfect catering service for my wedding through Black Service Spot. The food was incredible and the service was top-notch!", avatar:"SW" },
+      { name:"Michael Thompson", text:"As a business owner, this platform has helped me connect with so many new customers. The community support is amazing!", avatar:"MT" },
+      { name:"Jennifer Lee", text:"I love supporting black-owned businesses and this platform makes it so easy to discover new services in my area.", avatar:"JL" },
+      { name:"David Brown", text:"The quality of services I've found here is outstanding. Every business I've worked with has exceeded my expectations.", avatar:"DB" }
+    ];
 
-        
-        const pricingPlans = {
-            monthly: [
-                {
-                    name: "Business Listing",
-                    price: 29.95,
-                    popular: true,
-                    features: [
-                        "Business owner portal access",
-                        "Business listing in directory",
-                        "City & State targeting",
-                        "Customer contact form",
-                        "Email support"
-                    ]
-                }
-            ],
-            annual: [
-                {
-                    name: "Business Listing (Annual)",
-                    price: 287.52,
-                    originalPrice: 359.40,
-                    popular: true,
-                    features: [
-                        "Everything in Monthly plan",
-                        "Annual billing with 20% discount",
-                        "Priority email support"
-                    ]
-                }
-            ]
-        };
+    document.addEventListener('DOMContentLoaded', function() {
+      populateBusinesses();
+      populateTestimonials();
+      // Nothing else needed; PayPal logic removed by design for 3-page flow.
+    });
 
+    function populateBusinesses() {
+      const grid = document.getElementById('businessGrid');
+      grid.innerHTML = businesses.map(b => `
+        <div class="business-card">
+          <div class="business-header">
+            <div class="business-avatar">${b.owner.split(' ').map(n => n[0]).join('')}</div>
+            <div class="business-info">
+              <h3>${b.name}</h3>
+              <div class="business-category">${b.category}</div>
+            </div>
+          </div>
+          <p class="business-description">${b.description}</p>
+          <div class="business-footer">
+            <div class="rating"><span class="stars">★★★★★</span><span>${b.rating}</span></div>
+            <span>${b.location}</span>
+          </div>
+        </div>
+      `).join('');
+    }
 
-        let currentBillingCycle = 'monthly';
+    function populateTestimonials() {
+      const grid = document.getElementById('testimonialGrid');
+      grid.innerHTML = testimonials.map(t => `
+        <div class="testimonial-card">
+          <div class="testimonial-avatar">${t.avatar}</div>
+          <p class="testimonial-text">"${t.text}"</p>
+          <div class="testimonial-author">${t.name}</div>
+        </div>
+      `).join('');
+    }
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            populateBusinesses();
-            populateTestimonials();
-            populatePricing();
-            setupImageUpload();
-        });
+    function searchBusinesses(event) {
+      event.preventDefault();
+      const service = document.getElementById('service').value || 'Any service';
+      const location = document.getElementById('location').value || 'Any location';
+      const category = document.getElementById('category').value || 'All';
+      alert(`Searching for: ${service} in ${location} - Category: ${category}`);
+    }
 
-        function populateBusinesses() {
-            const grid = document.getElementById('businessGrid');
-            grid.innerHTML = businesses.map(business => `
-                <div class="business-card">
-                    <div class="business-header">
-                        <div class="business-avatar">${business.owner.split(' ').map(n => n[0]).join('')}</div>
-                        <div class="business-info">
-                            <h3>${business.name}</h3>
-                            <div class="business-category">${business.category}</div>
-                        </div>
-                    </div>
-                    <p class="business-description">${business.description}</p>
-                    <div class="business-footer">
-                        <div class="rating">
-                            <span class="stars">★★★★★</span>
-                            <span>${business.rating}</span>
-                        </div>
-                        <span>${business.location}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function populateTestimonials() {
-            const grid = document.getElementById('testimonialGrid');
-            grid.innerHTML = testimonials.map(testimonial => `
-                <div class="testimonial-card">
-                    <div class="testimonial-avatar">${testimonial.avatar}</div>
-                    <p class="testimonial-text">"${testimonial.text}"</p>
-                    <div class="testimonial-author">${testimonial.name}</div>
-                </div>
-            `).join('');
-        }
-
-        function populatePricing() {
-            const grid = document.getElementById('pricingGrid');
-            const plans = pricingPlans[currentBillingCycle];
-            
-            grid.innerHTML = plans.map(plan => `
-                <div class="pricing-card ${plan.popular ? 'popular' : ''}">
-                    ${plan.popular ? '<div class="popular-badge">Most Popular</div>' : ''}
-                    <div class="plan-name">${plan.name}</div>
-                    <div class="plan-price">$${plan.price}</div>
-                    <div class="plan-period">
-                        ${currentBillingCycle === 'annual' ? 
-                            `per year ${plan.originalPrice ? `<span style="text-decoration: line-through; color: #9ca3af;">$${plan.originalPrice}</span>` : ''}` : 
-                            'per month'
-                        }
-                    </div>
-                    <ul class="plan-features">
-                        ${plan.features.map(feature => `<li>${feature}</li>`).join('')}
-                    </ul>
-                    <a class="btn btn-primary" href="signup.html?plan=${currentBillingCycle === 'annual' ? 'annual' : 'monthly'}">Continue to Sign Up</a>
-                </div>
-            `).join('');
-        }
-
-        function toggleBilling() {
-            const toggle = document.getElementById('billingToggle');
-            currentBillingCycle = toggle.checked ? 'annual' : 'monthly';
-            populatePricing();
-        }
-
-        // Business portal functions
-        function showBusinessPortal() {
-            const businessPortal = document.getElementById('businessPortal');
-            businessPortal.style.display = 'block';
-            businessPortal.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function selectBusinessPlan(planType) {
-            document.querySelectorAll('input[name="plan"]').forEach(radio => {
-                radio.checked = false;
-            });
-            document.getElementById('plan' + planType.charAt(0).toUpperCase() + planType.slice(1)).checked = true;
-        }
-
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('imagePreview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    
-                    // Update upload area
-                    const uploadArea = document.getElementById('imageUpload');
-                    uploadArea.style.border = '2px solid #10b981';
-                    uploadArea.style.background = '#f0fdf4';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function submitBusiness(event) {
-            event.preventDefault();
-            
-            // Get form data
-            const formData = {
-                businessName: document.getElementById('businessName').value,
-                ownerName: document.getElementById('ownerName').value,
-                businessEmail: document.getElementById('businessEmail').value,
-                businessPhone: document.getElementById('businessPhone').value,
-                businessCity: document.getElementById('businessCity').value,
-                businessState: document.getElementById('businessState').value,
-                businessCategory: document.getElementById('businessCategory').value,
-                businessDescription: document.getElementById('businessDescription').value,
-                businessServices: document.getElementById('businessServices').value,
-                selectedPlan: document.querySelector('input[name="plan"]:checked')?.value
-            };
-            
-            // Validate required fields
-            if (!formData.selectedPlan) {
-                alert('Please select a plan to continue.');
-                return;
-            }
-            
-            // Store business data for payment
-            localStorage.setItem('businessData', JSON.stringify(formData));
-            
-            // Show payment modal
-            showPaymentModal(formData);
-        }
-
-        function showPaymentModal(businessData) {
-            const modal = document.getElementById('paymentModal');
-            const planInfo = document.getElementById('selectedPlanInfo');
-            
-            const planPrices = {
-                monthly: { price: 29.95, name: 'Monthly' },
-                annual: { price: 287.52, name: 'Annual' }
-            };
-            
-            const selectedPlan = planPrices[businessData.selectedPlan];
-            
-            planInfo.innerHTML = `
-                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
-                    <h3 style="margin: 0 0 0.5rem 0; color: #111827;">Business: ${businessData.businessName}</h3>
-                    <p style="margin: 0 0 0.5rem 0; color: #6b7280;">Owner: ${businessData.ownerName}</p>
-                    <p style="margin: 0 0 1rem 0; color: #6b7280;">Category: ${businessData.businessCategory}</p>
-                    <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb;">
-                    <p style="margin: 0; font-size: 1.2rem; font-weight: bold; color: #10b981;">
-                        ${selectedPlan.name} Plan - $${selectedPlan.price}/month
-                    </p>
-                    
-                </div>
-            `;
-            
-            modal.style.display = 'block';
-            
-            // Initialize PayPal button for business registration
-            document.getElementById('paypalContainer').innerHTML = '<div id="paypal-button-container"></div>';
-            
-            paypal.Buttons({
-                style: {
-                    color: 'blue',
-                    shape: 'rect',
-                    label: 'pay',
-                    height: 50
-                },
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: selectedPlan.price.toString(),
-                                currency_code: 'USD'
-                            },
-                            description: `${selectedPlan.name} Plan - ${businessData.businessName} (First Month + 7-Day Free Trial)`,
-                            custom_id: `BSS-${Date.now()}-${businessData.businessName.replace(/\s+/g, '')}`
-                        }],
-                        application_context: {
-                            brand_name: 'Black Service Spot',
-                            landing_page: 'BILLING',
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'PAY_NOW'
-                        }
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        // Generate unique business ID
-                        const businessId = 'BSS-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-                        
-                        // Store complete business registration
-                        const registrationData = {
-                            businessId: businessId,
-                            paypalOrderId: data.orderID,
-                            paypalPayerId: details.payer.payer_id,
-                            businessInfo: businessData,
-                            plan: selectedPlan,
-                            registrationDate: new Date().toISOString(),
-                            status: 'active',
-                            trialEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
-                        };
-                        
-                        localStorage.setItem('businessRegistration', JSON.stringify(registrationData));
-                        
-                        closePaymentModal();
-                        
-                        // Reset form
-                        document.getElementById('businessForm').reset();
-                        document.getElementById('imagePreview').style.display = 'none';
-                        document.getElementById('businessPortal').style.display = 'none';
-                        
-                        // Clear form data
-                        localStorage.removeItem('businessData');
-                        
-                        // Show success message
-                        showSuccessPortal(businessData, businessId, details);
-                    });
-                },
-                onError: function(err) {
-                    console.error('PayPal payment error:', err);
-                    alert('Payment failed. Please try again or contact support.');
-                },
-                onCancel: function(data) {
-                    alert('Payment was cancelled. You can try again anytime.');
-                }
-            }).render('#paypal-button-container');
-        }
-
-        function selectPlan(planName, price, cycle) {
-            const modal = document.getElementById('paymentModal');
-            const planInfo = document.getElementById('selectedPlanInfo');
-            
-            planInfo.innerHTML = `
-                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
-                    <p style="margin: 0; font-size: 1.2rem; font-weight: bold; color: #10b981;">
-                        ${planName} Plan - $${price} ${cycle === 'annual' ? 'per year' : 'per month'}
-                    </p>
-                    
-                </div>
-            `;
-            
-            modal.style.display = 'block';
-            
-            // Initialize PayPal button for direct plan selection
-            document.getElementById('paypalContainer').innerHTML = '<div id="paypal-button-container-direct"></div>';
-            
-            paypal.Buttons({
-                style: {
-                    color: 'blue',
-                    shape: 'rect',
-                    label: 'pay',
-                    height: 50
-                },
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: price.toString(),
-                                currency_code: 'USD'
-                            },
-                            description: `${planName} Plan Subscription (First Month + 7-Day Free Trial)`,
-                            custom_id: `BSS-DIRECT-${Date.now()}-${planName}`
-                        }],
-                        application_context: {
-                            brand_name: 'Black Service Spot',
-                            landing_page: 'BILLING',
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'PAY_NOW'
-                        }
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        const subscriptionId = 'BSS-SUB-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-                        
-                        // Store subscription info
-                        localStorage.setItem('directSubscription', JSON.stringify({
-                            subscriptionId: subscriptionId,
-                            paypalOrderId: data.orderID,
-                            planName: planName,
-                            price: price,
-                            cycle: cycle,
-                            payerInfo: details.payer,
-                            subscriptionDate: new Date().toISOString()
-                        }));
-                        
-                        alert(`Welcome to Black Service Spot! Your ${planName} plan is now active. Subscription ID: ${subscriptionId}`);
-                        closePaymentModal();
-                        showBusinessPortal();
-                    });
-                },
-                onError: function(err) {
-                    console.error('PayPal payment error:', err);
-                    alert('Payment failed. Please try again.');
-                },
-                onCancel: function(data) {
-                    alert('Payment was cancelled. You can try again anytime.');
-                }
-            }).render('#paypal-button-container-direct');
-        }
-
-        function closePaymentModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-        }
-
-        function searchBusinesses(event) {
-            event.preventDefault();
-            const service = document.getElementById('service').value;
-            const location = document.getElementById('location').value;
-            const category = document.getElementById('category').value;
-            
-            alert(`Searching for: ${service || 'Any service'} in ${location || 'Any location'} - Category: ${category || 'All'}`);
-        }
-
-        function showLogin() {
-            document.getElementById('loginModal').style.display = 'block';
-        }
-
-        function closeLoginModal() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
-
-        function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Simulate login process
-            alert('Login successful! Welcome back to Black Service Spot.');
-            closeLoginModal();
-            
-            // Show business portal after login
-            showBusinessPortal();
-        }
-
-        function showRegister() {
-            // Show business portal and scroll to it
-            const businessPortal = document.getElementById('businessPortal');
-            businessPortal.style.display = 'block';
-            businessPortal.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Show success portal after successful payment
-        function showSuccessPortal(businessData, businessId, paymentDetails) {
-            const successHtml = `
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 20000; display: flex; align-items: center; justify-content: center;">
-                    <div style="background: white; padding: 2rem; border-radius: 1rem; max-width: 600px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-                        <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                            <h2 style="margin: 0; font-size: 1.5rem;">✅ Welcome to Black Service Spot!</h2>
-                        </div>
-                        
-                        <div style="text-align: left; margin-bottom: 1.5rem;">
-                            <h3 style="color: #111827; margin-bottom: 1rem;">Registration Successful!</h3>
-                            <p><strong>Business:</strong> ${businessData.businessName}</p>
-                            <p><strong>Owner:</strong> ${businessData.ownerName}</p>
-                            <p><strong>Email:</strong> ${businessData.businessEmail}</p>
-                            <p><strong>Location:</strong> ${businessData.businessCity}, ${businessData.businessState}</p>
-                            <p><strong>Business ID:</strong> ${businessId}</p>
-                            <p><strong>Payment ID:</strong> ${paymentDetails.id}</p>
-                        </div>
-                        
-                        <div style="background: #f0fdf4; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border-left: 4px solid #10b981;">
-                            
-                            <p style="margin: 0.5rem 0 0 0; color: #166534; font-size: 0.875rem;">Your business will be live within 24 hours. Check your email for setup instructions.</p>
-                        </div>
-                        
-                        <button onclick="this.parentElement.parentElement.remove()" style="background: #10b981; color: white; border: none; padding: 1rem 2rem; border-radius: 0.5rem; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.3s;">
-                            Continue to Dashboard
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', successHtml);
-            
-            // Add hover effect to button
-            const button = document.querySelector('[onclick="this.parentElement.parentElement.remove()"]');
-            if (button) {
-                button.addEventListener('mouseenter', function() {
-                    this.style.background = '#059669';
-                    this.style.transform = 'translateY(-2px)';
-                });
-                button.addEventListener('mouseleave', function() {
-                    this.style.background = '#10b981';
-                    this.style.transform = 'translateY(0)';
-                });
-            }
-        }
-
-        function setupImageUpload() {
-            const imageUpload = document.getElementById('imageUpload');
-            
-            if (imageUpload) {
-                imageUpload.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    this.classList.add('drag-over');
-                });
-                
-                imageUpload.addEventListener('dragleave', function(e) {
-                    e.preventDefault();
-                    this.classList.remove('drag-over');
-                });
-                
-                imageUpload.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    this.classList.remove('drag-over');
-                    
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        const file = files[0];
-                        if (file.type.startsWith('image/')) {
-                            const event = { target: { files: [file] } };
-                            handleImageUpload(event);
-                        } else {
-                            alert('Please upload an image file (PNG, JPG, etc.)');
-                        }
-                    }
-                });
-            }
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const paymentModal = document.getElementById('paymentModal');
-            const loginModal = document.getElementById('loginModal');
-            
-            if (event.target === paymentModal) {
-                closePaymentModal();
-            }
-            if (event.target === loginModal) {
-                closeLoginModal();
-            }
-        }
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+    // Login modal helpers
+    function showLogin(){ document.getElementById('loginModal').style.display='block'; }
+    function closeLoginModal(){ document.getElementById('loginModal').style.display='none'; }
+    function handleLogin(e){ e.preventDefault(); alert('Login successful!'); closeLoginModal(); }
+    
+    // Smooth scroll for same-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e){
+        const target = document.querySelector(this.getAttribute('href'));
+        if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+      });
+    });
   </script>
- </body>
+</body>
 </html>
