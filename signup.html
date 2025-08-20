@@ -1,290 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Business Owner Sign Up - Black Service Spot</title>
-
-  <!-- ⚠️ Keep your existing CSS exactly as-is; nothing below changes the look.
-       If your styles are in a separate CSS file, keep that <link> here. -->
-
-  <!-- PayPal SDK (needed for subscriptions) -->
-  <script src="https://www.paypal.com/sdk/js?client-id=EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB&vault=true&intent=subscription"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Business Owner Sign Up - Black Service Spot</title>
+<meta name="description" content="Register your business on Black Service Spot. Choose a plan, add your details, and get discovered by customers in your area."/>
+<style>
+  :root{
+    --g1:#2ecc71; --g2:#1abc9c; --g3:#16a085;
+    --bg:#f6f7fb; --text:#102a43; --muted:#6b7280; --card:#ffffff; --ring:#2ecc71; --border:#e6e9ef;
+    --btn:#1db954; --btn-hover:#18a94b; --btn-outline:#1db954;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+  header{background:#fff;border-bottom:1px solid #eef2f7}
+  .nav{max-width:1100px;margin:0 auto;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:.5rem;color:#0f9d58;font-weight:800}
+  .brand svg{color:#0f9d58}
+  .main{min-height:100vh;background:linear-gradient(180deg, #eafaf1 0%, #eafaf1 140px, transparent 140px);padding:2rem 1rem 3rem;display:flex;justify-content:center}
+  .card{width:100%;max-width:1000px;background:var(--card);border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04);overflow:hidden;border:1px solid #e7f5ee}
+  .card-header{background:linear-gradient(180deg,#31d07e,#1db954);color:#053d2f;padding:16px 18px}
+  .card-header h1{margin:0;font-size:22px}
+  .section{padding:18px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .section h2{font-size:16px;margin:0 0 10px 0;color:#184b3a}
+  label{font-weight:700;display:block;margin:8px 0 6px;color:#2c3e50;font-size:14px}
+  input[type="text"],input[type="email"],input[type="file"],select,textarea{
+    width:100%;padding:12px 14px;border:1px solid #cfe8db;background:#fff;border-radius:10px;outline:none;font-size:14px;
+    box-shadow:0 1px 0 rgba(0,0,0,.02) inset;transition:border-color .15s, box-shadow .15s;
+  }
+  input::placeholder,textarea::placeholder{color:#9aa7b2}
+  textarea{min-height:100px;resize:vertical}
+  input:focus,select:focus,textarea:focus{border-color:#78d9ae;box-shadow:0 0 0 3px rgba(29,185,84,.15)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .btn{border:none;padding:12px 16px;border-radius:10px;font-weight:800;cursor:pointer;font-size:14px}
+  .btn-primary{background:var(--btn);color:#fff;box-shadow:0 6px 14px rgba(29,185,84,.25)}
+  .btn-primary:hover{background:var(--btn-hover)}
+  .btn-secondary{background:transparent;color:var(--btn-outline);border:2px solid var(--btn-outline);}
+  .muted{color:#64748b;font-size:13px}
+  .disclaimer{background:#e7f7ed;border:1px solid #bfead1;color:#0f5132;padding:10px 14px;border-radius:10px;font-size:14px}
+  footer{max-width:1000px;margin:8px auto 0;padding:0 1rem;color:#0f5132}
+  .small{font-size:13px}
+  @media (max-width:840px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-
-  <!-- =========================
-       YOUR EXISTING MARKUP (unchanged)
-       ========================= -->
-  <header>
-    <div class="nav">
-      <div class="brand">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.09 8.26 22 9l-8.91.74L12 16 10.91 9.74 2 9l8.91-.74L12 2z"/></svg>
-        Black Service Spot — Business Registration
-      </div>
-      <div><a href="index.html" class="small" style="text-decoration:none;">← Back to Home</a></div>
+<header>
+  <div class="nav">
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.09 8.26 22 9l-8.91.74L12 16 10.91 9.74 2 9l8.91-.74L12 2z"/></svg>
+      Black Service Spot — Business Registration
     </div>
-  </header>
+    <div><a href="index.html" class="small" style="text-decoration:none;color:#0f9d58">← Back to Home</a></div>
+  </div>
+</header>
 
-  <main class="main">
-    <div class="card">
-      <div class="card-header">
-        <h1>Register Your Business</h1>
+<main class="main">
+  <div class="card">
+    <div class="card-header"><h1>Register Your Business</h1></div>
+
+    <form id="signupForm" class="section" autocomplete="on">
+      <div class="disclaimer" style="margin-bottom:12px;">
+        <strong>Important:</strong> Complete the form below. Your data is saved to our secure database, then you’ll be taken to PayPal to start your subscription.
       </div>
 
-      <!-- Keep IDs exactly as shown; scripts below rely on them -->
-      <form id="signupForm" class="section" autocomplete="on">
-        <div class="grid">
-          <!-- LEFT column -->
-          <section>
-            <h2>Business Owner Information</h2>
+      <div class="grid">
+        <section>
+          <h2>Business Owner Information</h2>
 
-            <label for="ownerName">Your Name</label>
-            <input id="ownerName" name="ownerName" type="text" placeholder="First Last" required />
+          <label for="ownerName">Your Name</label>
+          <input id="ownerName" name="ownerName" type="text" placeholder="First Last" required />
 
-            <label for="businessName">Business Name</label>
-            <input id="businessName" name="businessName" type="text" placeholder="Your LLC or DBA" required />
+          <label for="businessName">Business Name</label>
+          <input id="businessName" name="businessName" type="text" placeholder="Your LLC or DBA" required />
 
-            <label for="email">Email Address</label>
-            <input id="email" name="email" type="email" placeholder="you@business.com" required />
+          <label for="email">Email Address</label>
+          <input id="email" name="email" type="email" placeholder="you@business.com" required />
 
-            <label for="phone">Phone Number</label>
-            <input id="phone" name="phone" type="text" placeholder="(555) 555-5555" />
+          <label for="phone">Phone Number</label>
+          <input id="phone" name="phone" type="text" placeholder="(555) 555-5555" />
 
-            <div class="row">
-              <div>
-                <label for="stateSelect">State</label>
-                <select id="stateSelect" name="state" required>
-                  <option value="" disabled selected>Select State</option>
-                  <!-- Keep your existing state options or let your JS populate -->
-                </select>
-              </div>
-              <div>
-                <label for="citySelect">City</label>
-                <select id="citySelect" name="city" required disabled>
-                  <option value="" disabled selected>Select City</option>
-                  <!-- Populated dynamically by your existing code -->
-                </select>
+          <div class="row">
+            <div>
+              <label for="stateSelect">State</label>
+              <select id="stateSelect" name="state" required>
+                <option value="" disabled selected>Select State</option>
+              </select>
+            </div>
+            <div>
+              <label for="citySelect">City</label>
+              <select id="citySelect" name="city" required disabled>
+                <option value="" disabled selected>Select City</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="address">Business Address <span class="muted">(optional)</span></label>
+          <input id="address" name="address" type="text" placeholder="123 Main St, Suite 100" />
+
+          <div class="row">
+            <div>
+              <label for="hours">Hours of Operation <span class="muted">(optional)</span></label>
+              <input id="hours" name="hours" type="text" placeholder="Mon–Fri 9am–5pm" />
+            </div>
+            <div>
+              <label for="logo">Business Logo</label>
+              <input id="logo" name="logo" type="file" accept="image/*" />
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Services & Notes</h2>
+
+          <label for="businessType">Business Type</label>
+          <input id="businessType" name="businessType" type="text" placeholder="Barber, Caterer, Consultant..." required />
+
+          <label for="services">List of Services</label>
+          <textarea id="services" name="services" placeholder="e.g., Braids, Locs, Silk Press (comma-separated)"></textarea>
+
+          <label for="specialInstructions">Private Notes <span class="muted">(visible to you only)</span></label>
+          <textarea id="specialInstructions" name="specialInstructions" placeholder="Any special internal notes..."></textarea>
+
+          <h2 style="margin-top:.5rem;">Choose a Plan</h2>
+          <div class="row">
+            <div>
+              <label for="planSelect">Subscription</label>
+              <select id="planSelect" name="plan" required>
+                <option value="monthly">Monthly — $29.95 + $4.95</option>
+                <option value="annual">Annual — $287.52 + $4.95</option>
+              </select>
+            </div>
+            <div>
+              <label>&nbsp;</label>
+              <div class="actions">
+                <button type="submit" class="btn btn-primary" id="submitBtn">Continue to Payment</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
               </div>
             </div>
+          </div>
+          <p class="muted" style="margin-top:4px;">By continuing, you agree to our Terms of Service and Privacy Policy.</p>
+        </section>
+      </div>
 
-            <label for="address">Business Address <span class="muted">(optional)</span></label>
-            <input id="address" name="address" type="text" placeholder="123 Main St, Suite 100" />
+      <input type="hidden" id="stateHidden" name="stateHidden" />
+      <input type="hidden" id="cityHidden"  name="cityHidden" />
+    </form>
+  </div>
+</main>
 
-            <div class="row">
-              <div>
-                <label for="hours">Hours of Operation <span class="muted">(optional)</span></label>
-                <input id="hours" name="hours" type="text" placeholder="Mon–Fri 9am–5pm" />
-              </div>
-              <div>
-                <label for="logo">Business Logo</label>
-                <input id="logo" name="logo" type="file" accept="image/*" />
-              </div>
-            </div>
-          </section>
+<footer><p class="small">© 2025 Black Service Spot</p></footer>
 
-          <!-- RIGHT column -->
-          <section>
-            <h2>Services & Notes</h2>
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+    authDomain: "black-service-spot.firebaseapp.com",
+    projectId: "black-service-spot",
+    storageBucket: "black-service-spot.firebasestorage.app",
+    messagingSenderId: "707361777966",
+    appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+    measurementId: "G-HDD97PF8K7"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+  window.BSS = window.BSS || {};
+  window.BSS.save = async function(){
+    const $ = id => document.getElementById(id);
+    const ownerName  = $("ownerName").value.trim();
+    const business   = $("businessName").value.trim();
+    const email      = $("email").value.trim();
+    const phone      = $("phone").value.trim();
+    const state      = $("stateHidden").value || $("stateSelect").value;
+    const city       = $("cityHidden").value  || $("citySelect").value;
+    const address    = $("address").value.trim();
+    const hours      = $("hours").value.trim();
+    const businessType = $("businessType").value.trim();
+    const services   = ($("services").value || "").split(",").map(s=>s.trim()).filter(Boolean);
+    const notes      = $("specialInstructions").value.trim();
+    const plan       = $("planSelect").value;
+    if(!ownerName || !business || !email || !state || !city || !businessType){
+      throw new Error("Please complete all required fields.");
+    }
+    const docId = business.replace(/[^\w\- ]+/g,"").trim().replace(/\s+/g,"-").toLowerCase();
+    await setDoc(doc(db, "Business_owners", docId), {
+      ownerName, businessName: business, email, phone, state, city, address, hours,
+      businessType, services, notes, plan, createdAt: serverTimestamp()
+    }, { merge: true });
+    sessionStorage.setItem('bss_doc', docId);
+    return { docId, plan };
+  };
+</script>
 
-            <label for="businessType">Business Type</label>
-            <input id="businessType" name="businessType" type="text" placeholder="Barber, Caterer, Consultant..." required />
-
-            <label for="services">List of Services</label>
-            <textarea id="services" name="services" placeholder="e.g., Braids, Locs, Silk Press (comma-separated)"></textarea>
-
-            <label for="specialInstructions">Private Notes <span class="muted">(visible to you only)</span></label>
-            <textarea id="specialInstructions" name="specialInstructions" placeholder="Any special internal notes..."></textarea>
-
-            <h2 style="margin-top:1rem;">Choose a Plan</h2>
-            <div class="row">
-              <div>
-                <label for="planSelect">Subscription</label>
-                <select id="planSelect" name="plan" required>
-                  <option value="monthly">Monthly — $29.95 + $4.95</option>
-                  <option value="annual">Annual — $287.52 + $4.95</option>
-                </select>
-              </div>
-              <div>
-                <label>&nbsp;</label>
-                <div class="actions">
-                  <button type="submit" class="btn btn-primary" id="submitBtn">Continue to Payment</button>
-                  <button type="button" class="btn btn-secondary" id="cancelBtn" onclick="window.location.href='index.html'">Cancel</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Optional hidden fields some users keep for Firestore sync -->
-            <input type="hidden" id="stateHidden" name="stateHidden" />
-            <input type="hidden" id="cityHidden"  name="cityHidden" />
-          </section>
-        </div>
-      </form>
-    </div>
-  </main>
-
-  <footer>
-    <p class="small">© 2025 Black Service Spot</p>
-  </footer>
-
-  <!-- =========================
-       FUNCTIONALITY ONLY (no visual change)
-       ========================= -->
-
-  <!-- Firebase v10 (modular) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    // Your Firebase config (unchanged)
-    const firebaseConfig = {
-      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-      authDomain: "black-service-spot.firebaseapp.com",
-      projectId: "black-service-spot",
-      storageBucket: "black-service-spot.firebasestorage.app",
-      messagingSenderId: "707361777966",
-      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-      measurementId: "G-HDD97PF8K7"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
-
-    // Expose a single save function for the PayPal click handler to call
-    window.BSS = window.BSS || {};
-    window.BSS.saveAndGetDocId = async function saveAndGetDocId() {
-      const $ = (id) => document.getElementById(id);
-
-      const business   = $("businessName").value.trim();
-      const ownerName  = $("ownerName").value.trim();
-      const email      = $("email").value.trim();
-      const phone      = $("phone").value.trim();
-      const state      = $("stateHidden").value || $("stateSelect").value;
-      const city       = $("cityHidden").value  || $("citySelect").value;
-      const address    = $("address").value.trim();
-      const hours      = $("hours").value.trim();
-      const businessType = $("businessType").value.trim();
-      const services   = $("services").value.split(",").map(s=>s.trim()).filter(Boolean);
-      const notes      = $("specialInstructions").value.trim();
-      const plan       = $("planSelect").value;
-
-      // Basic validation (no UI changes)
-      if (!business || !ownerName || !email || !state || !city || !businessType) {
-        throw new Error("Please complete all required fields.");
-      }
-
-      // Doc ID based on business name
-      const docId = business.replace(/[^\w\- ]+/g, "").trim().replace(/\s+/g, "-").toLowerCase();
-
-      await setDoc(doc(db, "Business_owners", docId), {
-        ownerName, businessName: business, email, phone, state, city,
-        address, hours, businessType, services, notes, plan,
-        createdAt: serverTimestamp()
-      }, { merge: true });
-
-      // Store for success redirect
-      sessionStorage.setItem("bss_doc", docId);
-      return { docId, plan };
-    };
-  </script>
-
-  <!-- Invisible PayPal buttons (so UI doesn’t change) -->
-  <div id="paypal-monthly" style="position:fixed; left:-9999px; top:-9999px;"></div>
-  <div id="paypal-annual"  style="position:fixed; left:-9999px; top:-9999px;"></div>
-
-  <script>
-    // Your plan IDs
-    const MONTHLY_PLAN_ID = "P-37739232P6875371KNB7M33A";
-    const ANNUAL_PLAN_ID  = "P-6VE96793E07454030NB7M7IA";
-
-    // Render both PayPal buttons off-screen
-    function renderHiddenButtons() {
-      if (window.paypal) {
-        // Monthly
-        paypal.Buttons({
-          style: { layout: 'vertical', label: 'subscribe' },
-          onClick: async () => {
-            // Save to Firestore first
-            await window.BSS.saveAndGetDocId();
-          },
-          createSubscription: (data, actions) => actions.subscription.create({ plan_id: MONTHLY_PLAN_ID }),
-          onApprove: () => {
-            const id = sessionStorage.getItem("bss_doc") || "";
-            window.location.href = "success.html?business=" + encodeURIComponent(id);
-          },
-          onError: (err) => {
-            console.error(err);
-            alert("PayPal error. Please try again or contact support.");
-          }
-        }).render("#paypal-monthly");
-
-        // Annual
-        paypal.Buttons({
-          style: { layout: 'vertical', label: 'subscribe' },
-          onClick: async () => {
-            await window.BSS.saveAndGetDocId();
-          },
-          createSubscription: (data, actions) => actions.subscription.create({ plan_id: ANNUAL_PLAN_ID }),
-          onApprove: () => {
-            const id = sessionStorage.getItem("bss_doc") || "";
-            window.location.href = "success.html?business=" + encodeURIComponent(id);
-          },
-          onError: (err) => {
-            console.error(err);
-            alert("PayPal error. Please try again or contact support.");
-          }
-        }).render("#paypal-annual");
+<!-- City/State binder (uses your global dataset if present) -->
+<script>
+  window.CITIES_BY_STATE = window.CITIES_BY_STATE || { "LA": ["Baton Rouge","Bossier City","Kenner","Lafayette","Lake Charles","New Orleans","Shreveport"] };
+  window.US_STATES = window.US_STATES || [ {code:"LA", name:"Louisiana"} ];
+  (function(){
+    const stateEl=document.getElementById('stateSelect'); const cityEl=document.getElementById('citySelect');
+    const hiddenState=document.getElementById('stateHidden'); const hiddenCity=document.getElementById('cityHidden');
+    function resetCity(){ cityEl.innerHTML=''; const ph=document.createElement('option'); ph.value=''; ph.textContent='Select City'; ph.disabled=true; ph.selected=true; cityEl.appendChild(ph); cityEl.disabled=true; }
+    function populateStates(){
+      if(stateEl.options.length<=1){
+        Object.entries(window.US_STATES).forEach(([i,s])=>{});
       }
     }
-    renderHiddenButtons();
+    // If you already populate states elsewhere, we won't overwrite.
+    if(stateEl.options.length<=1 && Array.isArray(window.US_STATES)){
+      window.US_STATES.forEach(s=>{ const opt=document.createElement('option'); opt.value=s.code||s.name; opt.textContent=s.name||s.code; stateEl.appendChild(opt); });
+    }
+    stateEl.addEventListener('change', ()=>{
+      resetCity();
+      const code = stateEl.value.toUpperCase();
+      const list = window.CITIES_BY_STATE[code] || window.CITIES_BY_STATE[stateEl.options[stateEl.selectedIndex].text] || [];
+      list.slice().sort().forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; cityEl.appendChild(o); });
+      if(list.length) cityEl.disabled=false;
+      hiddenState.value = stateEl.value; hiddenCity.value = cityEl.value;
+    });
+    cityEl.addEventListener('change', ()=>{ hiddenCity.value = cityEl.value; });
+    resetCity();
+  })();
+</script>
 
-    // Hook up your existing "Continue to Payment" button
-    (function wireContinueToPayment() {
-      const form = document.getElementById("signupForm");
-      const submitBtn = document.getElementById("submitBtn");
-      const planSelect = document.getElementById("planSelect");
+<!-- PayPal SDK (lazy bootstrap) -->
+<script>
+  const PAYPAL_CLIENT_ID = "EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB";
+  const MONTHLY_PLAN_ID  = "P-37739232P6875371KNB7M33A";
+  const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";
 
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Saving…";
+  const form = document.getElementById('signupForm');
+  const submitBtn = document.getElementById('submitBtn');
 
-        try {
-          // Save first (validates required fields too)
-          const { plan } = await window.BSS.saveAndGetDocId();
-
-          // Trigger the correct hidden PayPal button in the same user gesture
-          const target = (plan === "annual") ? document.querySelector("#paypal-annual iframe") :
-                                                 document.querySelector("#paypal-monthly iframe");
-
-          if (target && target.contentWindow) {
-            // Simulate a click on the PayPal button iframe (same click chain)
-            target.contentWindow.focus();
-            target.click(); // in many browsers this is sufficient
-          } else {
-            // Fallback: open hosted plan URL if the iframe isn't available yet
-            const planId = (plan === "annual") ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
-            window.location.href = "https://www.paypal.com/webapps/billing/subscriptions?plan_id=" + encodeURIComponent(planId);
-          }
-        } catch (err) {
-          console.error(err);
-          alert(err.message || "Please complete all required fields.");
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Continue to Payment";
-          return;
-        }
-
-        // Restore button text after handing off to PayPal
-        setTimeout(() => {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Continue to Payment";
-        }, 1500);
-      });
-    })();
-  </script>
-
-  <!-- If you have your own State→City scripts/datasets, keep them included as before.
-       Nothing in this file alters your dropdown appearance or behavior. -->
-
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    submitBtn.disabled=true; submitBtn.textContent="Saving…";
+    try{
+      const { plan } = await window.BSS.save();
+      const planId = (plan==='annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
+      // lazy load sdk
+      const s=document.createElement('script');
+      s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&vault=true&intent=subscription`;
+      document.body.appendChild(s);
+      s.onload = ()=>{
+        const hidden=document.createElement('div');
+        hidden.id='pp-hidden'; hidden.style.position='fixed'; hidden.style.left='-9999px'; hidden.style.top='-9999px'; document.body.appendChild(hidden);
+        // @ts-ignore
+        paypal.Buttons({
+          style:{layout:'vertical',label:'subscribe'},
+          createSubscription:(data,actions)=>actions.subscription.create({plan_id:planId}),
+          onApprove:()=>{ const id=sessionStorage.getItem('bss_doc')||''; window.location.href = "success.html?business="+encodeURIComponent(id); },
+          onError:(err)=>{ console.error(err); alert("PayPal error. Please try again."); submitBtn.disabled=false; submitBtn.textContent="Continue to Payment"; }
+        }).render('#pp-hidden');
+      };
+      s.onerror = ()=>{
+        window.location.href = "https://www.paypal.com/webapps/billing/subscriptions?plan_id="+encodeURIComponent(planId);
+      };
+    }catch(err){
+      console.error(err);
+      alert(err.message || "Please complete all required fields.");
+      submitBtn.disabled=false; submitBtn.textContent="Continue to Payment";
+    }
+  });
+</script>
 </body>
 </html>
