@@ -1,4 +1,9 @@
 window.citiesByState = {
+  "AL": ["Birmingham","Huntsville","Mobile", ...],
+  "AK": ["Anchorage","Fairbanks","Juneau", ...],
+  // etc for all 50 states
+};
+window.citiesByState = {
   "AL": ["Birmingham","Huntsville","Mobile","Montgomery","Tuscaloosa","Hoover","Dothan","Auburn","Decatur","Madison","Florence","Gadsden","Phenix City","Prattville","Vestavia Hills"],
   "AK": ["Anchorage","Fairbanks","Juneau","Sitka","Ketchikan","Wasilla","Kenai","Palmer","Kodiak","Bethel","Valdez","Nome"],
   "AZ": ["Phoenix","Tucson","Mesa","Chandler","Gilbert","Scottsdale","Glendale","Tempe","Peoria","Surprise","Goodyear","Flagstaff","Yuma","Avondale","Casa Grande","Lake Havasu City","Sierra Vista"],
