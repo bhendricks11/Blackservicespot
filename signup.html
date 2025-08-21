@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Business Owner Sign Up - Black Service Spot</title>
-  <!-- VERSION: BSS-signup-fullstate-inline-v2-20250821140443Z -->
+  <!-- VERSION: BSS-signup-fullstate-inline-v2-PATCH-UID-20250821 -->
   <style>
     :root { --g1:#10b981; --g2:#059669; --g3:#047857; --border:#e5e7eb; }
     *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0f172a}
@@ -30,7 +30,7 @@
   <div class="card">
     <div class="header">
       <h1>Business Owner Sign Up</h1>
-      <div class="note">Version: BSS-signup-fullstate-inline-v2-20250821140443Z • State names are full (e.g., Alabama). If you don’t see this version string after deploy, your browser is showing an old file — do a hard refresh.</div>
+      <div class="note">Version: BSS-signup-fullstate-inline-v2-PATCH-UID-20250821 • Writes to Firestore under your UID per rules.</div>
     </div>
     <form id="ownerForm" autocomplete="on">
       <div class="grid">
@@ -113,7 +113,7 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
     list.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; cityEl.appendChild(o); });
   }
   function saveLocal(){ const data = Object.fromEntries(new FormData(formEl).entries()); try{ localStorage.setItem('bss_signup', JSON.stringify(data)); }catch{} }
-  function restoreLocal(){ let data={}; try{ data=JSON.parse(localStorage.getItem('bss_signup')||'{}'); }catch{} Object.entries(data).forEach(([k,v])=>{ const el=formEl.querySelector(`[name="${k}"]`); if(el) el.value=v; }); if (data.state) safePopulateCities(data.state); if (data.city) cityEl.value=data.city; }
+  function restoreLocal(){ let data={}; try{ data=JSON.parse(localStorage.getItem('bss_signup')||'{}'); }catch{} Object.entries(data).forEach(([k,v])=>{ const el=formEl.querySelector(`[name="{0}"]`.replace("{0}", k)); if(el) el.value=v; }); if (data.state) safePopulateCities(data.state); if (data.city) cityEl.value=data.city; }
 
   document.addEventListener('DOMContentLoaded', () => {
     safePopulateStates(); restoreLocal();
@@ -123,19 +123,90 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
 
     formEl.addEventListener('submit', async (e) => {
       e.preventDefault();
+      submitBtn.disabled = TrueFallback; // will be replaced
+    });
+  });
+})();
+</script>
+<!-- The actual patched logic is below (kept separate for clarity) -->
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const formEl = document.getElementById('ownerForm');
+  const stateEl = document.getElementById('state');
+  const cityEl = document.getElementById('city');
+  const planEl = document.getElementById('plan');
+  const submitBtn = document.getElementById('continueToPayment');
+  const logoEl = document.getElementById('logo');
+
+  const PLAN_IDS = {
+    monthly: 'P-37739232P6875371KNB7M33A',
+    annual:  'P-6VE96793E07454030NB7M7IA'
+  };
+
+  function saveLocal(){ const data = Object.fromEntries(new FormData(formEl).entries()); try{ localStorage.setItem('bss_signup', JSON.stringify(data)); }catch{} }
+  function safePopulateStates() {
+    const states = Object.keys(window.citiesByState || {});
+    stateEl.innerHTML = '';
+    const ph = document.createElement('option'); ph.value=''; ph.textContent='Select state'; ph.disabled=true; ph.selected=true; stateEl.appendChild(ph);
+    states.sort().forEach(s => { const o=document.createElement('option'); o.value=s; o.textContent=s; stateEl.appendChild(o); });
+  }
+  function safePopulateCities(state) {
+    cityEl.innerHTML = '';
+    const list = (window.citiesByState && window.citiesByState[state]) || [];
+    if (!list.length) { const o=document.createElement('option'); o.value=''; o.textContent='— No cities loaded —'; cityEl.appendChild(o); return; }
+    const ph = document.createElement('option'); ph.value=''; ph.textContent='Select city'; ph.disabled=true; ph.selected=true; cityEl.appendChild(ph);
+    list.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; cityEl.appendChild(o); });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // (re)populate dropdowns
+    safePopulateStates();
+    // restore state/city if present
+    try {
+      const data = JSON.parse(localStorage.getItem('bss_signup')||'{}');
+      if (data.state) { safePopulateCities(data.state); }
+      if (data.city)  { cityEl.value = data.city; }
+    } catch (e) {}
+
+    formEl.addEventListener('submit', async (e) => {
+      e.preventDefault();
       submitBtn.disabled = true; submitBtn.textContent = 'Saving...';
 
+      // 1) Ensure we have an authenticated session (anonymous is fine with your rules).
       try { await firebase.auth().signInAnonymously(); }
-      catch (authErr) { console.error('Auth error:', authErr); alert('Sign-in failed: ' + (authErr.message||authErr)); submitBtn.disabled=false; submitBtn.textContent='Continue to Payment'; return; }
+      catch (authErr) {
+        console.error('Auth error:', authErr);
+        alert('Sign-in failed: ' + (authErr.message||authErr));
+        submitBtn.disabled=false; submitBtn.textContent='Continue to Payment';
+        return;
+      }
 
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        alert('Sign-in failed: No user session. Please try again.');
+        submitBtn.disabled=false; submitBtn.textContent='Continue to Payment';
+        return;
+      }
+      const uid = user.uid;
+
+      // 2) Collect form data
       const fd = new FormData(formEl);
       const data = Object.fromEntries(fd.entries());
       const businessName = (data.business_name||'').trim();
-      const docId = businessName || ('biz_' + Date.now());
+      const businessDocId = businessName || ('biz_' + Date.now());
       const logoFile = (logoEl && logoEl.files && logoEl.files[0]) ? logoEl.files[0].name : '';
 
       try {
-        await db.collection('Business_owners').doc(docId).collection('Client_list').doc('__owner__').set({
+        // 3a) Root owner doc keyed by UID (matches your Firestore rules)
+        await db.collection('Business_owners').doc(uid).set({
+          owner_name: data.owner_name || '',
+          email: data.email || '',
+          last_updated: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        // 3b) Sub-doc under Client_list keyed by business name (or generated id)
+        await db.collection('Business_owners').doc(uid).collection('Client_list').doc(businessDocId).set({
           owner_name: data.owner_name || '',
           business_name: businessName,
           email: data.email || '',
@@ -150,7 +221,7 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
           created_at: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
 
-        saveLocal();
+        // 4) Go to PayPal
         const planKey = (planEl && planEl.value === 'annual') ? 'annual' : 'monthly';
         const planId = PLAN_IDS[planKey];
         setTimeout(() => { window.location.href = 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=' + encodeURIComponent(planId); }, 900);
@@ -163,5 +234,7 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
   });
 })();
 </script>
+<!-- Admin-gate neutralizer (safeguard). Keep this just above </body> -->
+<script src="signup-patch-strong.js"></script>
 </body>
 </html>
