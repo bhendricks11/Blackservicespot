@@ -4,335 +4,164 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Business Owner Sign Up - Black Service Spot</title>
-  <meta name="description" content="Register your business on Black Service Spot. Choose a plan, add your details, and get discovered by customers in your area."/>
+  <!-- VERSION: BSS-signup-fullstate-inline-v2-20250821140443Z -->
   <style>
-    :root {
-      --g1:#10b981; --g2:#059669; --g3:#047857;
-      --bg:#f0fdf4; --text:#0f172a; --muted:#475569; --card:#ffffff; --border:#e5e7eb;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(135deg,var(--g1),var(--g2));color:var(--text)}
+    :root { --g1:#10b981; --g2:#059669; --g3:#047857; --border:#e5e7eb; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0f172a}
     .wrap{max-width:1100px;margin:0 auto;padding:24px}
-    .card{background:var(--card);border-radius:16px;box-shadow:0 12px 28px rgba(2,6,23,.15);overflow:hidden}
+    .card{background:#fff;border-radius:16px;box-shadow:0 12px 28px rgba(2,6,23,.15);overflow:hidden}
     .header{padding:18px 22px;background:rgba(16,185,129,.15);border-bottom:1px solid var(--border)}
     .header h1{margin:0;font-size:18px}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:22px}
-    h3{margin:0 0 12px 0}
     .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-    label{font-weight:600;font-size:14px;color:#0f172a}
+    label{font-weight:600;font-size:14px}
     input,select,textarea{padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;background:#fff}
     textarea{min-height:96px;resize:vertical}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .footer{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;border-top:1px solid var(--border);background:#fafafa}
-    .pill{background:#ecfdf5;border:1px solid #d1fae5;color:#065f46;font-weight:600;padding:8px 10px;border-radius:999px;font-size:12px}
     button{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;border:none;border-radius:12px;padding:12px 18px;font-weight:700;cursor:pointer}
     button[disabled]{opacity:.6;cursor:not-allowed}
-    .note{font-size:12px;color:var(--muted)}
-    @media (max-width:900px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+    .note{font-size:12px;color:#475569}
+    @media (max-width:900px){.grid{grid-template-columns:1fr} .row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="header">
-        <h1>Business Owner Sign Up</h1>
-        <div class="note">Your details will be saved to our secure database. After saving, you’ll be redirected to PayPal to start your subscription.</div>
-      </div>
-
-      <form id="ownerForm" autocomplete="on">
-        <div class="grid">
-          <div>
-            <h3>Business Owner Information</h3>
-
-            <div class="field">
-              <label for="ownerName">Your Name</label>
-              <input id="ownerName" name="owner_name" placeholder="First Last" required />
-            </div>
-
-            <div class="field">
-              <label for="business">Business Name</label>
-              <input id="business" name="business_name" placeholder="Your LLC or DBA" required />
-            </div>
-
-            <div class="field">
-              <label for="email">Email Address</label>
-              <input id="email" name="email" type="email" placeholder="you@business.com" required />
-            </div>
-
-            <div class="row">
-              <div class="field">
-                <label for="phone">Phone Number</label>
-                <input id="phone" name="phone" placeholder="(555) 555-5555"/>
-              </div>
-              <div class="field">
-                <label for="logo">Logo (optional)</label>
-                <input id="logo" name="logo" type="file" accept="image/*"/>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="field">
-                <label for="state">State</label>
-                <select id="state" name="state" required></select>
-              </div>
-              <div class="field">
-                <label for="city">City</label>
-                <select id="city" name="city" required></select>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="address">Business Address (optional)</label>
-              <input id="address" name="address" placeholder="123 Main St, Suite 100"/>
-            </div>
-          </div>
-
-          <div>
-            <h3>Services &amp; Notes</h3>
-
-            <div class="field">
-              <label for="businessType">Business Type</label>
-              <input id="businessType" name="business_type" placeholder="Barber, Caterer, Consultant..."/>
-            </div>
-
-            <div class="field">
-              <label for="services">List of Services</label>
-              <textarea id="services" name="services" placeholder="e.g., Braids, Locs, Silk Press (comma-separated)"></textarea>
-            </div>
-
-            <div class="field">
-              <label for="privateNotes">Private Notes (visible to you only)</label>
-              <textarea id="privateNotes" name="private_notes" placeholder="Any special internal notes..."></textarea>
-            </div>
-
-            <div class="field">
-              <label for="plan">Subscription</label>
-              <select id="plan" name="plan">
-                <option value="monthly">Monthly — $29.95 + $4.95 setup</option>
-                <option value="annual">Annual — $287.52 (20% off)</option>
-              </select>
-              <div class="note">Your subscription is managed via PayPal. You can cancel anytime from your PayPal account.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer">
-          <div class="pill">Secure • Firestore + PayPal</div>
-          <button id="continueToPayment" type="submit">Continue to Payment</button>
-        </div>
-      </form>
+<div class="wrap">
+  <div class="card">
+    <div class="header">
+      <h1>Business Owner Sign Up</h1>
+      <div class="note">Version: BSS-signup-fullstate-inline-v2-20250821140443Z • State names are full (e.g., Alabama). If you don’t see this version string after deploy, your browser is showing an old file — do a hard refresh.</div>
     </div>
+    <form id="ownerForm" autocomplete="on">
+      <div class="grid">
+        <div>
+          <h3>Business Owner Information</h3>
+          <div class="field"><label for="ownerName">Your Name</label><input id="ownerName" name="owner_name" required /></div>
+          <div class="field"><label for="business">Business Name</label><input id="business" name="business_name" required /></div>
+          <div class="field"><label for="email">Email Address</label><input id="email" name="email" type="email" required /></div>
+          <div class="row">
+            <div class="field"><label for="phone">Phone Number</label><input id="phone" name="phone"/></div>
+            <div class="field"><label for="logo">Logo (optional)</label><input id="logo" name="logo" type="file" accept="image/*"/></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="state">State</label><select id="state" name="state" required></select></div>
+            <div class="field"><label for="city">City</label><select id="city" name="city" required></select></div>
+          </div>
+          <div class="field"><label for="address">Business Address (optional)</label><input id="address" name="address"/></div>
+        </div>
+        <div>
+          <h3>Services &amp; Notes</h3>
+          <div class="field"><label for="businessType">Business Type</label><input id="businessType" name="business_type"/></div>
+          <div class="field"><label for="services">List of Services</label><textarea id="services" name="services"></textarea></div>
+          <div class="field"><label for="privateNotes">Private Notes</label><textarea id="privateNotes" name="private_notes"></textarea></div>
+          <div class="field">
+            <label for="plan">Subscription</label>
+            <select id="plan" name="plan">
+              <option value="monthly">Monthly — $29.95 + $4.95 setup</option>
+              <option value="annual">Annual — $287.52 (20% off)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="note">Secure • Firestore + PayPal</div>
+        <button id="continueToPayment" type="submit">Continue to Payment</button>
+      </div>
+    </form>
   </div>
+</div>
 
-  <!-- Firebase v8 (namespaced) CDN: keeps everything in one file without local SDK copies -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script>
+const app = firebase.initializeApp({
+  apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+  authDomain: "black-service-spot.firebaseapp.com",
+  projectId: "black-service-spot",
+  storageBucket: "black-service-spot.firebasestorage.app",
+  messagingSenderId: "707361777966",
+  appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+  measurementId: "G-HDD97PF8K7"
+});
+const db = firebase.firestore();
+</script>
+<script>
+window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Huntsville", "Tuscaloosa", "Hoover", "Auburn", "Dothan", "Decatur", "Madison", "Florence", "Gadsden"], "Alaska": ["Anchorage", "Fairbanks", "Juneau", "Wasilla", "Sitka", "Ketchikan", "Kenai", "Kodiak"], "Arizona": ["Phoenix", "Tucson", "Mesa", "Chandler", "Glendale", "Scottsdale", "Gilbert", "Tempe", "Peoria", "Surprise", "Yuma", "Flagstaff"], "Arkansas": ["Little Rock", "Fort Smith", "Fayetteville", "Springdale", "Jonesboro", "North Little Rock", "Conway", "Rogers", "Bentonville"], "California": ["Los Angeles", "San Diego", "San Jose", "San Francisco", "Fresno", "Sacramento", "Long Beach", "Oakland", "Bakersfield", "Anaheim", "Riverside", "Stockton", "Irvine", "Chula Vista", "Santa Ana", "San Bernardino", "Modesto", "Oxnard", "Ontario", "Huntington Beach"], "Colorado": ["Denver", "Colorado Springs", "Aurora", "Fort Collins", "Lakewood", "Thornton", "Arvada", "Westminster", "Pueblo", "Greeley", "Boulder", "Loveland"], "Connecticut": ["Bridgeport", "New Haven", "Stamford", "Hartford", "Waterbury", "Norwalk", "Danbury", "New Britain"], "Delaware": ["Wilmington", "Dover", "Newark", "Middletown", "Smyrna"], "District of Columbia": ["Washington"], "Florida": ["Jacksonville", "Miami", "Tampa", "Orlando", "St. Petersburg", "Hialeah", "Tallahassee", "Fort Lauderdale", "Port St. Lucie", "Cape Coral", "Pembroke Pines", "Hollywood", "Gainesville", "Coral Springs"], "Georgia": ["Atlanta", "Columbus", "Augusta", "Savannah", "Athens", "Sandy Springs", "Roswell", "Macon", "Albany", "Johns Creek", "Warner Robins", "Valdosta"], "Hawaii": ["Honolulu", "Hilo", "Kailua", "Kapolei", "Kaneohe", "Waipahu"], "Idaho": ["Boise", "Meridian", "Nampa", "Idaho Falls", "Pocatello", "Caldwell", "Twin Falls"], "Illinois": ["Chicago", "Aurora", "Naperville", "Joliet", "Rockford", "Springfield", "Elgin", "Peoria", "Champaign", "Waukegan"], "Indiana": ["Indianapolis", "Fort Wayne", "Evansville", "South Bend", "Carmel", "Fishers", "Bloomington", "Hammond", "Noblesville"], "Iowa": ["Des Moines", "Cedar Rapids", "Davenport", "Sioux City", "Iowa City", "Waterloo", "Ames", "West Des Moines"], "Kansas": ["Wichita", "Overland Park", "Kansas City", "Olathe", "Topeka", "Lawrence", "Shawnee", "Manhattan"], "Kentucky": ["Louisville", "Lexington", "Bowling Green", "Owensboro", "Covington", "Georgetown"], "Louisiana": ["New Orleans", "Baton Rouge", "Shreveport", "Lafayette", "Lake Charles", "Kenner", "Bossier City", "Monroe", "Alexandria"], "Maine": ["Portland", "Lewiston", "Bangor", "South Portland", "Auburn"], "Maryland": ["Baltimore", "Columbia", "Germantown", "Silver Spring", "Waldorf", "Frederick", "Ellicott City", "Glen Burnie", "Gaithersburg", "Rockville"], "Massachusetts": ["Boston", "Worcester", "Springfield", "Cambridge", "Lowell", "Brockton", "New Bedford", "Quincy", "Lynn"], "Michigan": ["Detroit", "Grand Rapids", "Warren", "Sterling Heights", "Ann Arbor", "Lansing", "Flint", "Dearborn", "Livonia", "Troy", "Westland", "Farmington Hills"], "Minnesota": ["Minneapolis", "Saint Paul", "Rochester", "Duluth", "Bloomington", "Brooklyn Park", "Plymouth", "Maple Grove", "Woodbury"], "Mississippi": ["Jackson", "Gulfport", "Southaven", "Biloxi", "Hattiesburg", "Meridian", "Tupelo"], "Missouri": ["Kansas City", "St. Louis", "Springfield", "Columbia", "Independence", "Lee's Summit", "O'Fallon", "St. Joseph"], "Montana": ["Billings", "Missoula", "Great Falls", "Bozeman", "Butte", "Helena"], "North Carolina": ["Charlotte", "Raleigh", "Greensboro", "Durham", "Winston-Salem", "Fayetteville", "Cary", "Wilmington", "High Point", "Concord", "Greenville", "Asheville"], "North Dakota": ["Fargo", "Bismarck", "Grand Forks", "Minot", "West Fargo"], "Nebraska": ["Omaha", "Lincoln", "Bellevue", "Grand Island", "Kearney"], "New Hampshire": ["Manchester", "Nashua", "Concord", "Derry", "Dover", "Rochester"], "New Jersey": ["Newark", "Jersey City", "Paterson", "Elizabeth", "Edison", "Woodbridge", "Lakewood", "Toms River", "Hamilton", "Trenton"], "New Mexico": ["Albuquerque", "Las Cruces", "Rio Rancho", "Santa Fe", "Roswell", "Farmington", "Clovis"], "Nevada": ["Las Vegas", "Henderson", "Reno", "North Las Vegas", "Sparks", "Carson City", "Elko"], "New York": ["New York", "Buffalo", "Rochester", "Yonkers", "Syracuse", "Albany", "New Rochelle", "Mount Vernon", "Schenectady", "Utica", "White Plains", "Hempstead"], "Ohio": ["Columbus", "Cleveland", "Cincinnati", "Toledo", "Akron", "Dayton", "Parma", "Canton", "Youngstown", "Lorain", "Hamilton"], "Oklahoma": ["Oklahoma City", "Tulsa", "Norman", "Broken Arrow", "Edmond", "Lawton", "Moore", "Midwest City", "Stillwater"], "Oregon": ["Portland", "Eugene", "Salem", "Gresham", "Hillsboro", "Beaverton", "Bend", "Medford", "Springfield"], "Pennsylvania": ["Philadelphia", "Pittsburgh", "Allentown", "Erie", "Reading", "Scranton", "Bethlehem", "Lancaster", "Harrisburg", "Altoona", "York"], "Rhode Island": ["Providence", "Warwick", "Cranston", "Pawtucket", "East Providence", "Woonsocket"], "South Carolina": ["Charleston", "Columbia", "North Charleston", "Mount Pleasant", "Rock Hill", "Greenville", "Summerville", "Goose Creek"], "South Dakota": ["Sioux Falls", "Rapid City", "Aberdeen", "Brookings", "Watertown"], "Tennessee": ["Nashville", "Memphis", "Knoxville", "Chattanooga", "Clarksville", "Murfreesboro", "Franklin", "Jackson", "Johnson City"], "Texas": ["Houston", "San Antonio", "Dallas", "Austin", "Fort Worth", "El Paso", "Arlington", "Corpus Christi", "Plano", "Laredo", "Lubbock", "Garland", "Irving", "Amarillo", "McKinney", "Frisco"], "Utah": ["Salt Lake City", "West Valley City", "Provo", "West Jordan", "Orem", "Sandy", "Ogden", "St. George", "Layton"], "Vermont": ["Burlington", "South Burlington", "Rutland", "Barre", "Montpelier"], "Virginia": ["Virginia Beach", "Norfolk", "Chesapeake", "Richmond", "Newport News", "Alexandria", "Hampton", "Roanoke", "Portsmouth", "Suffolk"], "Washington": ["Seattle", "Spokane", "Tacoma", "Vancouver", "Bellevue", "Kent", "Everett", "Renton", "Spokane Valley", "Kirkland", "Bellingham"], "Wisconsin": ["Milwaukee", "Madison", "Green Bay", "Kenosha", "Racine", "Appleton", "Waukesha", "Eau Claire", "Oshkosh"], "West Virginia": ["Charleston", "Huntington", "Morgantown", "Parkersburg", "Wheeling", "Weirton"], "Wyoming": ["Cheyenne", "Casper", "Laramie", "Gillette", "Rock Springs"]};
+</script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const formEl = $('#ownerForm'), stateEl = $('#state'), cityEl = $('#city'), planEl = $('#plan'), submitBtn = $('#continueToPayment'), logoEl = $('#logo');
 
-  <!-- Firebase init (your config) -->
-  <script>
-  // Initialize once
-  const app = firebase.initializeApp({
-    apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-    authDomain: "black-service-spot.firebaseapp.com",
-    projectId: "black-service-spot",
-    storageBucket: "black-service-spot.firebasestorage.app",
-    messagingSenderId: "707361777966",
-    appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-    measurementId: "G-HDD97PF8K7"
-  });
-  const db = firebase.firestore();
-  </script>
-
-  <!-- State -> City data (restored). You can expand this list anytime. -->
-  <script>
-  window.citiesByState = {
-    "AL":["Birmingham","Montgomery","Mobile","Huntsville","Tuscaloosa","Hoover","Auburn","Dothan","Decatur","Madison","Florence","Gadsden"],
-    "AK":["Anchorage","Fairbanks","Juneau","Wasilla","Sitka","Ketchikan","Kenai","Kodiak"],
-    "AZ":["Phoenix","Tucson","Mesa","Chandler","Glendale","Scottsdale","Gilbert","Tempe","Peoria","Surprise","Yuma","Flagstaff"],
-    "AR":["Little Rock","Fort Smith","Fayetteville","Springdale","Jonesboro","North Little Rock","Conway","Rogers","Bentonville"],
-    "CA":["Los Angeles","San Diego","San Jose","San Francisco","Fresno","Sacramento","Long Beach","Oakland","Bakersfield","Anaheim","Riverside","Stockton","Irvine","Chula Vista","Santa Ana","San Bernardino","Modesto","Oxnard","Ontario","Huntington Beach"],
-    "CO":["Denver","Colorado Springs","Aurora","Fort Collins","Lakewood","Thornton","Arvada","Westminster","Pueblo","Greeley","Boulder","Loveland"],
-    "CT":["Bridgeport","New Haven","Stamford","Hartford","Waterbury","Norwalk","Danbury","New Britain"],
-    "DE":["Wilmington","Dover","Newark","Middletown","Smyrna"],
-    "DC":["Washington"],
-    "FL":["Jacksonville","Miami","Tampa","Orlando","St. Petersburg","Hialeah","Tallahassee","Fort Lauderdale","Port St. Lucie","Cape Coral","Pembroke Pines","Hollywood","Gainesville","Coral Springs"],
-    "GA":["Atlanta","Columbus","Augusta","Savannah","Athens","Sandy Springs","Roswell","Macon","Albany","Johns Creek","Warner Robins","Valdosta"],
-    "HI":["Honolulu","Hilo","Kailua","Kapolei","Kaneohe","Waipahu"],
-    "ID":["Boise","Meridian","Nampa","Idaho Falls","Pocatello","Caldwell","Twin Falls"],
-    "IL":["Chicago","Aurora","Naperville","Joliet","Rockford","Springfield","Elgin","Peoria","Champaign","Waukegan"],
-    "IN":["Indianapolis","Fort Wayne","Evansville","South Bend","Carmel","Fishers","Bloomington","Hammond","Noblesville"],
-    "IA":["Des Moines","Cedar Rapids","Davenport","Sioux City","Iowa City","Waterloo","Ames","West Des Moines"],
-    "KS":["Wichita","Overland Park","Kansas City","Olathe","Topeka","Lawrence","Shawnee","Manhattan"],
-    "KY":["Louisville","Lexington","Bowling Green","Owensboro","Covington","Georgetown"],
-    "LA":["New Orleans","Baton Rouge","Shreveport","Lafayette","Lake Charles","Kenner","Bossier City","Monroe","Alexandria"],
-    "ME":["Portland","Lewiston","Bangor","South Portland","Auburn"],
-    "MD":["Baltimore","Columbia","Germantown","Silver Spring","Waldorf","Frederick","Ellicott City","Glen Burnie","Gaithersburg","Rockville"],
-    "MA":["Boston","Worcester","Springfield","Cambridge","Lowell","Brockton","New Bedford","Quincy","Lynn"],
-    "MI":["Detroit","Grand Rapids","Warren","Sterling Heights","Ann Arbor","Lansing","Flint","Dearborn","Livonia","Troy","Westland","Farmington Hills"],
-    "MN":["Minneapolis","Saint Paul","Rochester","Duluth","Bloomington","Brooklyn Park","Plymouth","Maple Grove","Woodbury"],
-    "MS":["Jackson","Gulfport","Southaven","Biloxi","Hattiesburg","Meridian","Tupelo"],
-    "MO":["Kansas City","St. Louis","Springfield","Columbia","Independence","Lee's Summit","O'Fallon","St. Joseph"],
-    "MT":["Billings","Missoula","Great Falls","Bozeman","Butte","Helena"],
-    "NC":["Charlotte","Raleigh","Greensboro","Durham","Winston-Salem","Fayetteville","Cary","Wilmington","High Point","Concord","Greenville","Asheville"],
-    "ND":["Fargo","Bismarck","Grand Forks","Minot","West Fargo"],
-    "NE":["Omaha","Lincoln","Bellevue","Grand Island","Kearney"],
-    "NH":["Manchester","Nashua","Concord","Derry","Dover","Rochester"],
-    "NJ":["Newark","Jersey City","Paterson","Elizabeth","Edison","Woodbridge","Lakewood","Toms River","Hamilton","Trenton"],
-    "NM":["Albuquerque","Las Cruces","Rio Rancho","Santa Fe","Roswell","Farmington","Clovis"],
-    "NV":["Las Vegas","Henderson","Reno","North Las Vegas","Sparks","Carson City","Elko"],
-    "NY":["New York","Buffalo","Rochester","Yonkers","Syracuse","Albany","New Rochelle","Mount Vernon","Schenectady","Utica","White Plains","Hempstead"],
-    "OH":["Columbus","Cleveland","Cincinnati","Toledo","Akron","Dayton","Parma","Canton","Youngstown","Lorain","Hamilton"],
-    "OK":["Oklahoma City","Tulsa","Norman","Broken Arrow","Edmond","Lawton","Moore","Midwest City","Stillwater"],
-    "OR":["Portland","Eugene","Salem","Gresham","Hillsboro","Beaverton","Bend","Medford","Springfield"],
-    "PA":["Philadelphia","Pittsburgh","Allentown","Erie","Reading","Scranton","Bethlehem","Lancaster","Harrisburg","Altoona","York"],
-    "RI":["Providence","Warwick","Cranston","Pawtucket","East Providence","Woonsocket"],
-    "SC":["Charleston","Columbia","North Charleston","Mount Pleasant","Rock Hill","Greenville","Summerville","Goose Creek"],
-    "SD":["Sioux Falls","Rapid City","Aberdeen","Brookings","Watertown"],
-    "TN":["Nashville","Memphis","Knoxville","Chattanooga","Clarksville","Murfreesboro","Franklin","Jackson","Johnson City"],
-    "TX":["Houston","San Antonio","Dallas","Austin","Fort Worth","El Paso","Arlington","Corpus Christi","Plano","Laredo","Lubbock","Garland","Irving","Amarillo","McKinney","Frisco"],
-    "UT":["Salt Lake City","West Valley City","Provo","West Jordan","Orem","Sandy","Ogden","St. George","Layton"],
-    "VA":["Virginia Beach","Norfolk","Chesapeake","Richmond","Newport News","Alexandria","Hampton","Roanoke","Portsmouth","Suffolk"],
-    "VT":["Burlington","South Burlington","Rutland","Barre","Montpelier"],
-    "WA":["Seattle","Spokane","Tacoma","Vancouver","Bellevue","Kent","Everett","Renton","Spokane Valley","Kirkland","Bellingham"],
-    "WI":["Milwaukee","Madison","Green Bay","Kenosha","Racine","Appleton","Waukesha","Eau Claire","Oshkosh"],
-    "WV":["Charleston","Huntington","Morgantown","Parkersburg","Wheeling","Weirton"],
-    "WY":["Cheyenne","Casper","Laramie","Gillette","Rock Springs"]
+  const PLAN_IDS = {
+    monthly: 'P-37739232P6875371KNB7M33A',
+    annual:  'P-6VE96793E07454030NB7M7IA'
   };
-  </script>
 
-  <!-- Signup logic (inline): Firestore save → PayPal redirect -->
-  <script>
-  (function () {
-    const $ = sel => document.querySelector(sel);
-    const formEl = $('#ownerForm');
-    const stateEl = $('#state');
-    const cityEl  = $('#city');
-    const planEl  = $('#plan');
-    const submitBtn = $('#continueToPayment');
-    const logoEl = $('#logo');
+  function safePopulateStates() {
+    const states = Object.keys(window.citiesByState || {});
+    stateEl.innerHTML = '';
+    const ph = document.createElement('option'); ph.value=''; ph.textContent='Select state'; ph.disabled=true; ph.selected=true; stateEl.appendChild(ph);
+    states.sort().forEach(s => { const o=document.createElement('option'); o.value=s; o.textContent=s; stateEl.appendChild(o); });
+  }
+  function safePopulateCities(state) {
+    cityEl.innerHTML = '';
+    const list = (window.citiesByState && window.citiesByState[state]) || [];
+    if (!list.length) { const o=document.createElement('option'); o.value=''; o.textContent='— No cities loaded —'; cityEl.appendChild(o); return; }
+    const ph = document.createElement('option'); ph.value=''; ph.textContent='Select city'; ph.disabled=true; ph.selected=true; cityEl.appendChild(ph);
+    list.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; cityEl.appendChild(o); });
+  }
+  function saveLocal(){ const data = Object.fromEntries(new FormData(formEl).entries()); try{ localStorage.setItem('bss_signup', JSON.stringify(data)); }catch{} }
+  function restoreLocal(){ let data={}; try{ data=JSON.parse(localStorage.getItem('bss_signup')||'{}'); }catch{} Object.entries(data).forEach(([k,v])=>{ const el=formEl.querySelector(`[name="${k}"]`); if(el) el.value=v; }); if (data.state) safePopulateCities(data.state); if (data.city) cityEl.value=data.city; }
 
-    const PLAN_IDS = {
-      monthly: 'P-37739232P6875371KNB7M33A',
-      annual:  'P-6VE96793E07454030NB7M7IA'
-    };
+  document.addEventListener('DOMContentLoaded', () => {
+    safePopulateStates(); restoreLocal();
+    stateEl.addEventListener('change', e => { safePopulateCities(e.target.value); saveLocal(); });
+    cityEl.addEventListener('change', saveLocal);
+    formEl.addEventListener('input', saveLocal);
 
-    function safePopulateStates() {
-      if (!stateEl) return;
-      const states = Object.keys(window.citiesByState || {});
-      stateEl.innerHTML = '';
-      const placeholder = document.createElement('option');
-      placeholder.value = ''; placeholder.textContent = 'Select state';
-      placeholder.disabled = true; placeholder.selected = true;
-      stateEl.appendChild(placeholder);
-      states.sort().forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s; opt.textContent = s;
-        stateEl.appendChild(opt);
-      });
-    }
+    formEl.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true; submitBtn.textContent = 'Saving...';
 
-    function safePopulateCities(state) {
-      if (!cityEl) return;
-      cityEl.innerHTML = '';
-      const list = (window.citiesByState && window.citiesByState[state]) || [];
-      if (!list.length) {
-        const opt = document.createElement('option');
-        opt.value = ''; opt.textContent = '— No cities loaded —';
-        cityEl.appendChild(opt); return;
-      }
-      const p = document.createElement('option');
-      p.value = ''; p.textContent = 'Select city'; p.disabled = true; p.selected = true;
-      cityEl.appendChild(p);
-      list.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c; opt.textContent = c;
-        cityEl.appendChild(opt);
-      });
-    }
+      try { await firebase.auth().signInAnonymously(); }
+      catch (authErr) { console.error('Auth error:', authErr); alert('Sign-in failed: ' + (authErr.message||authErr)); submitBtn.disabled=false; submitBtn.textContent='Continue to Payment'; return; }
 
-    function saveLocal() {
-      if (!formEl) return;
-      const data = Object.fromEntries(new FormData(formEl).entries());
-      try { localStorage.setItem('bss_signup', JSON.stringify(data)); } catch {}
-    }
+      const fd = new FormData(formEl);
+      const data = Object.fromEntries(fd.entries());
+      const businessName = (data.business_name||'').trim();
+      const docId = businessName || ('biz_' + Date.now());
+      const logoFile = (logoEl && logoEl.files && logoEl.files[0]) ? logoEl.files[0].name : '';
 
-    function restoreLocal() {
-      if (!formEl) return;
-      let data = {};
-      try { data = JSON.parse(localStorage.getItem('bss_signup') || '{}'); } catch {}
-      Object.entries(data).forEach(([k,v]) => {
-        const el = formEl.querySelector(`[name="${k}"]`);
-        if (el) el.value = v;
-      });
-      if (data.state) safePopulateCities(data.state);
-      if (data.city && cityEl) cityEl.value = data.city;
-    }
+      try {
+        await db.collection('Business_owners').doc(docId).collection('Client_list').doc('__owner__').set({
+          owner_name: data.owner_name || '',
+          business_name: businessName,
+          email: data.email || '',
+          phone: data.phone || '',
+          state: data.state || '',
+          city: data.city || '',
+          address: data.address || '',
+          business_type: data.business_type || '',
+          services: (data.services || '').split(',').map(s=>s.trim()).filter(Boolean),
+          private_notes: data.private_notes || '',
+          logo_filename: logoFile || '',
+          created_at: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      safePopulateStates();
-      restoreLocal();
-
-      stateEl && stateEl.addEventListener('change', e => {
-        safePopulateCities(e.target.value);
         saveLocal();
-      });
-      cityEl && cityEl.addEventListener('change', saveLocal);
-      formEl && formEl.addEventListener('input', saveLocal);
-
-      formEl && formEl.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (submitBtn){ submitBtn.disabled = true; submitBtn.textContent = 'Saving...'; }
-
-        const fd = new FormData(formEl);
-        const data = Object.fromEntries(fd.entries());
-        const businessName = (data.business_name || '').trim();
-        const docId = businessName || ('biz_' + Date.now());
-
-        // Optional: capture logo filename (Storage upload can be added later)
-        const logoFile = (logoEl && logoEl.files && logoEl.files[0]) ? logoEl.files[0].name : '';
-
-        try {
-          await firebase.firestore()
-            .collection('Business_owners')
-            .doc(docId)
-            .collection('Client_list')
-            .doc('__owner__')
-            .set({
-              owner_name: data.owner_name || '',
-              business_name: businessName,
-              email: data.email || '',
-              phone: data.phone || '',
-              state: data.state || '',
-              city: data.city || '',
-              address: data.address || '',
-              business_type: data.business_type || '',
-              services: (data.services || '').split(',').map(s=>s.trim()).filter(Boolean),
-              private_notes: data.private_notes || '',
-              logo_filename: logoFile || '',
-              created_at: firebase.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
-
-          // Persist locally so the dashboard can use values after redirect
-          saveLocal();
-
-          // Small delay to ensure Firestore write is fully visible, then redirect to PayPal
-          const planKey = (planEl && planEl.value === 'annual') ? 'annual' : 'monthly';
-          const planId = PLAN_IDS[planKey];
-          if (!planId) throw new Error('Missing PayPal plan mapping');
-
-          setTimeout(() => {
-            window.location.href = 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=' + encodeURIComponent(planId);
-          }, 1200);
-
-        } catch (err) {
-          console.error(err);
-          alert('Sorry—something went wrong saving your info. Please try again.');
-          if (submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Continue to Payment'; }
-        }
-      });
+        const planKey = (planEl && planEl.value === 'annual') ? 'annual' : 'monthly';
+        const planId = PLAN_IDS[planKey];
+        setTimeout(() => { window.location.href = 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=' + encodeURIComponent(planId); }, 900);
+      } catch (err) {
+        console.error('Firestore error:', err);
+        alert('Sorry—something went wrong saving your info. ' + (err.code ? err.code + ': ' : '') + (err.message||'Unknown error'));
+        submitBtn.disabled = false; submitBtn.textContent = 'Continue to Payment';
+      }
     });
-  })();
-  </script>
+  });
+})();
+</script>
 </body>
 </html>
