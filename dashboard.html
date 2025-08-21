@@ -1,156 +1,76 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Owner Dashboard • Black Service Spot</title>
-  <!-- VERSION: BSS-dashboard-strict-uid-AUTOSEED-20250821 -->
+  <title>Business Owner Dashboard - Black Service Spot</title>
   <style>
-    :root { --g1:#10b981; --g2:#059669; --g3:#047857; --border:#e5e7eb; }
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#f6faf8;color:#0f172a}
-    .wrap{max-width:1100px;margin:0 auto;padding:24px}
-    .card{background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(2,6,23,.12);overflow:hidden}
-    .header{padding:16px 22px;background:rgba(16,185,129,.1);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:22px}
-    .section h3{margin:0 0 8px 0}
-    table{width:100%;border-collapse:collapse}
-    th,td{border:1px solid var(--border);padding:10px;text-align:left}
-    .muted{color:#64748b;font-size:13px}
-    .pill{padding:4px 8px;background:#10b981;color:#fff;border-radius:999px;font-size:12px}
-    .debug{background:#0b1b16;color:#d1fae5;border-radius:8px;padding:10px;font-family:ui-monospace,Consolas,monospace;margin:16px 22px;white-space:pre-wrap}
-    .warn{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;margin:12px 22px;padding:10px;border-radius:8px}
-    input[type=text]{padding:8px;border:1px solid var(--border);border-radius:8px}
-    button{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
+    body { font-family: Arial, sans-serif; margin: 0; background: #f9fafb; color: #111; }
+    header { background: linear-gradient(90deg, #047857, #10b981); color: white; padding: 1rem 2rem; }
+    header h1 { margin: 0; font-size: 1.5rem; }
+    .container { max-width: 1000px; margin: 2rem auto; padding: 1rem; }
+    .card { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    h2 { color: #047857; margin-top: 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #ddd; padding: 0.75rem; text-align: left; }
+    th { background: #f0fdf4; }
+    .logo { width: 80px; height: 80px; object-fit: contain; border: 2px solid #eee; border-radius: 10px; }
   </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="card">
-    <div class="header">
-      <div>
-        <div class="pill">Owner Dashboard</div>
-        <div class="muted">Version: BSS-dashboard-strict-uid-AUTOSEED-20250821</div>
-      </div>
-      <div>
-        <input id="uidInput" type="text" placeholder="UID" style="width:360px;display:none"/>
-        <button id="setUidBtn" style="display:none">Set UID</button>
-        <button id="refreshBtn">Refresh</button>
-      </div>
+  <header>
+    <h1>Business Owner Dashboard</h1>
+  </header>
+  <div class="container">
+    <div class="card">
+      <h2>Business Information</h2>
+      <img src="your-logo.png" alt="Business Logo" class="logo"/>
+      <p><strong>Owner Name:</strong> John Doe</p>
+      <p><strong>Business Name:</strong> Doe Consulting LLC</p>
+      <p><strong>Address:</strong> 123 Main Street</p>
+      <p><strong>City:</strong> Atlanta</p>
+      <p><strong>State:</strong> Georgia</p>
+      <p><strong>Phone:</strong> (555) 123-4567</p>
+      <p><strong>Email:</strong> johndoe@email.com</p>
+      <p><strong>Services:</strong> Business Consulting, Strategy, Training</p>
+      <p><strong>Hours:</strong> Mon-Fri 9:00am - 6:00pm</p>
     </div>
-    <div id="banner" class="warn" style="display:none"></div>
-    <div class="grid">
-      <div class="section">
-        <h3>Business Owner</h3>
-        <div id="ownerInfo" class="muted">Loading owner...</div>
-      </div>
-      <div class="section">
-        <h3>Your Businesses (Client_list)</h3>
-        <table id="bizTable">
-          <thead><tr><th>Business</th><th>City</th><th>State</th><th>Phone</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
+
+    <div class="card">
+      <h2>Client List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Service Needs</th>
+            <th>Invoice #</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jane Smith</td>
+            <td>456 Oak Street</td>
+            <td>(555) 987-6543</td>
+            <td>Consultation</td>
+            <td>INV-1001</td>
+          </tr>
+          <tr>
+            <td>Mike Johnson</td>
+            <td>789 Pine Avenue</td>
+            <td>(555) 246-8101</td>
+            <td>Strategy Workshop</td>
+            <td>INV-1002</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div id="debug" class="debug">debug…</div>
+
+    <div class="card">
+      <h2>Private Notes</h2>
+      <p>Record important details about your business operations or client interactions here.</p>
+    </div>
   </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script>
-firebase.initializeApp({"apiKey": "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs", "authDomain": "black-service-spot.firebaseapp.com", "projectId": "black-service-spot", "storageBucket": "black-service-spot.firebasestorage.app", "messagingSenderId": "707361777966", "appId": "1:707361777966:web:f41f3276b26d5dca50b2bf", "measurementId": "G-HDD97PF8K7"});
-const db = firebase.firestore();
-</script>
-<script>
-(async function(){
-  const $ = s => document.querySelector(s);
-  const debug = $('#debug'); const tbody = document.querySelector('#bizTable tbody'); const ownerInfo = $('#ownerInfo');
-  const banner = $('#banner'); const uidInput = $('#uidInput'); const setUidBtn = $('#setUidBtn');
-
-  function log(){ debug.textContent += "\n" + Array.from(arguments).map(a=>typeof a==="string"?a:JSON.stringify(a)).join(" "); }
-
-  try { await firebase.auth().signInAnonymously(); } catch(e){ log("auth error", e); }
-
-  let uid = null;
-  try { uid = localStorage.getItem('bss_uid') || null; } catch(e){}
-  log("using stored uid:", uid);
-
-  if (!uid) {
-    banner.style.display = 'block';
-    banner.textContent = "No UID stored yet. Either submit the signup form once, or paste your owner UID from Firestore and click Set UID.";
-    uidInput.style.display = setUidBtn.style.display = 'inline-block';
-    setUidBtn.onclick = () => {
-      const val = uidInput.value.trim();
-      if (!val) return;
-      try { localStorage.setItem('bss_uid', val); } catch(e){}
-      location.reload();
-    };
-    ownerInfo.textContent = "Waiting for UID…";
-    document.getElementById('refreshBtn').addEventListener('click', () => location.reload());
-    return;
-  }
-
-  async function loadTable() {
-    const snap = await db.collection('Business_owners').doc(uid).collection('Client_list').get();
-    tbody.innerHTML = "";
-    if (snap.empty) {
-      const tr = document.createElement('tr'); tr.innerHTML = '<td colspan="4" class="muted">No businesses saved yet.</td>'; tbody.appendChild(tr);
-      return false;
-    } else {
-      snap.forEach(doc => {
-        const d = doc.data();
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${d.business_name||doc.id}</td><td>${d.city||""}</td><td>${d.state||""}</td><td>${d.phone||""}</td>`;
-        tbody.appendChild(tr);
-      });
-      return true;
-    }
-  }
-
-  try {
-    const ownerDoc = await db.collection('Business_owners').doc(uid).get();
-    if (!ownerDoc.exists) {
-      banner.style.display = 'block';
-      banner.textContent = "No owner doc for UID " + uid + ". Use pair-owner.html first.";
-      ownerInfo.textContent = "Owner not found.";
-    } else {
-      const d = ownerDoc.data();
-      ownerInfo.textContent = (d.owner_name||"(owner)") + " • " + (d.email||"");
-    }
-  } catch (e) {
-    log("owner load error", e);
-  }
-
-  let hasRows = false;
-  try { hasRows = await loadTable(); } catch(e){ log("load table error", e); }
-
-  // AUTO-SEED: if empty, insert one demo row, then reload the table
-  if (!hasRows) {
-    try {
-      const biz = {
-        business_name: 'Demo Plumbing LLC',
-        city: 'Caldwell',
-        state: 'ID',
-        phone: '208-555-0123',
-        notes: 'autoseeded by dashboard',
-        created_at: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      const slug = (biz.business_name || 'demo').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,60);
-      await db.collection('Business_owners').doc(uid).collection('Client_list').doc(slug).set(biz, {merge:true});
-      log("auto-seeded demo client:", slug);
-      await new Promise(r => setTimeout(r, 600));
-      await loadTable();
-    } catch (e) {
-      log("autoseed error", e);
-      banner.style.display = 'block';
-      banner.textContent = "Could not add demo client (rules may block writes).";
-    }
-  }
-
-  document.getElementById('refreshBtn').addEventListener('click', () => location.reload());
-})();
-</script>
 </body>
 </html>
