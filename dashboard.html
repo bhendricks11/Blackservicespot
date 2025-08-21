@@ -5,7 +5,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Owner Dashboard • Black Service Spot</title>
-  <!-- VERSION: BSS-dashboard-strict-uid-20250821 -->
+  <!-- VERSION: BSS-dashboard-strict-uid-AUTOSEED-20250821 -->
   <style>
     :root { --g1:#10b981; --g2:#059669; --g3:#047857; --border:#e5e7eb; }
     body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#f6faf8;color:#0f172a}
@@ -19,9 +19,9 @@
     .muted{color:#64748b;font-size:13px}
     .pill{padding:4px 8px;background:#10b981;color:#fff;border-radius:999px;font-size:12px}
     .debug{background:#0b1b16;color:#d1fae5;border-radius:8px;padding:10px;font-family:ui-monospace,Consolas,monospace;margin:16px 22px;white-space:pre-wrap}
-    button{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
     .warn{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;margin:12px 22px;padding:10px;border-radius:8px}
     input[type=text]{padding:8px;border:1px solid var(--border);border-radius:8px}
+    button{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
   </style>
 </head>
 <body>
@@ -30,7 +30,7 @@
     <div class="header">
       <div>
         <div class="pill">Owner Dashboard</div>
-        <div class="muted">Version: BSS-dashboard-strict-uid-20250821</div>
+        <div class="muted">Version: BSS-dashboard-strict-uid-AUTOSEED-20250821</div>
       </div>
       <div>
         <input id="uidInput" type="text" placeholder="UID" style="width:360px;display:none"/>
@@ -68,6 +68,7 @@ const db = firebase.firestore();
   const $ = s => document.querySelector(s);
   const debug = $('#debug'); const tbody = document.querySelector('#bizTable tbody'); const ownerInfo = $('#ownerInfo');
   const banner = $('#banner'); const uidInput = $('#uidInput'); const setUidBtn = $('#setUidBtn');
+
   function log(){ debug.textContent += "\n" + Array.from(arguments).map(a=>typeof a==="string"?a:JSON.stringify(a)).join(" "); }
 
   try { await firebase.auth().signInAnonymously(); } catch(e){ log("auth error", e); }
@@ -87,25 +88,16 @@ const db = firebase.firestore();
       location.reload();
     };
     ownerInfo.textContent = "Waiting for UID…";
+    document.getElementById('refreshBtn').addEventListener('click', () => location.reload());
     return;
   }
 
-  try {
-    const ownerDoc = await db.collection('Business_owners').doc(uid).get();
-    if (!ownerDoc.exists) {
-      banner.style.display = 'block';
-      banner.textContent = "No owner doc for UID " + uid + ". Paste the correct UID from Firestore and click Set UID.";
-      uidInput.style.display = setUidBtn.style.display = 'inline-block';
-      ownerInfo.textContent = "Owner not found.";
-      return;
-    }
-    const d = ownerDoc.data();
-    ownerInfo.textContent = (d.owner_name||"(owner)") + " • " + (d.email||"");
-
+  async function loadTable() {
     const snap = await db.collection('Business_owners').doc(uid).collection('Client_list').get();
     tbody.innerHTML = "";
     if (snap.empty) {
       const tr = document.createElement('tr'); tr.innerHTML = '<td colspan="4" class="muted">No businesses saved yet.</td>'; tbody.appendChild(tr);
+      return false;
     } else {
       snap.forEach(doc => {
         const d = doc.data();
@@ -113,14 +105,51 @@ const db = firebase.firestore();
         tr.innerHTML = `<td>${d.business_name||doc.id}</td><td>${d.city||""}</td><td>${d.state||""}</td><td>${d.phone||""}</td>`;
         tbody.appendChild(tr);
       });
+      return true;
     }
-  } catch (e) {
-    log("firestore error", e);
-    banner.style.display = 'block';
-    banner.textContent = "Couldn't read Firestore. Check rules allow the signed-in user (anonymous) to read their owner doc.";
   }
 
-  $('#refreshBtn').addEventListener('click', () => location.reload());
+  try {
+    const ownerDoc = await db.collection('Business_owners').doc(uid).get();
+    if (!ownerDoc.exists) {
+      banner.style.display = 'block';
+      banner.textContent = "No owner doc for UID " + uid + ". Use pair-owner.html first.";
+      ownerInfo.textContent = "Owner not found.";
+    } else {
+      const d = ownerDoc.data();
+      ownerInfo.textContent = (d.owner_name||"(owner)") + " • " + (d.email||"");
+    }
+  } catch (e) {
+    log("owner load error", e);
+  }
+
+  let hasRows = false;
+  try { hasRows = await loadTable(); } catch(e){ log("load table error", e); }
+
+  // AUTO-SEED: if empty, insert one demo row, then reload the table
+  if (!hasRows) {
+    try {
+      const biz = {
+        business_name: 'Demo Plumbing LLC',
+        city: 'Caldwell',
+        state: 'ID',
+        phone: '208-555-0123',
+        notes: 'autoseeded by dashboard',
+        created_at: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      const slug = (biz.business_name || 'demo').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,60);
+      await db.collection('Business_owners').doc(uid).collection('Client_list').doc(slug).set(biz, {merge:true});
+      log("auto-seeded demo client:", slug);
+      await new Promise(r => setTimeout(r, 600));
+      await loadTable();
+    } catch (e) {
+      log("autoseed error", e);
+      banner.style.display = 'block';
+      banner.textContent = "Could not add demo client (rules may block writes).";
+    }
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', () => location.reload());
 })();
 </script>
 </body>
