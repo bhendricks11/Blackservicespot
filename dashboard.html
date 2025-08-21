@@ -5,7 +5,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Owner Dashboard • Black Service Spot</title>
-  <!-- VERSION: BSS-dashboard-uid-20250821 -->
+  <!-- VERSION: BSS-dashboard-uid-fallback-20250821 -->
   <style>
     :root { --g1:#10b981; --g2:#059669; --g3:#047857; --border:#e5e7eb; }
     body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#f6faf8;color:#0f172a}
@@ -19,6 +19,7 @@
     .muted{color:#64748b;font-size:13px}
     .pill{padding:4px 8px;background:#10b981;color:#fff;border-radius:999px;font-size:12px}
     .debug{background:#0b1b16;color:#d1fae5;border-radius:8px;padding:10px;font-family:ui-monospace,Consolas,monospace;margin:16px 22px;white-space:pre-wrap}
+    .banner{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;margin:12px 22px;padding:10px;border-radius:8px}
     button{background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
   </style>
 </head>
@@ -28,10 +29,11 @@
     <div class="header">
       <div>
         <div class="pill">Owner Dashboard</div>
-        <div class="muted">Version: BSS-dashboard-uid-20250821</div>
+        <div class="muted">Version: BSS-dashboard-uid-fallback-20250821</div>
       </div>
       <div><button id="refreshBtn">Refresh</button></div>
     </div>
+    <div id="banner" class="banner" style="display:none"></div>
     <div class="grid">
       <div class="section">
         <h3>Business Owner</h3>
@@ -59,26 +61,31 @@ const db = firebase.firestore();
 <script>
 (async function(){
   const $ = s => document.querySelector(s);
-  const debug = $('#debug'); const tbody = document.querySelector('#bizTable tbody'); const ownerInfo = $('#ownerInfo');
-  function log(){ debug.textContent += "\\n" + Array.from(arguments).map(a=>typeof a==="string"?a:JSON.stringify(a)).join(" "); }
+  const debug = $('#debug'); const tbody = document.querySelector('#bizTable tbody'); const ownerInfo = $('#ownerInfo'); const banner = $('#banner');
+  function log(){ debug.textContent += "\n" + Array.from(arguments).map(a=>typeof a==="string"?a:JSON.stringify(a)).join(" "); console.log.apply(console, arguments); }
 
-  try { await firebase.auth().signInAnonymously(); } catch(e){ log("auth error", e); }
+  // Try to use stored uid first (do NOT create a new one until after we check)
+  let storedUid = null;
+  try { storedUid = localStorage.getItem('bss_uid') || null; } catch(e){}
+  if (!storedUid) { // no uid stored—sign in anon to establish a session, but we'll also try fallback
+    try { await firebase.auth().signInAnonymously(); } catch(e){ log("auth error", e); }
+  }
+  let uid = storedUid || (firebase.auth().currentUser && firebase.auth().currentUser.uid) || null;
+  log("initial uid:", uid);
 
-  let uid = null;
-  try { uid = localStorage.getItem('bss_uid') || (firebase.auth().currentUser && firebase.auth().currentUser.uid) || null; } catch(e){}
-  if(!uid){ ownerInfo.textContent = "No UID found. Open the signup page first."; return; }
-  log("using uid:", uid);
-
-  try {
-    const ownerDoc = await db.collection('Business_owners').doc(uid).get();
+  async function loadFor(uidToUse) {
+    if (!uidToUse) { ownerInfo.textContent = "No UID found. Open the signup page first."; return false; }
+    // Owner
+    const ownerDoc = await db.collection('Business_owners').doc(uidToUse).get();
     if (ownerDoc.exists) {
       const d = ownerDoc.data();
       ownerInfo.textContent = (d.owner_name||"(owner)") + " • " + (d.email||"");
     } else {
       ownerInfo.textContent = "No owner document found for this UID.";
+      return false;
     }
-
-    const snap = await db.collection('Business_owners').doc(uid).collection('Client_list').get();
+    // Client list
+    const snap = await db.collection('Business_owners').doc(uidToUse).collection('Client_list').get();
     tbody.innerHTML = "";
     if (snap.empty) {
       const tr = document.createElement('tr'); tr.innerHTML = '<td colspan="4" class="muted">No businesses saved yet.</td>'; tbody.appendChild(tr);
@@ -90,9 +97,29 @@ const db = firebase.firestore();
         tbody.appendChild(tr);
       });
     }
-  } catch (e) {
-    log("firestore error", e);
-    ownerInfo.textContent = "Error loading data (see debug).";
+    return true;
+  }
+
+  // Try stored/current uid first
+  let ok = await loadFor(uid);
+
+  // Fallback: grab the most recently updated owner doc
+  if (!ok) {
+    try {
+      const q = await db.collection('Business_owners').orderBy('last_updated','desc').limit(1).get();
+      if (!q.empty) {
+        const doc = q.docs[0];
+        const fallbackUid = doc.id;
+        try { localStorage.setItem('bss_uid', fallbackUid); } catch(e){}
+        banner.style.display = 'block';
+        banner.textContent = "Using your latest owner profile (uid " + fallbackUid + ").";
+        log("fallback uid:", fallbackUid);
+        await loadFor(fallbackUid);
+      } else {
+        banner.style.display = 'block';
+        banner.textContent = "No owner profiles found in Firestore.";
+      }
+    } catch(e){ log("fallback error", e); }
   }
 
   document.getElementById('refreshBtn').addEventListener('click', () => location.reload());
