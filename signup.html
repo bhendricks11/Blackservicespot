@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Business Owner Sign Up - Black Service Spot (Hosted PayPal)</title>
+  <title>Business Owner Sign Up - Black Service Spot</title>
   <meta name="description" content="Register your business on Black Service Spot. Choose a plan, add your details, and get discovered by customers in your area."/>
   <style>
     :root { --g1:#10b981; --g2:#059669; --g3:#047857; --bg:#f9fafb; --text:#111827; --muted:#6b7280; --card:#ffffff; --accent:#10b981; --ring:#10b981; --border:#e5e7eb; }
@@ -169,6 +169,7 @@
     const app = initializeApp(firebaseConfig);
     const db  = getFirestore(app);
 
+    const PAYPAL_CLIENT_ID = "EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB";
     const MONTHLY_PLAN_ID  = "P-37739232P6875371KNB7M33A";
     const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";
 
@@ -197,7 +198,6 @@
       if (!business) { alert("Please enter your Business Name."); submit.disabled = false; submit.textContent = "Continue to Payment"; return; }
 
       const docId = sanitizeId(business);
-      const planId = (plan === 'annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
 
       try {
         await setDoc(doc(db, "Business_owners", docId), {
@@ -206,9 +206,33 @@
           notes, plan, createdAt: serverTimestamp()
         }, { merge: true });
 
-        setTimeout(() => {
-          window.location.href = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=" + encodeURIComponent(planId);
-        }, 600);
+        // Load PayPal SDK (FIXED: src URL is quoted with backticks)
+        const planId = (plan === 'annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
+        const sdk = document.createElement('script');
+        sdk.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&vault=true&intent=subscription&components=buttons`;
+        document.body.appendChild(sdk);
+        sdk.onload = () => {
+          const container = document.createElement('div');
+          container.id = "paypal-button-container-auto";
+          container.style.position = "fixed";
+          container.style.left = "-9999px";
+          document.body.appendChild(container);
+
+          // @ts-ignore
+          paypal.Buttons({
+            style: { layout: 'vertical', label: 'subscribe' },
+            createSubscription: (data, actions) => actions.subscription.create({ plan_id: planId }),
+            onApprove: (data, actions) => { window.location.href = "success.html?business=" + encodeURIComponent(docId); },
+            onError: (err) => {
+              console.error(err);
+              alert("PayPal error: " + (err && err.message ? err.message : "Unknown error"));
+              submit.disabled = false; submit.textContent = "Continue to Payment";
+            }
+          }).render('#paypal-button-container-auto');
+        };
+        sdk.onerror = () => {
+          window.location.href = "https://www.paypal.com/webapps/billing/subscriptions?plan_id=" + encodeURIComponent(planId);
+        };
 
       } catch (err) {
         console.error(err);
@@ -220,7 +244,7 @@
     document.getElementById('signupForm').addEventListener('submit', saveOwnerAndRedirect);
   </script>
 
-  <!-- Inline Cities + YOUR working connector -->
+  <!-- Inline Cities + dropdown code (unchanged working block) -->
   <script>
   window.CITIES_BY_STATE = {
     "AL": ["Birmingham","Huntsville","Mobile","Montgomery","Tuscaloosa","Hoover","Auburn","Dothan","Decatur","Madison"],
