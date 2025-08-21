@@ -5,7 +5,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Business Owner Sign Up - Black Service Spot</title>
-  <!-- VERSION: BSS-signup-UID-patch-20250821 -->
+  <!-- VERSION: BSS-signup-UID-patch-ONLY-20250821 -->
   <style>
     :root { --g1:#10b981; --g2:#059669; --g3:#047857; --border:#e5e7eb; }
     *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0f172a}
@@ -31,7 +31,7 @@
   <div class="card">
     <div class="header">
       <h1>Business Owner Sign Up</h1>
-      <div class="note">Version: BSS-signup-UID-patch-20250821 • Writes to Firestore under your UID.</div>
+      <div class="note">Version: BSS-signup-UID-patch-ONLY-20250821 • Writes to Firestore under UID, then redirects to PayPal.</div>
     </div>
     <form id="ownerForm" autocomplete="on">
       <div class="grid">
@@ -87,20 +87,20 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
   const $ = s => document.querySelector(s);
   const formEl = $('#ownerForm'), stateEl = $('#state'), cityEl = $('#city'), planEl = $('#plan'), submitBtn = $('#continueToPayment'), logoEl = $('#logo');
 
-  const PLAN_IDS = {{ monthly: 'P-37739232P6875371KNB7M33A', annual: 'P-6VE96793E07454030NB7M7IA' }};
+  const PLAN_IDS = { monthly: 'P-37739232P6875371KNB7M33A', annual: 'P-6VE96793E07454030NB7M7IA' };
 
-  function safePopulateStates() { 
-    const states = Object.keys(window.citiesByState || {{}});
+  function safePopulateStates() {
+    const states = Object.keys(window.citiesByState || {});
     stateEl.innerHTML = '';
     const ph = document.createElement('option'); ph.value=''; ph.textContent='Select state'; ph.disabled=true; ph.selected=true; stateEl.appendChild(ph);
-    states.sort().forEach(s => {{ const o=document.createElement('option'); o.value=s; o.textContent=s; stateEl.appendChild(o); }});
+    states.sort().forEach(s => { const o=document.createElement('option'); o.value=s; o.textContent=s; stateEl.appendChild(o); });
   }
-  function safePopulateCities(state) { 
+  function safePopulateCities(state) {
     cityEl.innerHTML = '';
     const list = (window.citiesByState && window.citiesByState[state]) || [];
-    if (!list.length) {{ const o=document.createElement('option'); o.value=''; o.textContent='— No cities loaded —'; cityEl.appendChild(o); return; }}
+    if (!list.length) { const o=document.createElement('option'); o.value=''; o.textContent='— No cities loaded —'; cityEl.appendChild(o); return; }
     const ph = document.createElement('option'); ph.value=''; ph.textContent='Select city'; ph.disabled=true; ph.selected=true; cityEl.appendChild(ph);
-    list.forEach(c => {{ const o=document.createElement('option'); o.value=c; o.textContent=c; cityEl.appendChild(o); }});
+    list.forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; cityEl.appendChild(o); });
   }
   document.addEventListener('DOMContentLoaded', () => {
     safePopulateStates();
@@ -110,13 +110,13 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
       e.preventDefault();
       submitBtn.disabled = true; submitBtn.textContent = 'Saving...';
 
-      try {{ await firebase.auth().signInAnonymously(); }}
-      catch (authErr) {{ console.error('Auth error:', authErr); alert('Sign-in failed: ' + (authErr.message||authErr)); submitBtn.disabled=false; submitBtn.textContent='Continue to Payment'; return; }}
+      try { await firebase.auth().signInAnonymously(); }
+      catch (authErr) { console.error('Auth error:', authErr); alert('Sign-in failed: ' + (authErr.message||authErr)); submitBtn.disabled=false; submitBtn.textContent='Continue to Payment'; return; }
 
       const user = firebase.auth().currentUser;
-      if (!user) {{ alert('Sign-in failed: No user session.'); submitBtn.disabled=false; submitBtn.textContent='Continue to Payment'; return; }}
+      if (!user) { alert('Sign-in failed: No user session.'); submitBtn.disabled=false; submitBtn.textContent='Continue to Payment'; return; }
       const uid = user.uid;
-      try {{ localStorage.setItem('bss_uid', uid); }} catch(e){{}}
+      try { localStorage.setItem('bss_uid', uid); } catch(e){}
 
       const fd = new FormData(formEl);
       const data = Object.fromEntries(fd.entries());
@@ -126,13 +126,13 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
       const logoFile = (logoEl && logoEl.files && logoEl.files[0]) ? logoEl.files[0].name : '';
 
       try {
-        await db.collection('Business_owners').doc(uid).set({{
+        await db.collection('Business_owners').doc(uid).set({
           owner_name: data.owner_name || '',
           email: data.email || '',
           last_updated: firebase.firestore.FieldValue.serverTimestamp()
-        }}, {{ merge: true }});
+        }, { merge: true });
 
-        await db.collection('Business_owners').doc(uid).collection('Client_list').doc(docId).set({{
+        await db.collection('Business_owners').doc(uid).collection('Client_list').doc(docId).set({
           owner_name: data.owner_name || '',
           business_name: businessName,
           email: data.email || '',
@@ -146,16 +146,16 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
           logo_filename: logoFile || '',
           created_at: firebase.firestore.FieldValue.serverTimestamp(),
           plan: (data.plan || 'monthly')
-        }}, {{ merge: true }});
+        }, { merge: true });
 
         const planKey = (planEl && planEl.value === 'annual') ? 'annual' : 'monthly';
         const planId = PLAN_IDS[planKey];
-        setTimeout(() => {{ window.location.href = 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=' + encodeURIComponent(planId); }}, 900);
-      }} catch (err) {{
+        setTimeout(() => { window.location.href = 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=' + encodeURIComponent(planId); }, 900);
+      } catch (err) {
         console.error('Firestore error:', err);
         alert('Sorry—something went wrong saving your info. ' + (err.code ? err.code + ': ' : '') + (err.message||'Unknown error'));
         submitBtn.disabled = false; submitBtn.textContent = 'Continue to Payment';
-      }}
+      }
     });
   });
 })();
