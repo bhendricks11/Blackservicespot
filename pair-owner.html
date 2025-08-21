@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pair Owner UID</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background:#f9fafb; }
+    h1 { color:#047857; }
+    label { display:block; margin-top:10px; }
+    input { width:100%; padding:8px; margin-top:4px; }
+    button { margin-top:15px; padding:10px 15px; background:#047857; color:#fff; border:none; cursor:pointer; }
+    button:hover { background:#065f46; }
+    .log { margin-top:20px; padding:10px; background:#111; color:#0f0; font-family:monospace; }
+  </style>
+</head>
+<body>
+  <h1>Pair Business Owner UID</h1>
+  <p>This page lets you generate or set a Business Owner UID and save it for the dashboard.</p>
+
+  <label>Owner UID
+    <input type="text" id="uid" placeholder="Leave blank to auto-generate">
+  </label>
+  <label>Owner Name
+    <input type="text" id="name" placeholder="Business Owner Name">
+  </label>
+  <label>Email
+    <input type="email" id="email" placeholder="owner@example.com">
+  </label>
+
+  <button id="saveBtn">Save Owner</button>
+
+  <div class="log" id="log"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+      authDomain: "black-service-spot.firebaseapp.com",
+      projectId: "black-service-spot",
+      storageBucket: "black-service-spot.firebasestorage.app",
+      messagingSenderId: "707361777966",
+      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+      measurementId: "G-HDD97PF8K7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function genUID() {
+      return "uid-" + Math.random().toString(36).substring(2, 12);
+    }
+
+    document.getElementById("saveBtn").onclick = async () => {
+      let uid = document.getElementById("uid").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      if (!uid) uid = genUID();
+
+      try {
+        await setDoc(doc(db, "Business_owners", uid), {
+          name, email, created: new Date().toISOString()
+        });
+
+        localStorage.setItem("owner_uid", uid);
+
+        document.getElementById("log").textContent =
+          "Saved Owner with UID: " + uid + "\nNow visit dashboard.html";
+      } catch (err) {
+        document.getElementById("log").textContent = "Error: " + err;
+      }
+    };
+  </script>
+</body>
+</html>
