@@ -6,31 +6,16 @@
   <title>Business Owner Sign Up - Black Service Spot</title>
   <meta name="description" content="Register your business on Black Service Spot. Choose a plan, add your details, and get discovered by customers in your area."/>
   <style>
-    :root {
-      --g1:#10b981; --g2:#059669; --g3:#047857;
-      --bg:#f9fafb; --text:#111827; --muted:#6b7280; --card:#ffffff; --accent:#10b981;
-      --ring:#10b981; --border:#e5e7eb;
-    }
+    :root { --g1:#10b981; --g2:#059669; --g3:#047857; --bg:#f9fafb; --text:#111827; --muted:#6b7280; --card:#ffffff; --accent:#10b981; --ring:#10b981; --border:#e5e7eb; }
     * { box-sizing: border-box; }
     body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: var(--bg); }
     header { background: #fff; position: sticky; top:0; z-index: 20; border-bottom:1px solid #f0f0f0; }
     .nav { max-width: 1100px; padding: 0.75rem 1rem; margin: 0 auto; display:flex; align-items:center; justify-content: space-between; }
     .brand { display:flex; align-items:center; gap:.5rem; color:var(--g2); font-weight: 800; }
     .brand svg { color: var(--g2); }
-    .main {
-      min-height: 100vh;
-      background: linear-gradient(135deg, var(--g1), var(--g2) 50%, var(--g3));
-      padding: 2rem 1rem 3rem;
-      display:flex; align-items: flex-start; justify-content: center;
-    }
-    .card {
-      width: 100%; max-width: 1000px; background: var(--card);
-      border-radius: 1rem; box-shadow: 0 20px 40px rgba(0,0,0,.15); overflow:hidden;
-    }
-    .card-header {
-      background: linear-gradient(135deg, #6ee7b7, #34d399 50%, #10b981);
-      color: #064e3b; padding: 1.25rem 1.25rem;
-    }
+    .main { min-height: 100vh; background: linear-gradient(135deg, var(--g1), var(--g2) 50%, var(--g3)); padding: 2rem 1rem 3rem; display:flex; align-items: flex-start; justify-content: center; }
+    .card { width: 100%; max-width: 1000px; background: var(--card); border-radius: 1rem; box-shadow: 0 20px 40px rgba(0,0,0,.15); overflow:hidden; }
+    .card-header { background: linear-gradient(135deg, #6ee7b7, #34d399 50%, #10b981); color: #064e3b; padding: 1.25rem 1.25rem; }
     .card-header h1 { margin:0; font-size: 1.4rem; }
     .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .section { padding: 1.25rem; }
@@ -43,7 +28,6 @@
     textarea { min-height: 90px; resize: vertical; }
     input:focus, select:focus, textarea:focus { border-color: var(--ring); box-shadow: 0 0 0 3px rgba(16,185,129,.15); }
     .row { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-    .row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75rem; }
     .actions { display:flex; gap:.75rem; align-items:center; flex-wrap: wrap; }
     .btn { border:none; padding:.8rem 1rem; border-radius:.6rem; font-weight:700; cursor:pointer; }
     .btn-primary { background: var(--accent); color:#fff; }
@@ -52,11 +36,7 @@
     .disclaimer { background: #f0fdf4; border: 1px solid #bbf7d0; color: #065f46; padding: .75rem 1rem; border-radius: .6rem; font-size: .9rem; }
     footer { max-width: 1000px; margin: 1rem auto 0; padding: 0 1rem; color: #e5e7eb; }
     .small { font-size: .85rem; }
-
-    @media (max-width: 840px) {
-      .grid { grid-template-columns: 1fr; }
-      .row, .row-3 { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 840px) { .grid { grid-template-columns: 1fr; } .row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -82,7 +62,6 @@
         </div>
 
         <div class="grid">
-          <!-- Left column -->
           <section>
             <h2>Business Owner Information</h2>
 
@@ -128,7 +107,6 @@
             </div>
           </section>
 
-          <!-- Right column -->
           <section>
             <h2>Services & Notes</h2>
 
@@ -163,7 +141,6 @@
           </section>
         </div>
 
-        <!-- Hidden sync for Firestore convenience -->
         <input type="hidden" id="stateHidden" name="stateHidden" />
         <input type="hidden" id="cityHidden"  name="cityHidden" />
       </form>
@@ -176,11 +153,9 @@
 
   <!-- Firebase (v9 modular) -->
   <script type="module">
-    // Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // ===== Your Firebase Config =====
     const firebaseConfig = {
       apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
       authDomain: "black-service-spot.firebaseapp.com",
@@ -194,34 +169,13 @@
     const app = initializeApp(firebaseConfig);
     const db  = getFirestore(app);
 
-    // === PayPal Plan IDs (using P- prefixed IDs for subscriptions) ===
     const PAYPAL_CLIENT_ID = "EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB";
-    const MONTHLY_PLAN_ID  = "P-37739232P6875371KNB7M33A";  // <-- monthly
-    const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";  // <-- annual
+    const MONTHLY_PLAN_ID  = "P-37739232P6875371KNB7M33A";
+    const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";
 
-    // === Utilities ===
     const $ = (id) => document.getElementById(id);
-    function getQueryParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
-    function preselectPlanFromURL() {
-      const p = (getQueryParam('plan') || '').toLowerCase();
-      if (p === 'annual' || p === 'monthly') {
-        $("planSelect").value = p;
-      }
-      const state = getQueryParam('state'); const city = getQueryParam('city');
-      if (state) { try { document.querySelector('#stateSelect').value = state.length===2? state.toUpperCase(): state; } catch(_){} }
-      if (city)  { try { document.querySelector('#cityHidden').value = city; } catch(_){} }
-    }
-
-    function sanitizeId(s) {
-      return String(s || 'unknown').trim().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-').toLowerCase();
-    }
-    function parseServices(text) {
-      if (!text) return [];
-      return text.split(',').map(s => s.trim()).filter(Boolean);
-    }
+    const sanitizeId = (s) => String(s || 'unknown').trim().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-').toLowerCase();
+    const parseServices = (t) => (!t?[]:t.split(',').map(s=>s.trim()).filter(Boolean));
 
     async function saveOwnerAndRedirect(e) {
       e.preventDefault();
@@ -241,10 +195,8 @@
       const notes      = $("specialInstructions").value.trim();
       const plan       = $("planSelect").value;
 
-      if (!business) {
-        alert("Please enter your Business Name."); submit.disabled = false; submit.textContent = "Continue to Payment"; return;
-      }
-      // Use business name as document id per your preference
+      if (!business) { alert("Please enter your Business Name."); submit.disabled = false; submit.textContent = "Continue to Payment"; return; }
+
       const docId = sanitizeId(business);
 
       try {
@@ -254,16 +206,10 @@
           notes, plan, createdAt: serverTimestamp()
         }, { merge: true });
 
-        // Small pause to ensure write completes before payment
-        await new Promise(r => setTimeout(r, 1000));
-
-        // Kick off PayPal subscription with selected plan
+        // Load PayPal SDK and start subscription
         const planId = (plan === 'annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
-
-        // Dynamically load the PayPal SDK (so it doesn't block initial load)
         const sdk = document.createElement('script');
-        // include components=buttons so paypal.Buttons is defined
-        sdk.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&vault=true&intent=subscription&components=buttons`;
+        sdk.src = \`https://www.paypal.com/sdk/js?client-id=\${encodeURIComponent(PAYPAL_CLIENT_ID)}&vault=true&intent=subscription&components=buttons\`;
         document.body.appendChild(sdk);
         sdk.onload = () => {
           const container = document.createElement('div');
@@ -275,13 +221,9 @@
           // @ts-ignore
           paypal.Buttons({
             style: { layout: 'vertical', label: 'subscribe' },
-            createSubscription: function(data, actions) {
-              return actions.subscription.create({ plan_id: planId });
-            },
-            onApprove: function(data, actions) {
-              window.location.href = "success.html?business=" + encodeURIComponent(docId);
-            },
-            onError: function(err) {
+            createSubscription: (data, actions) => actions.subscription.create({ plan_id: planId }),
+            onApprove: (data, actions) => { window.location.href = "success.html?business=" + encodeURIComponent(docId); },
+            onError: (err) => {
               console.error(err);
               alert("PayPal error: " + (err && err.message ? err.message : "Unknown error"));
               submit.disabled = false; submit.textContent = "Continue to Payment";
@@ -289,7 +231,6 @@
           }).render('#paypal-button-container-auto');
         };
         sdk.onerror = () => {
-          // Hosted page fallback
           window.location.href = "https://www.paypal.com/webapps/billing/subscriptions?plan_id=" + encodeURIComponent(planId);
         };
 
@@ -301,10 +242,9 @@
     }
 
     document.getElementById('signupForm').addEventListener('submit', saveOwnerAndRedirect);
-    preselectPlanFromURL();
   </script>
 
-  <!-- Inline Cities Dataset + Connector (this is the exact working dropdown code you pasted) -->
+  <!-- Inline Cities + YOUR working connector -->
   <script>
   window.CITIES_BY_STATE = {
     "AL": ["Birmingham","Huntsville","Mobile","Montgomery","Tuscaloosa","Hoover","Auburn","Dothan","Decatur","Madison"],
@@ -391,20 +331,14 @@
     const stateEl = document.getElementById(CONFIG.stateSelectId);
     const cityEl  = document.getElementById(CONFIG.citySelectId);
     if (!stateEl || !cityEl) { console.warn('[signup-dropdown] Missing selects'); return; }
-
     const hiddenState = document.getElementById(CONFIG.stateHiddenId);
     const hiddenCity  = document.getElementById(CONFIG.cityHiddenId);
-
     const DATA = window.CITIES_BY_STATE || {};
     const STATE_LIST = window.US_STATES || [];
     const CODE_BY_NAME = new Map(STATE_LIST.map(s => [s.name.toLowerCase(), s.code]));
     const NAME_BY_CODE = new Map(STATE_LIST.map(s => [s.code, s.name]));
 
-    function resolveStateCode(input){
-      if(!input) return null; const s=String(input).trim();
-      if(s.length===2) return s.toUpperCase();
-      return CODE_BY_NAME.get(s.toLowerCase()) || null;
-    }
+    function resolveStateCode(input){ if(!input) return null; const s=String(input).trim(); if(s.length===2) return s.toUpperCase(); return CODE_BY_NAME.get(s.toLowerCase()) || null; }
     function getCitiesFor(code){
       if(!code) return [];
       const byCode = DATA[code];
