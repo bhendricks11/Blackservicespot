@@ -173,7 +173,7 @@
     const ANNUAL_PLAN_ID  = "P-6VE96793E07454030NB7M7IA";
 
     const $ = (id) => document.getElementById(id);
-    const sanitizeId = (s) => String(s || 'unknown').trim().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-').toLowerCase();
+    const sanitizeId = (s) => String(s || 'unknown').trim().replace(/[^\w\\- ]+/g,'').replace(/\\s+/g,'-').toLowerCase();
     const parseServices = (t) => (!t?[]:t.split(',').map(s=>s.trim()).filter(Boolean));
 
     async function saveOwnerAndRedirect(e) {
@@ -211,12 +211,14 @@
 
         // ✅ Direct PayPal hosted checkout (no SDK, no hidden button)
         const planId = (plan === 'annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
+        if (!/^P-/.test(planId)) { throw new Error("Invalid PayPal Plan ID; must start with P-"); }
+        console.log("[BSS] Redirecting to PayPal with plan:", planId);
         const url = "https://www.paypal.com/webapps/billing/subscriptions?plan_id=" + encodeURIComponent(planId);
-        window.location.href = url;
+        window.location.assign(url);
 
       } catch (err) {
-        console.error(err);
-        alert("There was a problem saving your registration. Please check your connection and try again.");
+        console.error("[BSS] Save/Redirect error:", err);
+        alert(err.message || "There was a problem saving your registration. Please try again.");
         submit.disabled = false; submit.textContent = "Continue to Payment";
       }
     }
