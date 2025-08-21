@@ -1,233 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Business Owner Sign Up - Black Service Spot</title>
-<meta name="description" content="Register your business on Black Service Spot. Choose a plan, add your details, and get discovered by customers in your area."/>
-<style>
-  :root{
-    --g1:#2ecc71; --g2:#1abc9c; --g3:#16a085;
-    --bg:#f6f7fb; --text:#102a43; --muted:#6b7280; --card:#ffffff; --ring:#2ecc71; --border:#e6e9ef;
-    --btn:#1db954; --btn-hover:#18a94b; --btn-outline:#1db954;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
-  header{background:#fff;border-bottom:1px solid #eef2f7}
-  .nav{max-width:1100px;margin:0 auto;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:.5rem;color:#0f9d58;font-weight:800}
-  .brand svg{color:#0f9d58}
-  .main{min-height:100vh;background:linear-gradient(180deg, #eafaf1 0%, #eafaf1 140px, transparent 140px);padding:2rem 1rem 3rem;display:flex;justify-content:center}
-  .card{width:100%;max-width:1000px;background:var(--card);border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04);overflow:hidden;border:1px solid #e7f5ee}
-  .card-header{background:linear-gradient(180deg,#31d07e,#1db954);color:#053d2f;padding:16px 18px}
-  .card-header h1{margin:0;font-size:22px}
-  .section{padding:18px}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .section h2{font-size:16px;margin:0 0 10px 0;color:#184b3a}
-  label{font-weight:700;display:block;margin:8px 0 6px;color:#2c3e50;font-size:14px}
-  input[type="text"],input[type="email"],input[type="file"],select,textarea{
-    width:100%;padding:12px 14px;border:1px solid #cfe8db;background:#fff;border-radius:10px;outline:none;font-size:14px;
-    box-shadow:0 1px 0 rgba(0,0,0,.02) inset;transition:border-color .15s, box-shadow .15s;
-  }
-  input::placeholder,textarea::placeholder{color:#9aa7b2}
-  textarea{min-height:100px;resize:vertical}
-  input:focus,select:focus,textarea:focus{border-color:#78d9ae;box-shadow:0 0 0 3px rgba(29,185,84,.15)}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .btn{border:none;padding:12px 16px;border-radius:10px;font-weight:800;cursor:pointer;font-size:14px}
-  .btn-primary{background:var(--btn);color:#fff;box-shadow:0 6px 14px rgba(29,185,84,.25)}
-  .btn-primary:hover{background:var(--btn-hover)}
-  .btn-secondary{background:transparent;color:var(--btn-outline);border:2px solid var(--btn-outline);}
-  .muted{color:#64748b;font-size:13px}
-  .disclaimer{background:#e7f7ed;border:1px solid #bfead1;color:#0f5132;padding:10px 14px;border-radius:10px;font-size:14px}
-  footer{max-width:1000px;margin:8px auto 0;padding:0 1rem;color:#0f5132}
-  .small{font-size:13px}
-  @media (max-width:840px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Business Owner Sign Up - Black Service Spot</title>
+  <meta name="description" content="Register your business on Black Service Spot. Choose a plan, add your details, and get discovered by customers in your area."/>
+  <style>
+    :root {
+      --g1:#10b981; --g2:#059669; --g3:#047857;
+      --bg:#f9fafb; --text:#111827; --muted:#6b7280; --card:#ffffff; --accent:#10b981;
+      --ring:#10b981; --border:#e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: var(--bg); }
+    header { background: #fff; position: sticky; top:0; z-index: 20; border-bottom:1px solid #f0f0f0; }
+    .nav { max-width: 1100px; padding: 0.75rem 1rem; margin: 0 auto; display:flex; align-items:center; justify-content: space-between; }
+    .brand { display:flex; align-items:center; gap:.5rem; color:var(--g2); font-weight: 800; }
+    .brand svg { color: var(--g2); }
+    .main {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--g1), var(--g2) 50%, var(--g3));
+      padding: 2rem 1rem 3rem;
+      display:flex; align-items: flex-start; justify-content: center;
+    }
+    .card {
+      width: 100%; max-width: 1000px; background: var(--card);
+      border-radius: 1rem; box-shadow: 0 20px 40px rgba(0,0,0,.15); overflow:hidden;
+    }
+    .card-header {
+      background: linear-gradient(135deg, #6ee7b7, #34d399 50%, #10b981);
+      color: #064e3b; padding: 1.25rem 1.25rem;
+    }
+    .card-header h1 { margin:0; font-size: 1.4rem; }
+    .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .section { padding: 1.25rem; }
+    .section h2 { font-size: 1.1rem; margin: 0 0 .75rem 0; color:#064e3b; }
+    label { font-weight: 600; display:block; margin: .5rem 0 .35rem; color: #374151; }
+    input[type="text"], input[type="email"], input[type="file"], select, textarea {
+      width: 100%; padding: .7rem .8rem; border:2px solid var(--border); border-radius:.6rem; outline: none;
+      font-size: .95rem; background:#fff; transition: border-color .2s, box-shadow .2s;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--ring); box-shadow: 0 0 0 3px rgba(16,185,129,.15); }
+    .row { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+    .row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75rem; }
+    .actions { display:flex; gap:.75rem; align-items:center; flex-wrap: wrap; }
+    .btn { border:none; padding:.8rem 1rem; border-radius:.6rem; font-weight:700; cursor:pointer; }
+    .btn-primary { background: var(--accent); color:#fff; }
+    .btn-secondary { background: transparent; color: var(--accent); border:2px solid var(--accent); }
+    .muted { color: var(--muted); font-size: .9rem; }
+    .disclaimer { background: #f0fdf4; border: 1px solid #bbf7d0; color: #065f46; padding: .75rem 1rem; border-radius: .6rem; font-size: .9rem; }
+    footer { max-width: 1000px; margin: 1rem auto 0; padding: 0 1rem; color: #e5e7eb; }
+    .small { font-size: .85rem; }
+
+    @media (max-width: 840px) {
+      .grid { grid-template-columns: 1fr; }
+      .row, .row-3 { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <div class="nav">
-    <div class="brand">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.09 8.26 22 9l-8.91.74L12 16 10.91 9.74 2 9l8.91-.74L12 2z"/></svg>
-      Black Service Spot — Business Registration
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.09 8.26 22 9l-8.91.74L12 16 10.91 9.74 2 9l8.91-.74L12 2z"/></svg>
+        Black Service Spot — Business Registration
+      </div>
+      <div><a href="index.html" class="small" style="color:#059669;text-decoration:none;">← Back to Home</a></div>
     </div>
-    <div><a href="index.html" class="small" style="text-decoration:none;color:#0f9d58">← Back to Home</a></div>
-  </div>
-</header>
+  </header>
 
-<main class="main">
-  <div class="card">
-    <div class="card-header"><h1>Register Your Business</h1></div>
-
-    <form id="signupForm" class="section" autocomplete="on">
-      <div class="disclaimer" style="margin-bottom:12px;">
-        <strong>Important:</strong> Complete the form below. Your data is saved to our secure database, then you’ll be taken to PayPal to start your subscription.
+  <main class="main">
+    <div class="card">
+      <div class="card-header">
+        <h1>Register Your Business</h1>
       </div>
 
-      <div class="grid">
-        <!-- left column -->
-        <section>
-          <h2>Business Owner Information</h2>
-          <label for="ownerName">Your Name</label>
-          <input id="ownerName" name="ownerName" type="text" placeholder="First Last" required />
-          <label for="businessName">Business Name</label>
-          <input id="businessName" name="businessName" type="text" placeholder="Your LLC or DBA" required />
-          <label for="email">Email Address</label>
-          <input id="email" name="email" type="email" placeholder="you@business.com" required />
-          <label for="phone">Phone Number</label>
-          <input id="phone" name="phone" type="text" placeholder="(555) 555-5555" />
-          <div class="row">
-            <div>
-              <label for="stateSelect">State</label>
-              <select id="stateSelect" name="state" required>
-                <option value="" disabled selected>Select State</option>
-              </select>
-            </div>
-            <div>
-              <label for="citySelect">City</label>
-              <select id="citySelect" name="city" required disabled>
-                <option value="" disabled selected>Select City</option>
-              </select>
-            </div>
-          </div>
-          <label for="address">Business Address <span class="muted">(optional)</span></label>
-          <input id="address" name="address" type="text" placeholder="123 Main St, Suite 100" />
-          <div class="row">
-            <div>
-              <label for="hours">Hours of Operation <span class="muted">(optional)</span></label>
-              <input id="hours" name="hours" type="text" placeholder="Mon–Fri 9am–5pm" />
-            </div>
-            <div>
-              <label for="logo">Business Logo</label>
-              <input id="logo" name="logo" type="file" accept="image/*" />
-            </div>
-          </div>
-        </section>
+      <form id="signupForm" class="section" autocomplete="on">
+        <div class="disclaimer" style="margin-bottom:1rem;">
+          <strong>Important:</strong> Complete the form below. Your data is saved to our secure database, then you’ll be taken to PayPal to start your subscription.
+        </div>
 
-        <!-- right column -->
-        <section>
-          <h2>Services & Notes</h2>
-          <label for="businessType">Business Type</label>
-          <input id="businessType" name="businessType" type="text" placeholder="Barber, Caterer, Consultant..." required />
-          <label for="services">List of Services</label>
-          <textarea id="services" name="services" placeholder="e.g., Braids, Locs, Silk Press (comma-separated)"></textarea>
-          <label for="specialInstructions">Private Notes <span class="muted">(visible to you only)</span></label>
-          <textarea id="specialInstructions" name="specialInstructions" placeholder="Any special internal notes..."></textarea>
-          <h2 style="margin-top:.5rem;">Choose a Plan</h2>
-          <div class="row">
-            <div>
-              <label for="planSelect">Subscription</label>
-              <select id="planSelect" name="plan" required>
-                <option value="monthly">Monthly — $29.95 + $4.95</option>
-                <option value="annual">Annual — $287.52 + $4.95</option>
-              </select>
-            </div>
-            <div>
-              <label>&nbsp;</label>
-              <div class="actions">
-                <button type="submit" class="btn btn-primary" id="submitBtn">Continue to Payment</button>
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+        <div class="grid">
+          <!-- Left column -->
+          <section>
+            <h2>Business Owner Information</h2>
+
+            <label for="ownerName">Your Name</label>
+            <input id="ownerName" name="ownerName" type="text" placeholder="First Last" required />
+
+            <label for="businessName">Business Name</label>
+            <input id="businessName" name="businessName" type="text" placeholder="Your LLC or DBA" required />
+
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="you@business.com" required />
+
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="text" placeholder="(555) 555-5555" />
+
+            <div class="row">
+              <div>
+                <label for="stateSelect">State</label>
+                <select id="stateSelect" name="state" required>
+                  <option value="" disabled selected>Select State</option>
+                </select>
+              </div>
+              <div>
+                <label for="citySelect">City</label>
+                <select id="citySelect" name="city" required disabled>
+                  <option value="" disabled selected>Select City</option>
+                </select>
               </div>
             </div>
-          </div>
-          <p class="muted" style="margin-top:4px;">By continuing, you agree to our Terms of Service and Privacy Policy.</p>
-        </section>
-      </div>
 
-      <input type="hidden" id="stateHidden" name="stateHidden" />
-      <input type="hidden" id="cityHidden"  name="cityHidden" />
-    </form>
-  </div>
-</main>
+            <label for="address">Business Address <span class="muted">(optional)</span></label>
+            <input id="address" name="address" type="text" placeholder="123 Main St, Suite 100" />
 
-<footer><p class="small">© 2025 Black Service Spot</p></footer>
+            <div class="row">
+              <div>
+                <label for="hours">Hours of Operation <span class="muted">(optional)</span></label>
+                <input id="hours" name="hours" type="text" placeholder="Mon–Fri 9am–5pm" />
+              </div>
+              <div>
+                <label for="logo">Business Logo</label>
+                <input id="logo" name="logo" type="file" accept="image/*" />
+              </div>
+            </div>
+          </section>
 
-<!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  const firebaseConfig = {
-    apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-    authDomain: "black-service-spot.firebaseapp.com",
-    projectId: "black-service-spot",
-    storageBucket: "black-service-spot.firebasestorage.app",
-    messagingSenderId: "707361777966",
-    appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-    measurementId: "G-HDD97PF8K7"
-  };
-  const app = initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
+          <!-- Right column -->
+          <section>
+            <h2>Services & Notes</h2>
 
-  window.BSS = window.BSS || {};
-  window.BSS.save = async function(){
-    const $ = id => document.getElementById(id);
-    const ownerName  = $("ownerName").value.trim();
-    const business   = $("businessName").value.trim();
-    const email      = $("email").value.trim();
-    const phone      = $("phone").value.trim();
-    const state      = $("stateHidden").value || $("stateSelect").value;
-    const city       = $("cityHidden").value  || $("citySelect").value;
-    const address    = $("address").value.trim();
-    const hours      = $("hours").value.trim();
-    const businessType = $("businessType").value.trim();
-    const services   = ($("services").value || "").split(",").map(s=>s.trim()).filter(Boolean);
-    const notes      = $("specialInstructions").value.trim();
-    const plan       = $("planSelect").value;
+            <label for="businessType">Business Type</label>
+            <input id="businessType" name="businessType" type="text" placeholder="Barber, Caterer, Consultant..." required />
 
-    if(!ownerName || !business || !email || !state || !city || !businessType){
-      throw new Error("Please complete all required fields.");
+            <label for="services">List of Services</label>
+            <textarea id="services" name="services" placeholder="e.g., Braids, Locs, Silk Press (comma-separated)"></textarea>
+
+            <label for="specialInstructions">Private Notes <span class="muted">(visible to you only)</span></label>
+            <textarea id="specialInstructions" name="specialInstructions" placeholder="Any special internal notes..."></textarea>
+
+            <h2 style="margin-top:1rem;">Choose a Plan</h2>
+            <div class="row">
+              <div>
+                <label for="planSelect">Subscription</label>
+                <select id="planSelect" name="plan" required>
+                  <option value="monthly">Monthly — $29.95 + $4.95 setup</option>
+                  <option value="annual">Annual — $287.52 (20% off) + $4.95 setup</option>
+                </select>
+              </div>
+              <div>
+                <label>&nbsp;</label>
+                <div class="actions">
+                  <button type="submit" class="btn btn-primary" id="submitBtn">Continue to Payment</button>
+                  <button type="button" class="btn btn-secondary" id="cancelBtn" onclick="window.location.href='index.html'">Cancel</button>
+                </div>
+              </div>
+            </div>
+
+            <p class="muted" style="margin-top:.5rem;">By continuing, you agree to our Terms of Service and Privacy Policy.</p>
+          </section>
+        </div>
+
+        <!-- Hidden sync for Firestore convenience -->
+        <input type="hidden" id="stateHidden" name="stateHidden" />
+        <input type="hidden" id="cityHidden"  name="cityHidden" />
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p class="small" style="color:#065f46;">© 2025 Black Service Spot</p>
+  </footer>
+
+  <!-- Firebase (v9 modular) -->
+  <script type="module">
+    // Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // ===== Your Firebase Config =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+      authDomain: "black-service-spot.firebaseapp.com",
+      projectId: "black-service-spot",
+      storageBucket: "black-service-spot.firebasestorage.app",
+      messagingSenderId: "707361777966",
+      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+      measurementId: "G-HDD97PF8K7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+    // === PayPal Plan IDs (using P- prefixed IDs for subscriptions) ===
+    const PAYPAL_CLIENT_ID = "EPnN8sfzHMua72kW2vyRp2nLph-ManxYnzSkHflGbkFlhqkSef8KMNuOG-3WxLKxpWbWBwPFnGRLskxB";
+    const MONTHLY_PLAN_ID  = "P-37739232P6875371KNB7M33A";  // <-- monthly
+    const ANNUAL_PLAN_ID   = "P-6VE96793E07454030NB7M7IA";  // <-- annual
+
+    // === Utilities ===
+    const $ = (id) => document.getElementById(id);
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
     }
-
-    const docId = business.replace(/[^\w\- ]+/g,"").trim().replace(/\s+/g,"-").toLowerCase();
-    await setDoc(doc(db, "Business_owners", docId), {
-      ownerName, businessName: business, email, phone, state, city, address, hours,
-      businessType, services, notes, plan, createdAt: serverTimestamp()
-    }, { merge: true });
-
-    sessionStorage.setItem('bss_doc', docId);
-    return { docId, plan };
-  };
-</script>
-
-<!-- Cities data + dropdown binder stay as-is (unchanged) -->
-<script>
-  // ... your existing embedded city/state DATA and binder scripts ...
-</script>
-
-<!-- ✅ Corrected PayPal integration -->
-<script>
-  // Replace this with your REAL monthly plan id from PayPal (must start with "P-")
-  const MONTHLY_PLAN_ID = "P-XXXXXXXXXXXXXXXXXXXXXXXX"; 
-  const ANNUAL_PLAN_ID  = "P-6VE96793E07454030NB7M7IA";
-
-  const form = document.getElementById('signupForm');
-  const submitBtn = document.getElementById('submitBtn');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Saving…";
-
-    try {
-      const { plan } = await window.BSS.save();
-      const planId = (plan === 'annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
-
-      if (!/^P-/.test(planId)) {
-        throw new Error("Monthly plan id is not valid. Please use your LIVE PayPal P- id.");
+    function preselectPlanFromURL() {
+      const p = (getQueryParam('plan') || '').toLowerCase();
+      if (p === 'annual' || p === 'monthly') {
+        $("planSelect").value = p;
       }
-
-      const url = "https://www.paypal.com/webapps/billing/subscriptions?plan_id=" + encodeURIComponent(planId);
-      window.location.href = url;
-
-    } catch (err) {
-      console.error(err);
-      alert(err.message || "Please complete all required fields.");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Continue to Payment";
+      const state = getQueryParam('state'); const city = getQueryParam('city');
+      if (state) { try { document.querySelector('#stateSelect').value = state.length===2? state.toUpperCase(): state; } catch(_){} }
+      if (city)  { try { document.querySelector('#cityHidden').value = city; } catch(_){} }
     }
-  });
-</script>
 
+    function sanitizeId(s) {
+      return String(s || 'unknown').trim().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-').toLowerCase();
+    }
+    function parseServices(text) {
+      if (!text) return [];
+      return text.split(',').map(s => s.trim()).filter(Boolean);
+    }
+
+    async function saveOwnerAndRedirect(e) {
+      e.preventDefault();
+      const submit = $("submitBtn");
+      submit.disabled = true; submit.textContent = "Saving...";
+
+      const ownerName  = $("ownerName").value.trim();
+      const business   = $("businessName").value.trim();
+      const email      = $("email").value.trim();
+      const phone      = $("phone").value.trim();
+      const state      = $("stateHidden").value || $("stateSelect").value;
+      const city       = $("cityHidden").value  || $("citySelect").value;
+      const address    = $("address").value.trim();
+      const hours      = $("hours").value.trim();
+      const businessType = $("businessType").value.trim();
+      const services   = parseServices($("services").value);
+      const notes      = $("specialInstructions").value.trim();
+      const plan       = $("planSelect").value;
+
+      if (!business) {
+        alert("Please enter your Business Name."); submit.disabled = false; submit.textContent = "Continue to Payment"; return;
+      }
+      // Use business name as document id per your preference
+      const docId = sanitizeId(business);
+
+      try {
+        await setDoc(doc(db, "Business_owners", docId), {
+          ownerName, businessName: business, email, phone,
+          state, city, address, hours, businessType, services,
+          notes, plan, createdAt: serverTimestamp()
+        }, { merge: true });
+
+        // Small pause to ensure write completes before payment
+        await new Promise(r => setTimeout(r, 1000));
+
+        // Kick off PayPal subscription with selected plan
+        const planId = (plan === 'annual') ? ANNUAL_PLAN_ID : MONTHLY_PLAN_ID;
+
+        // Dynamically load the PayPal SDK (so it doesn't block initial load)
+        const sdk = document.createElement('script');
+        // include components=buttons so paypal.Buttons is defined
+        sdk.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&vault=true&intent=subscription&components=buttons`;
+        document.body.appendChild(sdk);
+        sdk.onload = () => {
+          const container = document.createElement('div');
+          container.id = "paypal-button-container-auto";
+          container.style.position = "fixed";
+          container.style.left = "-9999px";
+          document.body.appendChild(container);
+
+          // @ts-ignore
+          paypal.Buttons({
+            style: { layout: 'vertical', label: 'subscribe' },
+            createSubscription: function(data, actions) {
+              return actions.subscription.create({ plan_id: planId });
+            },
+            onApprove: function(data, actions) {
+              window.location.href = "success.html?business=" + encodeURIComponent(docId);
+            },
+            onError: function(err) {
+              console.error(err);
+              alert("PayPal error: " + (err && err.message ? err.message : "Unknown error"));
+              submit.disabled = false; submit.textContent = "Continue to Payment";
+            }
+          }).render('#paypal-button-container-auto');
+        };
+        sdk.onerror = () => {
+          // Hosted page fallback
+          window.location.href = "https://www.paypal.com/webapps/billing/subscriptions?plan_id=" + encodeURIComponent(planId);
+        };
+
+      } catch (err) {
+        console.error(err);
+        alert("There was a problem saving your registration. Please check your connection and try again.");
+        submit.disabled = false; submit.textContent = "Continue to Payment";
+      }
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', saveOwnerAndRedirect);
+    preselectPlanFromURL();
+  </script>
+
+  <!-- Inline Cities Dataset + Connector (this is the exact working dropdown code you pasted) -->
+  <script>
+  window.CITIES_BY_STATE = {
+    "AL": ["Birmingham","Huntsville","Mobile","Montgomery","Tuscaloosa","Hoover","Auburn","Dothan","Decatur","Madison"],
+    "AK": ["Anchorage","Fairbanks","Juneau","Sitka","Ketchikan","Wasilla","Kenai","Kodiak"],
+    "AZ": ["Phoenix","Tucson","Mesa","Chandler","Scottsdale","Glendale","Gilbert","Tempe","Peoria","Surprise"],
+    "AR": ["Little Rock","Fort Smith","Fayetteville","Springdale","Jonesboro","Rogers","Conway","Bentonville"],
+    "CA": ["Los Angeles","San Diego","San Jose","San Francisco","Fresno","Sacramento","Long Beach","Oakland","Bakersfield","Anaheim","Riverside","Irvine","Stockton","Chula Vista","Fremont","Santa Ana","Modesto","Oxnard","San Bernardino"],
+    "CO": ["Denver","Colorado Springs","Aurora","Fort Collins","Lakewood","Thornton","Arvada","Westminster","Pueblo","Greeley","Boulder"],
+    "CT": ["Bridgeport","New Haven","Stamford","Hartford","Waterbury","Norwalk","Danbury","New Britain"],
+    "DE": ["Wilmington","Dover","Newark","Middletown","Smyrna","Milford"],
+    "FL": ["Jacksonville","Miami","Tampa","Orlando","St. Petersburg","Hialeah","Port St. Lucie","Cape Coral","Tallahassee","Fort Lauderdale","Pembroke Pines","Hollywood","Gainesville","Coral Springs","Miramar","Clearwater"],
+    "GA": ["Atlanta","Augusta","Columbus","Macon","Savannah","Athens","Sandy Springs","Roswell","Albany","Johns Creek","Warner Robins"],
+    "HI": ["Honolulu","Hilo","Kailua","Kapolei","Kaneohe","Pearl City","Waipahu"],
+    "ID": ["Boise","Meridian","Nampa","Idaho Falls","Pocatello","Caldwell","Twin Falls"],
+    "IL": ["Chicago","Aurora","Naperville","Joliet","Rockford","Springfield","Elgin","Peoria","Champaign","Waukegan","Cicero"],
+    "IN": ["Indianapolis","Fort Wayne","Evansville","South Bend","Carmel","Fishers","Bloomington","Hammond","Gary","Lafayette"],
+    "IA": ["Des Moines","Cedar Rapids","Davenport","Sioux City","Iowa City","Waterloo","Ames","West Des Moines"],
+    "KS": ["Wichita","Overland Park","Kansas City","Olathe","Topeka","Lawrence","Shawnee"],
+    "KY": ["Louisville","Lexington","Bowling Green","Owensboro","Covington","Georgetown","Richmond"],
+    "LA": ["New Orleans","Baton Rouge","Shreveport","Lafayette","Lake Charles","Kenner","Bossier City"],
+    "ME": ["Portland","Lewiston","Bangor","South Portland","Auburn","Biddeford"],
+    "MD": ["Baltimore","Columbia","Germantown","Silver Spring","Waldorf","Glen Burnie","Frederick","Ellicott City","Rockville","Gaithersburg"],
+    "MA": ["Boston","Worcester","Springfield","Cambridge","Lowell","Brockton","New Bedford","Quincy","Lynn","Fall River"],
+    "MI": ["Detroit","Grand Rapids","Warren","Sterling Heights","Ann Arbor","Lansing","Flint","Dearborn","Livonia","Troy"],
+    "MN": ["Minneapolis","St. Paul","Rochester","Bloomington","Brooklyn Park","Duluth","Plymouth","Maple Grove","Woodbury","St. Cloud"],
+    "MS": ["Jackson","Gulfport","Southaven","Hattiesburg","Biloxi","Olive Branch","Tupelo"],
+    "MO": ["Kansas City","St. Louis","Springfield","Columbia","Independence","Lee's Summit","O'Fallon","St. Joseph"],
+    "MT": ["Billings","Missoula","Great Falls","Bozeman","Butte","Helena","Kalispell"],
+    "NE": ["Omaha","Lincoln","Bellevue","Grand Island","Kearney","Fremont","Hastings"],
+    "NV": ["Las Vegas","Henderson","Reno","North Las Vegas","Sparks","Carson City","Elko"],
+    "NH": ["Manchester","Nashua","Concord","Derry","Dover","Rochester","Keene"],
+    "NJ": ["Newark","Jersey City","Paterson","Elizabeth","Edison","Woodbridge","Lakewood","Toms River","Hamilton","Trenton"],
+    "NM": ["Albuquerque","Las Cruces","Rio Rancho","Santa Fe","Roswell","Farmington","Clovis"],
+    "NY": ["New York","Buffalo","Rochester","Yonkers","Syracuse","Albany","New Rochelle","Mount Vernon","Schenectady","Utica","White Plains"],
+    "NC": ["Charlotte","Raleigh","Greensboro","Durham","Winston-Salem","Fayetteville","Cary","Wilmington","High Point"],
+    "ND": ["Fargo","Bismarck","Grand Forks","Minot","West Fargo","Williston"],
+    "OH": ["Columbus","Cleveland","Cincinnati","Toledo","Akron","Dayton","Parma","Canton","Lorain","Hamilton"],
+    "OK": ["Oklahoma City","Tulsa","Norman","Broken Arrow","Lawton","Edmond","Moore","Stillwater"],
+    "OR": ["Portland","Salem","Eugene","Gresham","Hillsboro","Beaverton","Bend","Medford","Springfield","Corvallis"],
+    "PA": ["Philadelphia","Pittsburgh","Allentown","Erie","Reading","Scranton","Bethlehem","Lancaster","Harrisburg","York"],
+    "RI": ["Providence","Warwick","Cranston","Pawtucket","East Providence","Woonsocket"],
+    "SC": ["Charleston","Columbia","North Charleston","Mount Pleasant","Rock Hill","Greenville","Summerville"],
+    "SD": ["Sioux Falls","Rapid City","Aberdeen","Brookings","Watertown"],
+    "TN": ["Nashville","Memphis","Knoxville","Chattanooga","Clarksville","Murfreesboro","Franklin","Jackson"],
+    "TX": ["Houston","San Antonio","Dallas","Austin","Fort Worth","El Paso","Arlington","Corpus Christi","Plano","Laredo","Lubbock","Garland","Irving","Amarillo","Grand Prairie","McKinney"],
+    "UT": ["Salt Lake City","West Valley City","Provo","West Jordan","Orem","Sandy","Ogden","St. George","Layton"],
+    "VT": ["Burlington","South Burlington","Rutland","Barre","Montpelier"],
+    "VA": ["Virginia Beach","Norfolk","Chesapeake","Richmond","Newport News","Alexandria","Hampton","Roanoke","Portsmouth","Suffolk"],
+    "WA": ["Seattle","Spokane","Tacoma","Vancouver","Bellevue","Kent","Everett","Renton","Spokane Valley"],
+    "WV": ["Charleston","Huntington","Morgantown","Parkersburg","Wheeling","Weirton","Fairmont"],
+    "WI": ["Milwaukee","Madison","Green Bay","Kenosha","Racine","Appleton","Waukesha","Eau Claire"],
+    "WY": ["Cheyenne","Casper","Laramie","Gillette","Rock Springs","Sheridan"]
+  };
+  window.US_STATES = [
+    { code: "AL", name: "Alabama" }, { code: "AK", name: "Alaska" },
+    { code: "AZ", name: "Arizona" }, { code: "AR", name: "Arkansas" },
+    { code: "CA", name: "California" }, { code: "CO", name: "Colorado" },
+    { code: "CT", name: "Connecticut" }, { code: "DE", name: "Delaware" },
+    { code: "FL", name: "Florida" }, { code: "GA", name: "Georgia" },
+    { code: "HI", name: "Hawaii" }, { code: "ID", name: "Idaho" },
+    { code: "IL", name: "Illinois" }, { code: "IN", name: "Indiana" },
+    { code: "IA", name: "Iowa" }, { code: "KS", name: "Kansas" },
+    { code: "KY", name: "Kentucky" }, { code: "LA", name: "Louisiana" },
+    { code: "ME", name: "Maine" }, { code: "MD", name: "Maryland" },
+    { code: "MA", name: "Massachusetts" }, { code: "MI", name: "Michigan" },
+    { code: "MN", name: "Minnesota" }, { code: "MS", name: "Mississippi" },
+    { code: "MO", name: "Missouri" }, { code: "MT", name: "Montana" },
+    { code: "NE", name: "Nebraska" }, { code: "NV", name: "Nevada" },
+    { code: "NH", name: "New Hampshire" }, { code: "NJ", name: "New Jersey" },
+    { code: "NM", name: "New Mexico" }, { code: "NY", name: "New York" },
+    { code: "NC", name: "North Carolina" }, { code: "ND", name: "North Dakota" },
+    { code: "OH", name: "Ohio" }, { code: "OK", name: "Oklahoma" },
+    { code: "OR", name: "Oregon" }, { code: "PA", name: "Pennsylvania" },
+    { code: "RI", name: "Rhode Island" }, { code: "SC", name: "South Carolina" },
+    { code: "SD", name: "South Dakota" }, { code: "TN", name: "Tennessee" },
+    { code: "TX", name: "Texas" }, { code: "UT", name: "Utah" },
+    { code: "VT", name: "Vermont" }, { code: "VA", name: "Virginia" },
+    { code: "WA", name: "Washington" }, { code: "WV", name: "West Virginia" },
+    { code: "WI", name: "Wisconsin" }, { code: "WY", name: "Wyoming" }
+  ];
+
+  (function () {
+    const CONFIG = { stateSelectId:'stateSelect', citySelectId:'citySelect', stateHiddenId:'stateHidden', cityHiddenId:'cityHidden' };
+    const stateEl = document.getElementById(CONFIG.stateSelectId);
+    const cityEl  = document.getElementById(CONFIG.citySelectId);
+    if (!stateEl || !cityEl) { console.warn('[signup-dropdown] Missing selects'); return; }
+
+    const hiddenState = document.getElementById(CONFIG.stateHiddenId);
+    const hiddenCity  = document.getElementById(CONFIG.cityHiddenId);
+
+    const DATA = window.CITIES_BY_STATE || {};
+    const STATE_LIST = window.US_STATES || [];
+    const CODE_BY_NAME = new Map(STATE_LIST.map(s => [s.name.toLowerCase(), s.code]));
+    const NAME_BY_CODE = new Map(STATE_LIST.map(s => [s.code, s.name]));
+
+    function resolveStateCode(input){
+      if(!input) return null; const s=String(input).trim();
+      if(s.length===2) return s.toUpperCase();
+      return CODE_BY_NAME.get(s.toLowerCase()) || null;
+    }
+    function getCitiesFor(code){
+      if(!code) return [];
+      const byCode = DATA[code];
+      if(Array.isArray(byCode)) return byCode.slice();
+      const full = NAME_BY_CODE.get(code);
+      if(full && Array.isArray(DATA[full])) return DATA[full].slice();
+      return [];
+    }
+    function populateStates(){
+      const current = new Set(Array.from(stateEl.options).map(o=>o.value));
+      STATE_LIST.slice().sort((a,b)=>a.name.localeCompare(b.name))
+        .filter(s=>!current.has(s.code)).forEach(s=>{
+          const opt=document.createElement('option'); opt.value=s.code; opt.textContent=s.name; stateEl.appendChild(opt);
+        });
+    }
+    function resetCity(){
+      cityEl.innerHTML=''; const ph=document.createElement('option');
+      ph.value=''; ph.textContent='Select City'; ph.disabled=true; ph.selected=true; cityEl.appendChild(ph); cityEl.disabled=true;
+    }
+    function populateCities(code, pre){
+      resetCity();
+      const deduped = Array.from(new Set(getCitiesFor(code).map(x=>String(x).trim()).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+      for(const c of deduped){ const opt=document.createElement('option'); opt.value=c; opt.textContent=c; cityEl.appendChild(opt); }
+      if(deduped.length){ cityEl.disabled=false; if(pre){ const m=deduped.find(c=>c.toLowerCase()===pre.toLowerCase()); if(m) cityEl.value=m; } }
+      syncHidden();
+    }
+    function syncHidden(){ if(hiddenState) hiddenState.value=stateEl.value||''; if(hiddenCity) hiddenCity.value=cityEl.value||''; }
+    function handleState(){ const code=resolveStateCode(stateEl.value); populateCities(code,null); syncHidden(); stateEl.dispatchEvent(new Event('input',{bubbles:true})); }
+    function handleCity(){ syncHidden(); cityEl.dispatchEvent(new Event('input',{bubbles:true})); }
+    function params(){ const u=new URLSearchParams(location.search); return {st:u.get('state')||'', ct:u.get('city')||''}; }
+
+    resetCity(); populateStates();
+    const {st, ct} = params();
+    if(st){ const code=resolveStateCode(st); if(code){ stateEl.value=code; populateCities(code, ct||null); } }
+    stateEl.addEventListener('change', handleState);
+    cityEl.addEventListener('change', handleCity);
+    syncHidden();
+  })();
+  </script>
 </body>
 </html>
