@@ -189,6 +189,7 @@ window.citiesByState = {"Alabama": ["Birmingham", "Montgomery", "Mobile", "Hunts
         return;
       }
       const uid = user.uid;
+      localStorage.setItem('bss_uid', uid);
 
       // 2) Collect form data
       const fd = new FormData(formEl);
