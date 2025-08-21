@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,23 +53,14 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script>
-// Firebase config (same project)
-firebase.initializeApp({
-  apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-  authDomain: "black-service-spot.firebaseapp.com",
-  projectId: "black-service-spot",
-  storageBucket: "black-service-spot.firebasestorage.app",
-  messagingSenderId: "707361777966",
-  appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-  measurementId: "G-HDD97PF8K7"
-});
+firebase.initializeApp({"apiKey": "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs", "authDomain": "black-service-spot.firebaseapp.com", "projectId": "black-service-spot", "storageBucket": "black-service-spot.firebasestorage.app", "messagingSenderId": "707361777966", "appId": "1:707361777966:web:f41f3276b26d5dca50b2bf", "measurementId": "G-HDD97PF8K7"});
 const db = firebase.firestore();
 </script>
 <script>
 (async function(){
   const $ = s => document.querySelector(s);
   const debug = $('#debug'); const tbody = document.querySelector('#bizTable tbody'); const ownerInfo = $('#ownerInfo');
-  function log(){ debug.textContent += "\n" + Array.from(arguments).map(a=>typeof a==="string"?a:JSON.stringify(a)).join(" "); }
+  function log(){ debug.textContent += "\\n" + Array.from(arguments).map(a=>typeof a==="string"?a:JSON.stringify(a)).join(" "); }
 
   try { await firebase.auth().signInAnonymously(); } catch(e){ log("auth error", e); }
 
