@@ -1,78 +1,79 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pair Owner UID</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pair Owner (Anon Auth)</title>
+  <!-- VERSION: BSS-pair-owner-anon-20250821 -->
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; background:#f9fafb; }
-    h1 { color:#047857; }
-    label { display:block; margin-top:10px; }
-    input { width:100%; padding:8px; margin-top:4px; }
-    button { margin-top:15px; padding:10px 15px; background:#047857; color:#fff; border:none; cursor:pointer; }
-    button:hover { background:#065f46; }
-    .log { margin-top:20px; padding:10px; background:#111; color:#0f0; font-family:monospace; }
+    body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:40px;background:#f9fafb;color:#0f172a}
+    h1{color:#047857}
+    label{display:block;margin-top:12px;font-weight:600}
+    input{padding:10px;border:1px solid #e5e7eb;border-radius:8px;width:360px}
+    button{margin-top:16px;background:#047857;color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
+    pre{background:#0b1b16;color:#d1fae5;padding:10px;border-radius:8px;white-space:pre-wrap;margin-top:16px}
+    .muted{color:#64748b}
   </style>
 </head>
 <body>
-  <h1>Pair Business Owner UID</h1>
-  <p>This page lets you generate or set a Business Owner UID and save it for the dashboard.</p>
+  <h1>Pair your Owner Profile</h1>
+  <p class="muted">This page signs in <strong>anonymously</strong>, shows your Firebase UID, and saves an Owner document at <code>Business_owners/{uid}</code>.</p>
 
-  <label>Owner UID
-    <input type="text" id="uid" placeholder="Leave blank to auto-generate">
-  </label>
-  <label>Owner Name
-    <input type="text" id="name" placeholder="Business Owner Name">
-  </label>
-  <label>Email
-    <input type="email" id="email" placeholder="owner@example.com">
-  </label>
+  <div>UID: <strong id="uid">(signing in…)</strong></div>
+  <label>Owner name <input id="name" placeholder="Owner full name"/></label>
+  <label>Email <input id="email" type="email" placeholder="owner@example.com"/></label>
+  <button id="save">Save Owner</button>
 
-  <button id="saveBtn">Save Owner</button>
+  <pre id="log">log…</pre>
 
-  <div class="log" id="log"></div>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+  // Your project (same as other pages)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
+    authDomain: "black-service-spot.firebaseapp.com",
+    projectId: "black-service-spot",
+    storageBucket: "black-service-spot.firebasestorage.app",
+    messagingSenderId: "707361777966",
+    appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
+    measurementId: "G-HDD97PF8K7"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const log = (m)=>{ document.getElementById('log').textContent += "\n" + m; };
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDHROoVHEPvBSo7ZXGZB2xf7Wnb_U9SErs",
-      authDomain: "black-service-spot.firebaseapp.com",
-      projectId: "black-service-spot",
-      storageBucket: "black-service-spot.firebasestorage.app",
-      messagingSenderId: "707361777966",
-      appId: "1:707361777966:web:f41f3276b26d5dca50b2bf",
-      measurementId: "G-HDD97PF8K7"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    function genUID() {
-      return "uid-" + Math.random().toString(36).substring(2, 12);
+  let uid = null;
+  (async function(){
+    try {
+      // IMPORTANT: sign in anonymously so rules with request.auth != null pass
+      await firebase.auth().signInAnonymously();
+      uid = firebase.auth().currentUser && firebase.auth().currentUser.uid;
+      document.getElementById('uid').textContent = uid || "(no uid)";
+      try { localStorage.setItem('bss_uid', uid); } catch(e){}
+      log("Signed in anonymously with uid: " + uid);
+    } catch(e) {
+      log("Auth error: " + (e.message || e));
     }
+  })();
 
-    document.getElementById("saveBtn").onclick = async () => {
-      let uid = document.getElementById("uid").value.trim();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-
-      if (!uid) uid = genUID();
-
-      try {
-        await setDoc(doc(db, "Business_owners", uid), {
-          name, email, created: new Date().toISOString()
-        });
-
-        localStorage.setItem("owner_uid", uid);
-
-        document.getElementById("log").textContent =
-          "Saved Owner with UID: " + uid + "\nNow visit dashboard.html";
-      } catch (err) {
-        document.getElementById("log").textContent = "Error: " + err;
-      }
-    };
+  document.getElementById('save').onclick = async () => {
+    if (!uid) { log("No UID yet."); return; }
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    try {
+      await db.collection('Business_owners').doc(uid).set({
+        owner_name: name,
+        email: email,
+        last_updated: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+      log("Saved owner for uid " + uid + ". Now open dashboard.html");
+    } catch (e) {
+      log("Write error: " + (e.message || e));
+    }
+  };
   </script>
 </body>
 </html>
